@@ -1,14 +1,17 @@
-create database cs157a;
+create database seenit;
 
-use cs157a;
+use seenit;
 
-CREATE TABLE emp (
-  id INT(10),
-  name VARCHAR(40),
-  age INT(3)
+CREATE TABLE users_v0
+(
+  id INT,
+  user_name VARCHAR(255),
+  email VARCHAR(255),
+  created_at DATETIME,
+  points INT,
+  PRIMARY KEY (id)
 );
 
-INSERT INTO emp(id, name, age) VALUES
-  (1, 'CC', 2),
-  (3, 'VD', 4),
-  (5, 'MN', 6);
+INSERT INTO users_v0
+VALUES(0, 'test', 'test@gmail.com', '2019-09-05 14:29:36', 30);
+
