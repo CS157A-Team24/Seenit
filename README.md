@@ -5,7 +5,8 @@
   <br>
 </h1>
 
-<h4 align="center">A Reddit clone using <a href="https://reactjs.org/" target="_blank">React</a> and <a href="https://spring.io/" target="_blank">Spring Boot</a></h4>
+<h4 align="center">A Reddit clone using <a href="https://reactjs.org/" target="_blank">React</a>, <a href="https://spring.io/" target="_blank">Spring Boot</a>
+and <a href="https://www.mysql.com/" target="_blank">MySQL</a></h4>
 
 <p align="center">
   <a href="#key-features">Key Features</a> •
@@ -51,6 +52,7 @@ In case the website doesn't automatically pop up, go to http://localhost:3000/
 
 
 **Client side**
+
 Simply use can use an IDE, import/open the project and hit "run" or if you refer command line:
 ```bash
 # Go into the server repository
@@ -62,6 +64,7 @@ $ mvn spring-boot:run
 Default port at http://localhost:8080/. Configurate the *application.properties* file to match your MySQL server address if it isn't at localhost:3306. 
 
 **Database**
+
 Start your MySQL server. Create the Databse and Tables using the SQL files in *database* foler. 
 
 ## Credits
