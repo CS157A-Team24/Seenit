@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,8 +55,7 @@ public class UserController{
           .orElseThrow(() -> new ResourceNotFoundException("User not found on :: "+ userId));
   
         user.setEmail(userDetails.getEmail());
-        user.setUserName(userDetails.getUserName());
-        user.setUpdatedAt(new Date());
+        user.setPoints(userDetails.getPoints());
         final User updatedUser = userRepository.save(user);
         return ResponseEntity.ok(updatedUser);
    }

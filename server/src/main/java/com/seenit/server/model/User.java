@@ -11,24 +11,32 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users_v0")
 @EntityListeners(AuditingEntityListener.class)
 public class User{
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
+    @Column(name = "user_name", nullable = false)
     private String userName;
+
+    @Column(name = "email", nullable = false)
     private String email;
-    private Date createAt;
-    private Date updatedAt;
+
+    @Column(name = "created_at", nullable = false)
+    @CreatedDate
+    private Date createdAt;
+
+    @Column(name = "points", nullable = false)
     private long points;
   
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+   
     public long getId() {
         return id;
     }
@@ -37,7 +45,6 @@ public class User{
         this.id = id;
     }
 
-    @Column(name = "user_name", nullable = false)
     public String getUserName() {
         return userName;
     }
@@ -46,7 +53,6 @@ public class User{
         this.userName = userName;
     }
 
-    @Column(name = "email", nullable = false)
     public String getEmail() {
         return email;
     }
@@ -55,27 +61,14 @@ public class User{
         this.email = email;
     }
 
-    @Column(name = "create_at", nullable = false)
-    @CreatedDate
-    public Date getCreateAt() {
-        return createAt;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreateAt(Date createAt) {
-        this.createAt = createAt;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
-    @Column(name = "updated_at", nullable = false)
-    @LastModifiedDate
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    @Column(name = "points", nullable = false)
     public long getPoints() {
         return points;
     }
