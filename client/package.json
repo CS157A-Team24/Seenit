@@ -23,7 +23,16 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "plugins": [
+      "prettier"
+    ],
+    "rules": {
+      "prettier/prettier": "error"
+    }
+  },
+  "prettier": {
+    "tabWidth": 4
   },
   "browserslist": {
     "production": [
@@ -42,5 +51,6 @@
     "enzyme-adapter-react-16": "^1.14.0",
     "prettier": "1.18.2",
     "react-test-renderer": "^16.10.1"
-  }
+  },
+  "proxy": "http://localhost:8080"
 }

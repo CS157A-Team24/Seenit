@@ -9,11 +9,11 @@ import './index.css';
 import 'bulma/css/bulma.css'
 
 ReactDOM.render((
-    <Provider store={configureStore()}>
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
-    </Provider>
+	<Provider store={configureStore()}>
+		<BrowserRouter>
+			<App />
+		</BrowserRouter>
+	</Provider>
 ), document.getElementById('root'));
 
 
