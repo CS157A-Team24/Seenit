@@ -11,3 +11,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+
+.header-paper{
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  height: 70px;
+  /* background: linear-gradient(-270deg, rgb(26, 126, 219), rgba(88, 247, 220, 0.7), rgb(26, 126, 219)); */
+  background-color: #151515;
+}
+
+.header-titles-container{
+  margin-left: 35%;
+}
