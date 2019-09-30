@@ -1,4 +1,4 @@
-import { SIMPLE_ACTION } from '../actions/actionTypes';
+import { SIMPLE_ACTION } from '../actions/ActionTypes';
 
 const initialState = {
 	result: "Initial",
@@ -32,6 +32,5 @@ export default (state = initialState, action) => {
 
 		default:
 			return { ...state };
-
 	}
 };

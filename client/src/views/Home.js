@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PostList from '../components/PostList';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { requestPosts } from '../actions/Post';
 
 const Home = () => {
+	
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(requestPosts());
+	});
+
 	return (
 		<div>
 			<PostList />

@@ -1,4 +1,4 @@
-import { SIMPLE_ACTION } from './actionTypes';
+import { SIMPLE_ACTION } from './ActionTypes';
 
 export const simpleAction = () => dispatch => {
     dispatch({
