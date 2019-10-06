@@ -1,19 +1,33 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+// import { connect } from 'react-redux';
+import { CircularProgress } from '@material-ui/core';
 
 import PostContainer from './PostContainer';
 
-const PostList = () => {
-    const state = useSelector(state => state.simpleReducer);
+const PostList = ({post}) => {
+    // const state = useSelector(state => state.simpleReducer);
     return(
         <div>
+            {	
+				post.isFetching &&
+				<div style={{marginTop: "3%"}}>
+                	<CircularProgress/>
+           		</div>
+			}
             {
-                state.posts.map(post => (
-                    PostContainer(post)
+                !post.isFetching && post.posts.length > 0 &&
+                post.posts.map((post,index) => (
+                    PostContainer(post,index)
                 ))
             }
         </div>
     )
 }
+
+// const mapStateToProps = state => ({
+//     posts: state.post.posts
+// });
+
+// export default connect(mapStateToProps)(PostList);
 
 export default PostList;

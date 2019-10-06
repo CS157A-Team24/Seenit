@@ -22,8 +22,8 @@ export default function Header() {
           </Grid>
           <Grid item xs container>
 
-            <a class="button is-dark" style={{ marginLeft: "5%" }}>Log in</a>
-            <a class="button is-dark" style={{ marginLeft: "3%" }}>Sign up</a>
+            <button className="button is-dark" style={{ marginLeft: "5%" }}>Log in</button>
+            <button className="button is-dark" style={{ marginLeft: "3%" }}>Sign up</button>
           </Grid>
         </Grid>
       </Toolbar>
