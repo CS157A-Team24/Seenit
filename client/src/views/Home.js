@@ -4,6 +4,7 @@ import { requestPosts } from '../actions/Post';
 import { Grid } from '@material-ui/core';
 
 import PostList from '../components/PostList';
+import SupportList from '../components/SupportList';
 
 const Home = ({ post, requestPosts }) => {
 
@@ -15,12 +16,12 @@ const Home = ({ post, requestPosts }) => {
 		<div className="removeLater-marker">
 			<Grid container direction="row" justify="center">
 				<div className="center-area">
-					<Grid container direction="row" justify="center" alignItems="center" spacing={3}>
+					<Grid container direction="row" justify="center" alignItems="flex-start" spacing={3}>
 						<Grid item xs={8}>
 							<PostList post={post} />
 						</Grid>
 						<Grid item xs={4}>
-
+							<SupportList/>
 						</Grid>
 					</Grid>
 				</div>
