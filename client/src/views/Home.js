@@ -5,16 +5,25 @@ import { Grid } from '@material-ui/core';
 
 import PostList from '../components/PostList';
 
-const Home = ({post, requestPosts}) => {
-	
+const Home = ({ post, requestPosts }) => {
+
 	useEffect(() => {
 		requestPosts();
-	},[requestPosts]);
+	}, [requestPosts]);
 
 	return (
-		<div>
-			<Grid container>
-				<PostList post={post}/>
+		<div className="removeLater-marker">
+			<Grid container direction="row" justify="center">
+				<div className="center-area">
+					<Grid container direction="row" justify="center" alignItems="center" spacing={3}>
+						<Grid item xs={8}>
+							<PostList post={post} />
+						</Grid>
+						<Grid item xs={4}>
+
+						</Grid>
+					</Grid>
+				</div>
 			</Grid>
 		</div>
 	);
@@ -26,7 +35,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = { requestPosts };
 
-export default connect(mapStateToProps,mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
 // React Hook + Redux
 // import React, { useEffect } from 'react';
@@ -35,7 +44,7 @@ export default connect(mapStateToProps,mapDispatchToProps)(Home);
 // import { requestPosts } from '../actions/Post';
 
 // const Home = () => {
-	
+
 // 	const dispatch = useDispatch();
 
 // 	useEffect(() => {
