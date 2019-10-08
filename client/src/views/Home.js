@@ -2,9 +2,14 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { requestPosts } from '../actions/Post';
 import { Grid } from '@material-ui/core';
+import styled from 'styled-components/macro';
 
 import PostList from '../components/PostList';
 import SupportList from '../components/SupportList';
+
+const CenterContainer = styled.div`
+	width: 900px;
+`
 
 const Home = ({ post, requestPosts }) => {
 
@@ -13,20 +18,18 @@ const Home = ({ post, requestPosts }) => {
 	}, [requestPosts]);
 
 	return (
-		<div className="removeLater-marker">
-			<Grid container direction="row" justify="center">
-				<div className="center-area">
-					<Grid container direction="row" justify="center" alignItems="flex-start" spacing={3}>
-						<Grid item xs={8}>
-							<PostList post={post} />
-						</Grid>
-						<Grid item xs={4}>
-							<SupportList/>
-						</Grid>
+		<Grid container direction="row" justify="center">
+			<CenterContainer>
+				<Grid container direction="row" justify="center" alignItems="flex-start" spacing={3}>
+					<Grid item xs={8}>
+						<PostList post={post} />
 					</Grid>
-				</div>
-			</Grid>
-		</div>
+					<Grid item xs={4}>
+						<SupportList />
+					</Grid>
+				</Grid>
+			</CenterContainer>
+		</Grid>
 	);
 };
 

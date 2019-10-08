@@ -4,7 +4,7 @@ import SupportContainer from './SupportContainer';
 
 const SuportList = () => {
     return(
-        <div>
+        <div >
             <SupportContainer/>
         </div>
     )

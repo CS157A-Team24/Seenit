@@ -9,35 +9,34 @@ const Container = styled.div`
 	top: 0;
 	height: 70px;
 	background-color: #151515;
+	z-index: 1000
 `;
 
 export default function Header() {
 	return (
 		<Container>
-			{/* <div className="header-paper"> */}
-				<Toolbar >
-					<Grid container spacing={3} >
-						<Grid item xs>
-							<Link to="/" style={{ textDecoration: 'none' }}>
+			<Toolbar >
+				<Grid container spacing={3} >
+					<Grid item xs>
+						<Link to="/" style={{ textDecoration: 'none' }}>
 
-								{/* <Typography variant="h6" style={{flexGrow:1}}>
+							{/* <Typography variant="h6" style={{flexGrow:1}}>
                             Lemon
                         </Typography> */}
-								{/* <img src={logo} alt="Logo" className="logo-header"/> */}
-								<h3 style={{ color: 'white' }}>Seenit</h3>
-							</Link>
+							{/* <img src={logo} alt="Logo" className="logo-header"/> */}
+							<h3 style={{ color: 'white' }}>Seenit</h3>
+						</Link>
 
-						</Grid>
-						<Grid item xs={6}>
-						</Grid>
-						<Grid item xs container>
-
-							<button className="button is-dark" style={{ marginLeft: "5%" }}>Log in</button>
-							<button className="button is-dark" style={{ marginLeft: "3%" }}>Sign up</button>
-						</Grid>
 					</Grid>
-				</Toolbar>
-			{/* </div> */}
+					<Grid item xs={6}>
+					</Grid>
+					<Grid item xs container>
+
+						<button className="button is-dark" style={{ marginLeft: "5%" }}>Log in</button>
+						<button className="button is-dark" style={{ marginLeft: "3%" }}>Sign up</button>
+					</Grid>
+				</Grid>
+			</Toolbar>
 		</Container>
 	)
 }
