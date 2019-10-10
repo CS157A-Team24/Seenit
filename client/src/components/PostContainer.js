@@ -17,11 +17,16 @@ import ArrowDownwardTwoTone from '@material-ui/icons/ArrowDownwardTwoTone';
 import ArrowUpwardTwoTone from '@material-ui/icons/ArrowUpwardTwoTone';
 import styled from 'styled-components/macro';
 
+import { calTime } from '../utils/helper';
+
 
 const useStyles = makeStyles(theme => ({
 	card: {
 		maxWidth: 600,
 		maxHeight: 650,
+	},
+	root:{
+		background: theme.foreground,
 	},
 	media: {
 		height: 0,
@@ -52,7 +57,8 @@ const Votes = styled.h5`
 const PostContainer = (props, index) => {
 	const classes = useStyles();
 	// const postedBy = `Posted by ${props.postedBy} ${props.time} hours ago`;
-	const postedBy = `Posted by ${props.createdBy} ${props.createdAt} hours ago`;
+	const time = calTime(props.createdAt);
+	let postedBy = `Posted by ${props.createdBy} ${time} `;
 	return (
 		<Container>
 			<Grid key={index}>
@@ -75,7 +81,7 @@ const PostContainer = (props, index) => {
 					</Grid>
 					</LeftArea>
 					<Grid item xs={11}>
-						<Card className={classes.card} square={true}>
+						<Card className={classes.card} classes={{root: classes.root}} square={true}>
 							<CardHeader
 								avatar={
 									<Avatar aria-label="recipe" className={classes.avatar}>
