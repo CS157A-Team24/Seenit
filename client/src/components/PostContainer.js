@@ -33,11 +33,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Container = styled.div`
-    border: 1px solid ${props => props.theme.border};
-    border-radius: 5px;
     margin-top: 20px;
 `
 
+// const Container = styled.div`
+//     border: 1px solid ${props => props.theme.border};
+//     border-radius: 5px;
+//     margin-top: 20px;
+// `
 const LeftArea = styled.div`
 	background-color: ${props => props.theme.foreground};
 `
@@ -49,8 +52,7 @@ const Votes = styled.h5`
 const PostContainer = (props, index) => {
 	const classes = useStyles();
 	// const postedBy = `Posted by ${props.postedBy} ${props.time} hours ago`;
-	const postedBy = `Posted by ${props.createdBy} hours ago`;
-
+	const postedBy = `Posted by ${props.createdBy} ${props.createdAt} hours ago`;
 	return (
 		<Container>
 			<Grid key={index}>

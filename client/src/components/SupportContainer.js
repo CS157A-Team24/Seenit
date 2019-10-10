@@ -10,12 +10,18 @@ const Container = styled.div`
     height: 400px
 `
 
+const Title = styled.h3`
+    color: ${props => props.theme.normalText};
+`
+
 const SupportContainer = () => {
     return (
         <Container>
-            <Grid>
+            <Grid container justify="center">
                 <Grid>
-
+                    <Title>
+                        CHANNELS
+                    </Title>
                 </Grid>
             </Grid>
         </Container>
