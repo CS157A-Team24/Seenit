@@ -8,6 +8,7 @@ export const dark = {
     ...constants,
     background: '#1e1b1b',
     foreground: '#353331',
+    darkerForeground: '#2b2a28',
     inputBackground: '#4f4b4b',
     normalText: '#ffffff',
     mutedText: '#b0b8bf',
