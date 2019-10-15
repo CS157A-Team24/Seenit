@@ -5,8 +5,6 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -14,34 +12,35 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Table(name = "users_v0")
+@Table(name = "Users")
 @EntityListeners(AuditingEntityListener.class)
 public class User{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-
-    @Column(name = "user_name", unique = true, nullable = false)
-    private String userName;
+    private String id;
 
     @Column(name = "email", nullable = false)
     private String email;
 
+    @Column(name = "username", unique = true, nullable = false)
+    private String userName;
+
+    @Column(name = "password", nullable = false)
+    private String password;
+    
     @Column(name = "created_at", nullable = false)
     @CreatedDate
     private Date createdAt;
 
-    @Column(name = "points", nullable = false)
-    private long points;
+    @Column(name = "avatar_url", nullable = false)
+    private String avataUrl;
   
-
    
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -69,13 +68,21 @@ public class User{
         this.createdAt = createdAt;
     }
 
-    public long getPoints() {
-        return points;
+    public String getPassword() {
+        return password;
     }
 
-   
-    public void setPoints(long points) {
-        this.points = points;
+    public void setPassword(String password) {
+        this.password = password;
     }
+
+    public String getAvataUrl() {
+        return avataUrl;
+    }
+
+    public void setAvataUrl(String avataUrl) {
+        this.avataUrl = avataUrl;
+    }
+
 
 }

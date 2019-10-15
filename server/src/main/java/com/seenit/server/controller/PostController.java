@@ -34,7 +34,7 @@ public class PostController{
     }
 
     @GetMapping("/posts/{id}")
-    public ResponseEntity<Post> getPostById(@PathVariable(value = "id") Long postId) throws ResourceNotFoundException {
+    public ResponseEntity<Post> getPostById(@PathVariable(value = "id") String postId) throws ResourceNotFoundException {
         Post post = postRepository.findById(postId)
                                     .orElseThrow(() -> new ResourceNotFoundException("Post not found on :: " + postId));
         return ResponseEntity.ok().body(post); 
@@ -48,7 +48,7 @@ public class PostController{
     @PutMapping("/posts/{id}")
     public ResponseEntity<Post> updatePost(
         @PathVariable(value = "id")
-        Long postId,
+        String postId,
         @Valid @RequestBody
         Post postDetails
     ) throws ResourceNotFoundException {
@@ -61,9 +61,9 @@ public class PostController{
     }
 
 
-    @DeleteMapping("/post/{id}")
+    @DeleteMapping("/posts/{id}")
     public Map<String, Boolean> deletePost(
-        @PathVariable(value = "id") Long postId) throws Exception {
+        @PathVariable(value = "id") String postId) throws Exception {
         Post post = postRepository.findById(postId)
            .orElseThrow(() -> new ResourceNotFoundException("Post not found on :: "+ postId));
  

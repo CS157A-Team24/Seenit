@@ -5,24 +5,20 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Table(name = "posts")
+@Table(name = "Posts")
 @EntityListeners(AuditingEntityListener.class)
 public class Post{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private String id;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -30,29 +26,20 @@ public class Post{
     @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "at_channel", nullable = false)
-    private String atChannel;
-
     @Column(name = "created_at", nullable = false)
     @CreatedDate
     private Date createdAt;
-
-    @Column(name = "created_by", nullable = false)
-    @CreatedBy
-    private String createdBy;
 
     @Column(name = "updated_at", nullable = false)
     @LastModifiedDate
     private Date updatedAt;
 
-    @Column(name = "points", nullable = false)
-    private long points;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -72,13 +59,6 @@ public class Post{
         this.content = content;
     }
 
-    public String getAtChannel() {
-        return atChannel;
-    }
-
-    public void setAtChannel(String atChannel) {
-        this.atChannel = atChannel;
-    }
 
     public Date getCreatedAt() {
         return createdAt;
@@ -88,13 +68,6 @@ public class Post{
         this.createdAt = createdAt;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
 
     public Date getUpdatedAt() {
         return updatedAt;
@@ -102,13 +75,5 @@ public class Post{
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public long getPoints() {
-        return points;
-    }
-
-    public void setPoints(long points) {
-        this.points = points;
     }
 }
