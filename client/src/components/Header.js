@@ -8,7 +8,7 @@ const Container = styled.div`
 	position: sticky;
 	top: 0;
 	height: 70px;
-	background-color: #151515;
+	background-color: #4f4b4a;
 	z-index: 1000
 `;
 
@@ -32,8 +32,8 @@ export default function Header() {
 					</Grid>
 					<Grid item xs container>
 
-						<button className="button is-dark" style={{ marginLeft: "5%" }}>Log in</button>
-						<button className="button is-dark" style={{ marginLeft: "3%" }}>Sign up</button>
+						<button className="button is-white" style={{ marginLeft: "5%" }}> <Link to="/login">Log in</Link></button>
+						<button className="button is-white" style={{ marginLeft: "3%" }}> <Link to="/register">Sign up</Link> </button>
 					</Grid>
 				</Grid>
 			</Toolbar>
