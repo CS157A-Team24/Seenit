@@ -7,6 +7,8 @@ let Routes = () => (
 		<Route exact path="/">
 			<Home />
 		</Route>
+		<Route exact path="/register" component={Register} />
+       		<Route exact path="/login" component={Login} />
 	</Switch>
 )
 
