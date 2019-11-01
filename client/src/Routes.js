@@ -1,14 +1,16 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Home from './views/Home';
+// import Login from './views/Login';
+// import Register from './views/Register';
 
 let Routes = () => (
 	<Switch>
 		<Route exact path="/">
 			<Home />
 		</Route>
-		<Route exact path="/register" component={Register} />
-       		<Route exact path="/login" component={Login} />
+		{/* <Route exact path="/register" component={Register} /> */}
+       		{/* <Route exact path="/login" component={Login} /> */}
 	</Switch>
 )
 

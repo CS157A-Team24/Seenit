@@ -8,7 +8,7 @@ const Container = styled.div`
 	position: sticky;
 	top: 0;
 	height: 70px;
-	background-color: #4f4b4a;
+	background-color: ${props => props.theme.foreground};
 	z-index: 1000
 `;
 
