@@ -14,13 +14,13 @@ const Title = styled.h3`
     color: ${props => props.theme.normalText};
 `
 
-const SupportContainer = () => {
+const DetailContainer = () => {
     return (
         <Container>
             <Grid container justify="center">
                 <Grid>
                     <Title>
-                        CHANNELS
+                        CHANNEL DETAILS
                     </Title>
                 </Grid>
             </Grid>
@@ -28,14 +28,4 @@ const SupportContainer = () => {
     )
 }
 
-// const SupportContainer = () =>{
-//     return(
-//         <Grid style={{ height: 400 }} className="post-container">
-//             <Grid>
-
-//             </Grid>
-//         </Grid>
-//     )
-// }
-
-export default SupportContainer;
+export default DetailContainer;

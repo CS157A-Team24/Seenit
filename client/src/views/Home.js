@@ -5,7 +5,7 @@ import { Grid } from '@material-ui/core';
 import styled from 'styled-components/macro';
 
 import PostList from '../components/PostList';
-import SupportList from '../components/SupportList';
+import HomeContainers from '../components/HomeContainers';
 
 const CenterContainer = styled.div`
 	width: 900px;
@@ -20,12 +20,12 @@ const Home = ({ post, requestPosts }) => {
 	return (
 		<Grid container direction="row" justify="center">
 			<CenterContainer>
-				<Grid container direction="row" justify="center" alignItems="flex-start" spacing={3}>
+				<Grid container direction="row" justify="center" alignItems="flex-start" spacing={3} style={{marginBottom: 0}}>
 					<Grid item xs={8}>
 						<PostList post={post} />
 					</Grid>
 					<Grid item xs={4}>
-						<SupportList />
+						<HomeContainers />
 					</Grid>
 				</Grid>
 			</CenterContainer>
