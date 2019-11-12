@@ -15,8 +15,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { Grid, Button } from '@material-ui/core';
 import ArrowDownwardTwoTone from '@material-ui/icons/ArrowDownwardTwoTone';
 import ArrowUpwardTwoTone from '@material-ui/icons/ArrowUpwardTwoTone';
-import styled from 'styled-components/macro';
-import Styled from 'styled-components';
+import styled from 'styled-components';
 
 import { calTime } from '../utils/helper';
 
@@ -65,7 +64,7 @@ const BodyText = styled.p`
 	color: ${props => props.theme.normalText}
 `
 
-const CustomCardHeader = Styled(({...other }) => <CardHeader {...other} />)`
+const CustomCardHeader = styled(({...other }) => <CardHeader {...other} />)`
 	& .MuiCardHeader-title{
 		color: ${props => props.theme.normalText};
 	}

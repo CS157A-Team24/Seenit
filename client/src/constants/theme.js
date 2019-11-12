@@ -6,6 +6,7 @@ const constants = {
 
 export const dark = {
     ...constants,
+    darkerBackground: '#030303',
     background: '#1e1b1b',
     foreground: '#353331',
     darkerForeground: '#2b2a28',

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Grid, Toolbar } from '@material-ui/core';
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 
 const Container = styled.div`
 	position: -webkit-sticky;

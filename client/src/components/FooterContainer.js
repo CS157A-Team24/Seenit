@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 
 const Container = styled.div`
     border: 1px solid ${props => props.theme.border};

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { requestPosts } from '../actions/Post';
 import { Grid } from '@material-ui/core';
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 
 import PostList from '../components/PostList';
 import HomeContainers from '../components/HomeContainers';

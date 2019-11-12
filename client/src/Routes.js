@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Home from './views/Home';
 import Channel from './views/Channel';
+import Post from './views/Post';
 // import Login from './views/Login';
 // import Register from './views/Register';
 
@@ -11,6 +12,7 @@ let Routes = () => (
 			<Home />
 		</Route>
 		<Route exact path="/channel" component={Channel}/>
+		<Route exact path="/post" component={Post}/>
 		{/* <Route exact path="/register" component={Register} /> */}
        		{/* <Route exact path="/login" component={Login} /> */}
 	</Switch>
