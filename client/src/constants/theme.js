@@ -13,7 +13,8 @@ export const dark = {
     inputBackground: '#4f4b4b',
     normalText: '#ffffff',
     mutedText: '#b0b8bf',
-    border: '#333333',
+    border: '#57524e',
+    hoverBorder: '#d9d7d7',
     accent: '#33a0ff',
     buttonHover: '#383838',
     shadow: 'rgba(0, 0, 0, 0.4)'

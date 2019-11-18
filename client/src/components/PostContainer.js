@@ -1,21 +1,16 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
+import { Grid, IconButton, Avatar, CardActions, CardHeader, CardContent } from '@material-ui/core';
+
 import CommentIcon from '@material-ui/icons/Comment';
 import ShareIcon from '@material-ui/icons/Share';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { Grid, Button } from '@material-ui/core';
 import ArrowDownwardTwoTone from '@material-ui/icons/ArrowDownwardTwoTone';
 import ArrowUpwardTwoTone from '@material-ui/icons/ArrowUpwardTwoTone';
+
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 import { calTime } from '../utils/helper';
 
@@ -38,6 +33,11 @@ const Container = styled.div`
 	margin-top: 20px;
 	background: ${props => props.theme.foreground};
 	border-radius: 5px;
+	border: 1px solid ${props => props.theme.border};
+	:hover{
+		border-color: ${props => props.theme.hoverBorder};
+		cursor: pointer;
+	};
 `;
 
 // const Container = styled.div`
@@ -45,7 +45,7 @@ const Container = styled.div`
 //     border-radius: 5px;
 //     margin-top: 20px;
 // `
-const LeftArea = styled.div`
+const LeftArea = styled(Grid)`
 	background-color: ${props => props.theme.darkerForeground};
 `;
 
@@ -79,11 +79,10 @@ const PostContainer = (props, index) => {
 	const time = calTime(props.createdAt);
 	let postedBy = `Posted by ${props.createdBy} ${time} `;
 	return (
-		<Container>
-			<Grid key={index}>
+		<Link to={`/post/${index + 1}`} key={index} style={{ textDecoration: 'none' }}>
+		<Container >
 				<Grid container direction="row" justify="center" spacing={0}>
-					<LeftArea>
-						<Grid item xs={1}>
+					<LeftArea item xs={1}>
 							<Grid container direction="column"
 								justify="center"
 								alignItems="center">
@@ -97,7 +96,6 @@ const PostContainer = (props, index) => {
 									<ArrowDownwardTwoTone />
 								</IconButton>
 							</Grid>
-						</Grid>
 					</LeftArea>
 					<Grid item xs={11}>
 						{/* <Card className={classes.card} classes={{root: classes.root}} square={true}> */}
@@ -130,7 +128,7 @@ const PostContainer = (props, index) => {
 							</BodyText>
 						</CardContent>
 						<CardActions disableSpacing>
-							<IconButton aria-label="add to favorites" htmlColor="white">
+							<IconButton aria-label="add to favorites" >
 								<CommentIcon />
 							</IconButton>
 							<IconButton aria-label="share">
@@ -140,8 +138,8 @@ const PostContainer = (props, index) => {
 						{/* </Card> */}
 					</Grid>
 				</Grid>
-			</Grid>
 		</Container>
+		</Link>
 	);
 }
 

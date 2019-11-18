@@ -11,8 +11,8 @@ let Routes = () => (
 		<Route exact path="/">
 			<Home />
 		</Route>
-		<Route exact path="/channel" component={Channel}/>
-		<Route exact path="/post" component={Post}/>
+		<Route exact path="/channel/:channelName" component={Channel}/>
+		<Route exact path="/post/:postId" component={Post}/>
 		{/* <Route exact path="/register" component={Register} /> */}
        		{/* <Route exact path="/login" component={Login} /> */}
 	</Switch>

@@ -22,8 +22,9 @@ const SecondContainer = styled.div`
     margin: 0px 5%; 
 `
 
-const Post = ({ post, requestPosts }) => {
-
+const Post = ({ match, requestPosts }) => {
+    const { params: { postId } } = match;
+    
     useEffect(() => {
         requestPosts();
     }, [requestPosts]);
@@ -37,7 +38,7 @@ const Post = ({ post, requestPosts }) => {
                             <Grid item xs={9}>
                                 <PostContainer />
                                 <CommentBox />
-                                <CommentList/>
+                                <CommentList />
                             </Grid>
                             <Grid item xs={3}>
                                 <ChannelContainers />

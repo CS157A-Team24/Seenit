@@ -1,38 +1,5 @@
 import React from 'react';
-
-import { makeStyles } from '@material-ui/core/styles';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Collapse from '@material-ui/core/Collapse';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import Divider from '@material-ui/core/Divider';
-
-
 import styled from 'styled-components';
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        width: '100%',
-    },
-    nested: {
-        paddingLeft: theme.spacing(4),
-    },
-}));
-
-const LeftArea = styled.div`
-	background-color: ${props => props.theme.darkerForeground};
-`;
-
-const Votes = styled.h5`
-	color: ${props => props.theme.normalText};
-`;
-
-const StyledDivider = styled(Divider)`
-    background-color: white;
-`;
 
 // Use Bulma compoenent
 const CommnentList = () => {
@@ -115,6 +82,31 @@ const CommnentList = () => {
 }
 
 // Use Material UI compoenent
+// import { makeStyles } from '@material-ui/core/styles';
+// import { ListSubheader, List, ListItem, ListItemText, Collapse, Divider} from '@material-ui/core/ListSubheader';
+// import ExpandLess from '@material-ui/icons/ExpandLess';
+// import ExpandMore from '@material-ui/icons/ExpandMore';
+// const useStyles = makeStyles(theme => ({
+//     root: {
+//         width: '100%',
+//     },
+//     nested: {
+//         paddingLeft: theme.spacing(4),
+//     },
+// }));
+
+// const LeftArea = styled.div`
+// 	background-color: ${props => props.theme.darkerForeground};
+// `;
+
+// const Votes = styled.h5`
+// 	color: ${props => props.theme.normalText};
+// `;
+
+// const StyledDivider = styled(Divider)`
+//     background-color: white;
+// `;
+
 // const CommnentList = () => {
 //     const classes = useStyles();
 //     const [open, setOpen] = React.useState(true);
