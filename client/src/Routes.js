@@ -3,8 +3,8 @@ import { Switch, Route } from 'react-router-dom';
 import Home from './views/Home';
 import Channel from './views/Channel';
 import Post from './views/Post';
-// import Login from './views/Login';
-// import Register from './views/Register';
+import Login from './views/Login';
+import Register from './views/Register';
 
 let Routes = () => (
 	<Switch>
@@ -13,8 +13,8 @@ let Routes = () => (
 		</Route>
 		<Route exact path="/channel/:channelName" component={Channel}/>
 		<Route exact path="/post/:postId" component={Post}/>
-		{/* <Route exact path="/register" component={Register} /> */}
-       		{/* <Route exact path="/login" component={Login} /> */}
+		<Route exact path="/register" component={Register} />
+       		<Route exact path="/login" component={Login} />
 	</Switch>
 )
 
