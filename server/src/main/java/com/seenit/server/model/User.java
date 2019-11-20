@@ -1,13 +1,11 @@
 package com.seenit.server.model;
 
 import java.util.Date;
+import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -34,8 +32,19 @@ public class User{
 
     @Column(name = "avatar_url", nullable = false)
     private String avataUrl;
-  
-   
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
+    Set<CreatePost> posts;
+
+    public Set<CreatePost> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(Set<CreatePost> posts) {
+        this.posts = posts;
+    }
+
     public String getId() {
         return id;
     }
