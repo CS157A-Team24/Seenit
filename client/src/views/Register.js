@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { register } from './UserFunctions.js'
+import { register } from './UserFunctions'
 import { Link, Redirect} from 'react-router-dom';
-import {Style} from '../constants/styledComps';
-
+//import {Style} from '../constants/styledComps';
+import {Style} from './Style';
 class Register extends Component {
     constructor() {
         super()
