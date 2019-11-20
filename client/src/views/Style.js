@@ -23,7 +23,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  background-color: #f0955d;
+  background-color: #595655;
 }
 
 .box{
