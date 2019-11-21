@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post,String>{
-    @Query("SELECT p FROM Post p WHERE p.id > 1")
+    @Query("SELECT p.title FROM Post p")
     List<Post> findAllCustom();
+
+
 }

@@ -34,15 +34,15 @@ public class Post{
     private Date updatedAt;
 
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "post")
-    Set<CreatePost> posts;
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "post")
+    CreatePost createdBy;
 
-    public Set<CreatePost> getPosts() {
-        return posts;
+    public CreatePost getCreatedBy() {
+        return createdBy;
     }
 
-    public void setPosts(Set<CreatePost> posts) {
-        this.posts = posts;
+    public void setCreatedBy(CreatePost createdBy) {
+        this.createdBy = createdBy;
     }
 
     public String getId() {
