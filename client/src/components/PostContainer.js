@@ -10,7 +10,6 @@ import ArrowDownwardTwoTone from '@material-ui/icons/ArrowDownwardTwoTone';
 import ArrowUpwardTwoTone from '@material-ui/icons/ArrowUpwardTwoTone';
 
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
 import { calTime } from '../utils/helper';
 
@@ -75,12 +74,22 @@ const CustomCardHeader = styled(({...other }) => <CardHeader {...other} />)`
 
 const PostContainer = (props, index) => {
 	const classes = useStyles();
-	// const postedBy = `Posted by ${props.postedBy} ${props.time} hours ago`;
 	const time = calTime(props.createdAt);
-	let postedBy = `Posted by ${props.createdBy} ${time} `;
+
+	// For testing purpose only
+	let postedBy;
+	let points;
+	if(props.createdBy == null) {
+		postedBy = `Posted by Test ${time} `;
+		points = 0;
+	}else{
+		postedBy = `Posted by ${props.createdBy.user.userName} ${time} `;
+		points = props.createdBy.points;
+	}
+
+	
 	return (
-		<Link to={`/post/${index + 1}`} key={index} style={{ textDecoration: 'none' }}>
-		<Container >
+		<Container key={index}>
 				<Grid container direction="row" justify="center" spacing={0}>
 					<LeftArea item xs={1}>
 							<Grid container direction="column"
@@ -90,7 +99,7 @@ const PostContainer = (props, index) => {
 									<ArrowUpwardTwoTone />
 								</IconButton>
 								<Votes>
-									{props.points}
+									{points}
 								</Votes>
 								<IconButton>
 									<ArrowDownwardTwoTone />
@@ -139,7 +148,6 @@ const PostContainer = (props, index) => {
 					</Grid>
 				</Grid>
 		</Container>
-		</Link>
 	);
 }
 

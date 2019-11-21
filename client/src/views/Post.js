@@ -22,7 +22,7 @@ const SecondContainer = styled.div`
     margin: 0px 5%; 
 `
 
-const Post = ({ match, requestPosts }) => {
+const Post = ({ post, match, requestPosts }) => {
     const { params: { postId } } = match;
     
     useEffect(() => {
@@ -36,7 +36,7 @@ const Post = ({ match, requestPosts }) => {
                     <CenterContainer>
                         <Grid container direction="row" justify="center" alignItems="flex-start" spacing={3} style={{ marginBottom: 0 }}>
                             <Grid item xs={9}>
-                                <PostContainer />
+                                {PostContainer(post.posts[postId-1],postId)}
                                 <CommentBox />
                                 <CommentList />
                             </Grid>
