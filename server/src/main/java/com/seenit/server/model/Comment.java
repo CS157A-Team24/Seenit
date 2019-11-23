@@ -1,21 +1,22 @@
 package com.seenit.server.model;
 
 import java.util.Date;
+import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-// import lombok.*;
-
-// @Getter
-// @Setter
+@Getter
+@Setter
 @Entity
 @Table(name = "Comments")
 @EntityListeners(AuditingEntityListener.class)
@@ -35,36 +36,25 @@ public class Comment{
     @LastModifiedDate
     private Date updatedAt;
 
-    public String getId() {
-        return id;
-    }
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "comment")
+    private CreateCom createdBy;
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "commentVote")
+    private Set<VoteCom> usersVoted;
 
-    public String getContent() {
-        return content;
-    }
+    @JsonIgnore
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE})
+    @JoinTable(name = "Have", inverseJoinColumns = @JoinColumn(name = "post_id"), joinColumns = @JoinColumn(name = "com_id"))
+    private Post postCom;
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parentComment")
+    private Set<Comment> nestedComments;
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
+    @JsonIgnore
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE})
+    @JoinTable(name = "Have_Com", inverseJoinColumns = @JoinColumn(name = "parent_id"), joinColumns = @JoinColumn(name = "child_id"))
+    private Comment parentComment;
 }

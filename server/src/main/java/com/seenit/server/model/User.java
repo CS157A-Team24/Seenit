@@ -5,11 +5,16 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "Users")
 @EntityListeners(AuditingEntityListener.class)
@@ -32,67 +37,40 @@ public class User{
     private Date createdAt;
 
     @Column(name = "avatar_url", nullable = false)
-    private String avataUrl;
+    private String avatarUrl;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
-    Set<CreatePost> posts;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private Set<CreatePost> posts;
 
-    public Set<CreatePost> getPosts() {
-        return posts;
-    }
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userVote")
+    private Set<VotePost> votedPosts;
 
-    public void setPosts(Set<CreatePost> posts) {
-        this.posts = posts;
-    }
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userVoteCom")
+    private Set<VoteCom> votedComments;
 
-    public String getId() {
-        return id;
-    }
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userCom")
+    private Set<CreateCom> comments;
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    private Set<Channel> ownedChannels;
 
-    public String getUserName() {
-        return userName;
-    }
+    @JsonIgnore
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE},
+                mappedBy = "moderators")
+    private Set<Channel> moderatedChannels;
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+    @JsonIgnore
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE},
+                mappedBy = "subscribers")
+    private Set<Channel> subscribedChannels;
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getAvataUrl() {
-        return avataUrl;
-    }
-
-    public void setAvataUrl(String avataUrl) {
-        this.avataUrl = avataUrl;
-    }
-
-
+    @JsonIgnore
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE},
+                mappedBy = "usersSavePost")
+    private Set<Post> savedPosts;
 }

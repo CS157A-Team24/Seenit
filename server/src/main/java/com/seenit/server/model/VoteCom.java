@@ -1,7 +1,7 @@
 package com.seenit.server.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.seenit.server.compositeKey.UserPostKey;
+import com.seenit.server.compositeKey.UserComKey;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,21 +10,22 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "Create_Post")
-public class CreatePost {
+@Table(name = "Vote_Com")
+public class VoteCom {
 
     @EmbeddedId
-    private UserPostKey id;
+    private UserComKey id;
 
-    private int points;
+    @Column(name = "up_down")
+    private int isUp;
 
     @ManyToOne
     @MapsId("user_id")
     @JoinColumn(name = "user_id")
-    private User user;
+    private User userVoteCom;
 
     @ManyToOne
-    @MapsId("post_id")
-    @JoinColumn(name = "post_id")
-    private Post post;
+    @MapsId("com_id")
+    @JoinColumn(name = "com_id")
+    private Comment commentVote;
 }
