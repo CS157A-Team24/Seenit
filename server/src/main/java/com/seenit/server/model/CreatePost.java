@@ -2,13 +2,13 @@ package com.seenit.server.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.seenit.server.compositeKey.UserPostKey;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "Create_Post")
 public class CreatePost {

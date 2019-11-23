@@ -1,13 +1,15 @@
 package com.seenit.server.controller;
 
-import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Date;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.seenit.server.dto.PostDTO;
 import com.seenit.server.exception.ResourceNotFoundException;
+import com.seenit.server.ibprojections.FrontPagePost;
+import com.seenit.server.model.User;
 import com.seenit.server.model.Post;
 import com.seenit.server.repository.PostRepository;
 
@@ -22,15 +24,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
 @RequestMapping("/api")
 public class PostController{
     @Autowired
     private PostRepository postRepository;
 
+    // Using Interface-based projection
+//    @GetMapping("/posts")
+//    public List<Post> getAllPosts() {
+//        return postRepository.findAll();
+//    }
+
+    // Using DTO
     @GetMapping("/posts")
-    public List<Post> getAllPosts() {
-        return postRepository.findAll();
+    public List<PostDTO> getPostDTO(){
+        List<Object[]> collections = postRepository.findAllObject();
+        List<PostDTO> postList = collections.stream().map(collection -> toPostDTO(collection)).
+                collect(Collectors.toList());
+        return postList;
     }
 
     @GetMapping("/posts/{id}")
@@ -38,7 +51,12 @@ public class PostController{
         Post post = postRepository.findById(postId)
                                     .orElseThrow(() -> new ResourceNotFoundException("Post not found on :: " + postId));
         return ResponseEntity.ok().body(post); 
-    } 
+    }
+
+
+    private PostDTO toPostDTO(Object[] collection){
+        return new PostDTO((Post)collection[0],(int)collection[1], (String)collection[2]);
+    }
 
     @PostMapping("/posts")
     public Post createPost(@Valid @RequestBody Post post){
