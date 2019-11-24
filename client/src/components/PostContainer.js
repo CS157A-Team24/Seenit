@@ -54,7 +54,7 @@ const Votes = styled.h5`
 
 const PostTitle = styled.h1`
 	color: ${props => props.theme.normalText};
-	font-size: 1.5em;
+	font-size: ${props => props.theme.h1};
 	font-weight: bold;
 	margin-left: 0.7em;
 `
@@ -74,18 +74,20 @@ const CustomCardHeader = styled(({...other }) => <CardHeader {...other} />)`
 
 const PostContainer = (props, index) => {
 	const classes = useStyles();
-	const time = calTime(props.createdAt);
+	const time = calTime(props.post.createdAt);
 
 	// For testing purpose only
-	let postedBy;
-	let points;
-	if(props.createdBy == null) {
-		postedBy = `Posted by Test ${time} `;
-		points = 0;
-	}else{
-		postedBy = `Posted by ${props.createdBy.user.userName} ${time} `;
-		points = props.createdBy.points;
-	}
+	// let postedBy;
+	// let points;
+	// if(props.post.createdBy == null) {
+	// 	postedBy = `Posted by Test ${time} `;
+	// 	points = 0;
+	// }else{
+		
+	// 	points = props.post.createdBy.points;
+	// }
+
+	let postedBy = `Posted by ${props.userName} ${time} `;
 
 	
 	return (
@@ -99,7 +101,7 @@ const PostContainer = (props, index) => {
 									<ArrowUpwardTwoTone />
 								</IconButton>
 								<Votes>
-									{points}
+									{props.points}
 								</Votes>
 								<IconButton>
 									<ArrowDownwardTwoTone />
@@ -120,11 +122,11 @@ const PostContainer = (props, index) => {
 									<MoreVertIcon />
 								</IconButton>
 							}
-							title={props.atChannel}
+							title={props.channel.name}
 							subheader={postedBy}
 						/>
 						<PostTitle>
-							{props.title}
+							{props.post.title}
 						</PostTitle>
 						{/* <CardMedia
 								className={classes.media}
@@ -133,7 +135,7 @@ const PostContainer = (props, index) => {
 							/> */}
 						<CardContent>
 							<BodyText>
-								{props.content}
+								{props.post.content}
 							</BodyText>
 						</CardContent>
 						<CardActions disableSpacing>

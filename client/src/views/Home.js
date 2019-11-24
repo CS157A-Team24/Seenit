@@ -8,7 +8,8 @@ import PostList from '../components/PostList';
 import HomeContainers from '../components/HomeContainers';
 
 const CenterContainer = styled.div`
-	width: 900px;
+	margin: 0 15%;
+	width: 100%;
 `
 
 const Home = ({ post, requestPosts }) => {
