@@ -19,8 +19,11 @@ public interface PostRepository extends JpaRepository<Post,String>{
     List<FrontPagePost> findAllCustom();
 
     // Using DTO to cast the Object
-    @Query("SELECT p, ca.points, ca.user.userName FROM Post p JOIN p.createdBy ca")
+    @Query("SELECT p, ch, ca.points, ca.user FROM Post p JOIN p.createdBy ca JOIN p.channel ch")
     List<Object[]> findAllObject();
+
+    @Query("SELECT p, ch, ca.points, ca.user FROM Post p JOIN p.createdBy ca JOIN p.channel ch WHERE ch.id = ?1")
+    List<Object[]> findAllPostsByChannel(String channelId);
 
     List<Post> findByChannelName(String name);
 

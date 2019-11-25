@@ -1,5 +1,6 @@
 package com.seenit.server.dto;
 
+import com.seenit.server.model.Channel;
 import com.seenit.server.model.CreatePost;
 import com.seenit.server.model.Post;
 import com.seenit.server.model.User;
@@ -13,20 +14,18 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class PostDTO {
 
-//    // Todo: Add member for image url
-//
-//    @NotNull
-//    private String channelName;
+    @NotNull
+    final private Post post;
 
     @NotNull
-    private Post post;
+    final private Channel channel;
 
-    private int points;
+    final private int points;
 
+    @NotNull
+    private String userId;
     @NotNull
     private String userName;
 }

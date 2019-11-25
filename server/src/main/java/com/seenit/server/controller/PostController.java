@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seenit.server.dto.PostDTO;
 import com.seenit.server.exception.ResourceNotFoundException;
 import com.seenit.server.ibprojections.FrontPagePost;
+import com.seenit.server.model.Channel;
 import com.seenit.server.model.User;
 import com.seenit.server.model.Post;
 import com.seenit.server.repository.PostRepository;
@@ -46,6 +47,13 @@ public class PostController{
         return postList;
     }
 
+    @GetMapping("/posts/c/{channelId}")
+    public List<PostDTO> getPostsByChannel(@PathVariable(value = "channelId") String channelId){
+        List<Object[]> posts = postRepository.findAllPostsByChannel(channelId);
+        List<PostDTO> postDTOS = posts.stream().map(post -> toPostDTO(post)).collect(Collectors.toList());
+        return postDTOS;
+    }
+
     @GetMapping("/posts/{id}")
     public ResponseEntity<Post> getPostById(@PathVariable(value = "id") String postId) throws ResourceNotFoundException {
         Post post = postRepository.findById(postId)
@@ -55,7 +63,11 @@ public class PostController{
 
 
     private PostDTO toPostDTO(Object[] collection){
-        return new PostDTO((Post)collection[0],(int)collection[1], (String)collection[2]);
+        User user = (User) collection[3];
+        PostDTO postDTO = new PostDTO((Post)collection[0],(Channel)collection[1],(int)collection[2]);
+        postDTO.setUserName(user.getUserName());
+        postDTO.setUserId(user.getId());
+        return postDTO;
     }
 
     @PostMapping("/posts")
