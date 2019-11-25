@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { login } from './UserFunctions';
 import { Link} from 'react-router-dom';
-//import {Style} from '../constants/styledComps';
 import {Style} from './Style';
 
 class Login extends Component {

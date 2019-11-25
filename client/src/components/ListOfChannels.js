@@ -1,11 +1,29 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
     Grid, List, ListItem, Avatar,
-    ListItemText, ListItemAvatar, Button
+    ListItemText, ListItemAvatar, Button,
+    CircularProgress
 } from '@material-ui/core';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-const ListOfChannels = () => {
+const ListOfChannels = ({channel}) => {
+    const { topChannel: { content }, isFetching } = channel;
+    const ListContent = () => {
+        if(!isFetching && content != null) 
+            return (
+                <ChannelList channels={content}/>
+            );
+        else{
+            return(
+                
+                <div style={{ marginTop: "3%" }}>
+                <CircularProgress />
+                </div>
+            );
+        }
+    }
     return (
         <Container container direction="column" justify="flex-start" alignItems="stretch">
             <TitleBox>
@@ -13,20 +31,48 @@ const ListOfChannels = () => {
                     Top Channels
                 </Title>
             </TitleBox>
-            <ChannelList />
+            <ListContent/>
             <Grid container justify="center" alignItems="center">
                 <CustomButton>VIEW ALL</CustomButton>
             </Grid>
             <Grid container justify="center" alignItems="center">
             {   
                 ["sport", "news", "animals"].map((value, index) => (
-                    <ChannelSmallBox>
+                    <ChannelSmallBox key={index}>
                         {value}
                     </ChannelSmallBox>
                 ))
             }
             </Grid>
         </Container>
+    )
+}
+
+const mapStateToProps = state =>({
+    channel: state.channel
+});
+
+const ChannelList = ({channels}) => {
+
+    return (
+        <CustomList dense>
+            {channels.map((value, index) => {
+                return (
+                    <Link to={`channel/${value.id}`} key={value.id} style={{ textDecoration: 'none' }}>
+                    <ListItem button>
+                        <Numb>{index + 1}</Numb>
+                        <ListItemAvatar style={{ marginLeft: "3%" }}>
+                            <Avatar
+                                alt={`Avatar n°${value + 1}`}
+                                src={`https://cdn2.iconfinder.com/data/icons/blue-round-amazing-icons-1/512/home-alt-512.png`}
+                            />
+                        </ListItemAvatar>
+                        <CustomListItemText id={index} primary={value.name} />
+                    </ListItem>
+                    </Link>
+                );
+            })}
+        </CustomList>
     )
 }
 
@@ -87,26 +133,4 @@ const CustomListItemText = styled(ListItemText)`
     color: ${props => props.theme.normalText}
 `
 
-
-const ChannelList = () => {
-    return (
-        <CustomList dense>
-            {[0, 1, 2, 3, 4].map((value, index) => {
-                return (
-                    <ListItem key={value} button>
-                        <Numb>{index + 1}</Numb>
-                        <ListItemAvatar style={{ marginLeft: "3%" }}>
-                            <Avatar
-                                alt={`Avatar n°${value + 1}`}
-                                src={`https://cdn2.iconfinder.com/data/icons/blue-round-amazing-icons-1/512/home-alt-512.png`}
-                            />
-                        </ListItemAvatar>
-                        <CustomListItemText id={index} primary={`Line item ${value + 1}`} />
-                    </ListItem>
-                );
-            })}
-        </CustomList>
-    )
-}
-
-export default ListOfChannels;
+export default connect(mapStateToProps)(ListOfChannels);

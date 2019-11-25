@@ -16,5 +16,9 @@ async function get(endpoint, token = null) {
 }
 
 export async function getPosts(channel) {
-    return await get(`api/posts`);
+    return await get(`api/posts/${channel}`);
+}
+
+export async function getTop5Channels() {
+    return await get(`api/channels/top5`);
 }

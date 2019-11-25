@@ -10,7 +10,7 @@ import ChannelContainers from '../components/ChannelContainers';
 const CenterContainer = styled.div`
 	width: 900px;
 `
-const test = "https://streamlays.com/wp-content/uploads/2017/03/Preview-Hexa-YouTube-Banner-Red.jpg";
+// const test = "https://streamlays.com/wp-content/uploads/2017/03/Preview-Hexa-YouTube-Banner-Red.jpg";
 const defaultBanner = "http://eskipaper.com/images/dark-background-3.jpg";
 
 const Banner = styled.div`
@@ -22,11 +22,13 @@ const Banner = styled.div`
 `
 
 
-const Channel = ({ post, requestPosts }) => {
+const Channel = ({ post, requestPosts, match }) => {
+    const { params: { channelId } } = match;
+    const path = `c\\${channelId}`;
 
 	useEffect(() => {
-		requestPosts();
-	}, [requestPosts]);
+        requestPosts(path);
+	}, [requestPosts,path]);
 
 	return (
         <div>

@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { requestPosts } from '../actions/Post';
 import { Grid } from '@material-ui/core';
 import styled from 'styled-components';
+
+import { requestPosts } from '../actions/Post';
+import { requestTop5Channels } from '../actions/Channel';
 
 import PostList from '../components/PostList';
 import HomeContainers from '../components/HomeContainers';
@@ -12,11 +14,12 @@ const CenterContainer = styled.div`
 	width: 100%;
 `
 
-const Home = ({ post, requestPosts }) => {
+const Home = ({ post, requestPosts, requestTop5Channels }) => {
 
 	useEffect(() => {
 		requestPosts();
-	}, [requestPosts]);
+		requestTop5Channels();
+	}, [requestPosts, requestTop5Channels]);
 
 	return (
 		<Grid container direction="row" justify="center">
@@ -35,10 +38,10 @@ const Home = ({ post, requestPosts }) => {
 };
 
 const mapStateToProps = state => ({
-	post: state.post
+	post: state.post,
 });
 
-const mapDispatchToProps = { requestPosts };
+const mapDispatchToProps = { requestPosts, requestTop5Channels };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
 

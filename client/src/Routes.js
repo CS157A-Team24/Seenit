@@ -9,7 +9,7 @@ import Register from './views/Register';
 let Routes = () => (
 	<Switch>
 		<Route exact path="/" component={Home} />
-		<Route exact path="/channel/:channelName" component={Channel} />
+		<Route exact path="/channel/:channelId" component={Channel} />
 		<Route exact path="/post/:postId" component={Post} />
 		<Route exact path="/register" component={Register} />
        	<Route exact path="/login" component={Login} />
