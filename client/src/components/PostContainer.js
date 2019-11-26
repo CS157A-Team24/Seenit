@@ -14,84 +14,15 @@ import styled from 'styled-components';
 import { calTime } from '../utils/helper';
 
 
-const useStyles = makeStyles(theme => ({
-	card: {
-		maxWidth: 600,
-		maxHeight: 650,
-	},
-	media: {
-		height: 0,
-		paddingTop: '56.25%', // 16:9
-	},
-	avatar: {
-		backgroundColor: red[500],
-	},
-}));
 
-const Container = styled.div`
-	margin-top: 20px;
-	background: ${props => props.theme.foreground};
-	border-radius: 5px;
-	border: 1px solid ${props => props.theme.border};
-	:hover{
-		border-color: ${props => props.theme.hoverBorder};
-		cursor: pointer;
-	};
-`;
-
-// const Container = styled.div`
-//     border: 1px solid ${props => props.theme.border};
-//     border-radius: 5px;
-//     margin-top: 20px;
-// `
-const LeftArea = styled(Grid)`
-	background-color: ${props => props.theme.darkerForeground};
-`;
-
-const Votes = styled.h5`
-	color: ${props => props.theme.normalText};
-`;
-
-const PostTitle = styled.h1`
-	color: ${props => props.theme.normalText};
-	font-size: ${props => props.theme.h1};
-	font-weight: bold;
-	margin-left: 0.7em;
-`
-
-const BodyText = styled.p`
-	color: ${props => props.theme.normalText}
-`
-
-const CustomCardHeader = styled(({...other }) => <CardHeader {...other} />)`
-	& .MuiCardHeader-title{
-		color: ${props => props.theme.normalText};
-	}
-	& .MuiCardHeader-subheader{
-		color: ${props => props.theme.mutedText};
-	}
-`;
-
-const PostContainer = (props, index) => {
+const PostContainer = (props) => {
 	const classes = useStyles();
 	const time = calTime(props.post.createdAt);
 
-	// For testing purpose only
-	// let postedBy;
-	// let points;
-	// if(props.post.createdBy == null) {
-	// 	postedBy = `Posted by Test ${time} `;
-	// 	points = 0;
-	// }else{
-		
-	// 	points = props.post.createdBy.points;
-	// }
-
 	let postedBy = `Posted by ${props.userName} ${time} `;
-
 	
 	return (
-		<Container key={index}>
+		<Container key={props.post.id}>
 				<Grid container direction="row" justify="center" spacing={0}>
 					<LeftArea item xs={1}>
 							<Grid container direction="column"
@@ -152,5 +83,58 @@ const PostContainer = (props, index) => {
 		</Container>
 	);
 }
+
+const useStyles = makeStyles(theme => ({
+	card: {
+		maxWidth: 600,
+		maxHeight: 650,
+	},
+	media: {
+		height: 0,
+		paddingTop: '56.25%', // 16:9
+	},
+	avatar: {
+		backgroundColor: red[500],
+	},
+}));
+
+const Container = styled.div`
+	margin-top: 20px;
+	background: ${props => props.theme.foreground};
+	border-radius: 5px;
+	border: 1px solid ${props => props.theme.border};
+	:hover{
+		border-color: ${props => props.theme.hoverBorder};
+		cursor: pointer;
+	};
+`;
+
+const LeftArea = styled(Grid)`
+	background-color: ${props => props.theme.darkerForeground};
+`;
+
+const Votes = styled.h5`
+	color: ${props => props.theme.normalText};
+`;
+
+const PostTitle = styled.h1`
+	color: ${props => props.theme.normalText};
+	font-size: ${props => props.theme.h1};
+	font-weight: bold;
+	margin-left: 0.7em;
+`
+
+const BodyText = styled.p`
+	color: ${props => props.theme.normalText}
+`
+
+const CustomCardHeader = styled(({...other }) => <CardHeader {...other} />)`
+	& .MuiCardHeader-title{
+		color: ${props => props.theme.normalText};
+	}
+	& .MuiCardHeader-subheader{
+		color: ${props => props.theme.mutedText};
+	}
+`;
 
 export default PostContainer;

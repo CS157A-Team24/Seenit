@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { requestPosts } from '../actions/Post';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Grid } from '@material-ui/core';
 import styled from 'styled-components';
 
@@ -9,25 +8,9 @@ import PostContainer from '../components/PostContainer';
 import CommentBox from '../components/CommentBox';
 import CommentList from '../components/CommentList';
 
-const CenterContainer = styled.div`
-    width: 1200px;
-    margin: 0px 3%; 
-`
-const FirstContainer = styled.div`
-    background-color: ${props => props.theme.background};
-`
-
-const SecondContainer = styled.div`
-    background-color: ${props => props.theme.darkerBackground};
-    margin: 0px 5%; 
-`
-
-const Post = ({ post, match, requestPosts }) => {
+const Post = ({ match }) => {
     const { params: { postId } } = match;
-    
-    useEffect(() => {
-        requestPosts();
-    }, [requestPosts]);
+    const posts = useSelector(state => state.post.posts);    
 
     return (
         <FirstContainer>
@@ -36,7 +19,7 @@ const Post = ({ post, match, requestPosts }) => {
                     <CenterContainer>
                         <Grid container direction="row" justify="center" alignItems="flex-start" spacing={3} style={{ marginBottom: 0 }}>
                             <Grid item xs={9}>
-                                {PostContainer(post.posts[postId-1],postId)}
+                                {PostContainer(posts.find(content => content.post.id === postId))}
                                 <CommentBox />
                                 <CommentList />
                             </Grid>
@@ -51,10 +34,17 @@ const Post = ({ post, match, requestPosts }) => {
     );
 };
 
-const mapStateToProps = state => ({
-    post: state.post
-});
+const CenterContainer = styled.div`
+    width: 1200px;
+    margin: 0px 3%; 
+`;
+const FirstContainer = styled.div`
+    background-color: ${props => props.theme.background};
+`;
 
-const mapDispatchToProps = { requestPosts };
+const SecondContainer = styled.div`
+    background-color: ${props => props.theme.darkerBackground};
+    margin: 0px 5%; 
+`;
 
-export default connect(mapStateToProps, mapDispatchToProps)(Post);
+export default Post;

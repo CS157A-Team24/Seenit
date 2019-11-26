@@ -1,5 +1,5 @@
 import React from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { CircularProgress } from '@material-ui/core';
 
 import PostContainer from './PostContainer';
@@ -18,9 +18,9 @@ const PostList = ({ post }) => {
             }
             {
                 !post.isFetching && post.posts.length > 0 &&
-                post.posts.map((post, index) => (
-                    <Link to={`/post/${index + 1}`} key={index} style={{ textDecoration: 'none' }}>
-                        {PostContainer(post,index)}
+                post.posts.map(content => (
+                    <Link to={`/post/${content.post.id}`} key={content.post.id} style={{ textDecoration: 'none' }}>
+                        {PostContainer(content)}
                     </Link>
                 ))
             }
@@ -28,10 +28,10 @@ const PostList = ({ post }) => {
     )
 }
 
-// const mapStateToProps = state => ({
-//     posts: state.post.posts
-// });
+const mapStateToProps = state => ({
+    post: state.post
+});
 
-// export default connect(mapStateToProps)(PostList);
+export default connect(mapStateToProps)(PostList);
 
-export default PostList;
+// export default PostList;
