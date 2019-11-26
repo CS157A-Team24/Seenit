@@ -18,9 +18,9 @@ const ListOfChannels = ({channel}) => {
         else{
             return(
                 
-                <div style={{ marginTop: "3%" }}>
-                <CircularProgress />
-                </div>
+                <LoadingContainter container justify="center" alignItems="center" >
+                    <CircularProgress />
+                </LoadingContainter>
             );
         }
     }
@@ -76,6 +76,10 @@ const ChannelList = ({channels}) => {
     )
 }
 
+const LoadingContainter = styled(Grid)`
+    padding: 5% 0;
+`;
+
 const ChannelSmallBox = styled.div`
     background: ${props => props.theme.darkerForeground};
     border-radius: 3px;
@@ -96,6 +100,9 @@ const CustomButton = styled(Button)`
     border: 0;
     height: 40px;
     width: 90%;
+    :hover{
+		background: ${props => props.theme.titleBoxBackgroud};
+	};
 `;
 
 const Container = styled(Grid)`
@@ -105,7 +112,8 @@ const Container = styled(Grid)`
     margin-top: 20px;
 `;
 const TitleBox = styled.div`
-    border: 0px solid
+    border: 1px solid;
+    border-radius: 5px;
     background: ${props => props.theme.titleBoxBackgroud};
     height: 15%;
     display: flex;

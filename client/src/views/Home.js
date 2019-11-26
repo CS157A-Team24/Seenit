@@ -14,7 +14,7 @@ const CenterContainer = styled.div`
 	width: 100%;
 `
 
-const Home = ({ post, requestPosts, requestTop5Channels }) => {
+const Home = ({ requestPosts, requestTop5Channels }) => {
 
 	useEffect(() => {
 		requestPosts();
@@ -26,7 +26,7 @@ const Home = ({ post, requestPosts, requestTop5Channels }) => {
 			<CenterContainer>
 				<Grid container direction="row" justify="center" alignItems="flex-start" spacing={3} style={{marginBottom: 0}}>
 					<Grid item xs={8}>
-						<PostList post={post} />
+						<PostList />
 					</Grid>
 					<Grid item xs={4}>
 						<HomeContainers />
@@ -37,13 +37,10 @@ const Home = ({ post, requestPosts, requestTop5Channels }) => {
 	);
 };
 
-const mapStateToProps = state => ({
-	post: state.post,
-});
 
 const mapDispatchToProps = { requestPosts, requestTop5Channels };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(null,mapDispatchToProps)(Home);
 
 // React Hook + Redux
 // import React, { useEffect } from 'react';
