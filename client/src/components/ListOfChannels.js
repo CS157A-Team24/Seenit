@@ -33,7 +33,7 @@ const ListOfChannels = ({channel}) => {
             </TitleBox>
             <ListContent/>
             <Grid container justify="center" alignItems="center">
-                <CustomButton>VIEW ALL</CustomButton>
+                <CustomButton><ButtonText>VIEW ALL</ButtonText></CustomButton>
             </Grid>
             <Grid container justify="center" alignItems="center">
             {   
@@ -75,6 +75,10 @@ const ChannelList = ({channels}) => {
         </CustomList>
     )
 }
+
+const ButtonText = styled.h1`
+    font-weight: bold;
+`;
 
 const LoadingContainter = styled(Grid)`
     padding: 5% 0;

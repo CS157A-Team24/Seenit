@@ -2,7 +2,8 @@ const constants = {
     iconsAtPost: '#b6b6b6',
     upvote: '#6bc431',
     downvote: '#e53734',
-    h1: '1.5em'
+    h1: '1.5em',
+    p: '0.7em'
   };
 
 export const dark = {
@@ -16,6 +17,7 @@ export const dark = {
     titleBoxBackgroud: 'linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%)',
     buttonColor: 'linear-gradient(45deg, #d5dcde 90%, #d5dcde 90%)',
     normalText: '#ffffff',
+    buttonText: '#000000',
     mutedText: '#b0b8bf',
     darkText: '#232829',
     border: '#57524e',
