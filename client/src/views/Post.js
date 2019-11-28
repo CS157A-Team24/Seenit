@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useSelector } from 'react-redux';
 import { Grid } from '@material-ui/core';
 import styled from 'styled-components';
+
+import { requestChannelDetails } from '../actions/Channel';
 
 import ChannelContainers from '../components/ChannelContainers';
 import PostContainer from '../components/PostContainer';
@@ -10,8 +12,8 @@ import CommentList from '../components/CommentList';
 
 const Post = ({ match }) => {
     const { params: { postId } } = match;
-    const posts = useSelector(state => state.post.posts);    
-
+    const posts = useSelector(state => state.post.posts);
+    
     return (
         <FirstContainer>
             <SecondContainer>
@@ -24,7 +26,7 @@ const Post = ({ match }) => {
                                 <CommentList />
                             </Grid>
                             <Grid item xs={3}>
-                                <ChannelContainers />
+                                {/* {!channel.isFetching && channel.channelDetails != null && <ChannelContainers />} */}
                             </Grid>
                         </Grid>
                     </CenterContainer>
