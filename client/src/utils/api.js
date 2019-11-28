@@ -22,3 +22,7 @@ export async function getPosts(channel) {
 export async function getTop5Channels() {
     return await get(`api/channels/top5`);
 }
+
+export async function getChannelDetails(channelId){
+    return await get(`api/channels/details/${channelId}`);
+}

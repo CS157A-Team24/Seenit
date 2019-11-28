@@ -5,25 +5,25 @@ import {
 } from '@material-ui/core';
 import styled from 'styled-components';
 
-const ListOfModerators = () => {
+const ListOfModerators = ({channelDetails}) => {
     return (
         <Container container justify="center">
             MODERATORS
-            <ModeratorList/>
+            <ModeratorList channelDetails={channelDetails}/>
             <CustomButton><ButtonText>VIEW ALL</ButtonText></CustomButton>
         </Container>
     )
 };
 
-const ModeratorList = () => {
-
+const ModeratorList = ({channelDetails}) => {
+    
     return (
         <CustomList dense>
-            {[1,2,4,5].map((value, index) => {
+            {channelDetails.moderators.map(mod => {
                 return (
                     // <Link to={`channel/${value}`} key={index} style={{ textDecoration: 'none' }}>
-                    <ListItem key={index} button>
-                        <CustomListItemText id={index} primary={`User - ${value}`} />
+                    <ListItem key={mod.id} button>
+                        <CustomListItemText id={mod.id} primary={`${mod.userName}`} />
                     </ListItem>
                     // </Link>
                 );

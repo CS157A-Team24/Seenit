@@ -1,8 +1,9 @@
 import React from 'react';
-import { Grid, Avatar, Button } from '@material-ui/core';
+import { Grid, Avatar } from '@material-ui/core';
 import styled from 'styled-components';
 
-const DetailContainer = () => {
+const DetailContainer = ({channelDetails}) => {
+
     return (
         <Container container direction="column" alignItems="center">
             CHANNEL DETAILS
@@ -10,9 +11,9 @@ const DetailContainer = () => {
                 <Avatar style={{width: 60, height: 60}}
                         alt={`Channel's Avatar`} 
                         src={`https://cdn2.iconfinder.com/data/icons/blue-round-amazing-icons-1/512/home-alt-512.png`}/>
-                Channel name
+                {channelDetails.channel.name}
             </Grid>
-            <p>2</p>
+            <p>{channelDetails.numberOfMembers}</p>
             <SmallText>Members</SmallText>
             <p>Welcome to Channel name</p>
             <CustomButton> <ButtonText>JOIN</ButtonText> </CustomButton>
