@@ -15,7 +15,7 @@ const DetailContainer = ({channelDetails}) => {
             </Grid>
             <p>{channelDetails.numberOfMembers}</p>
             <SmallText>Members</SmallText>
-            <p>Welcome to Channel name</p>
+            <p>Welcome to {channelDetails.channel.name}</p>
             <CustomButton> <ButtonText>JOIN</ButtonText> </CustomButton>
             <CustomButton> <ButtonText>CREATE POST</ButtonText> </CustomButton>
         </Container>

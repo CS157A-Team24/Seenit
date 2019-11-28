@@ -38,7 +38,7 @@ public class UserController{
     // Quick test
     @GetMapping("/users/test")
     public List<UserIdName> getUsers(){
-        return userRepository.findAllByModeratedChannelsId("2");
+        return userRepository.findAllByModeratedChannelsId("1");
     }
 
     @GetMapping("/users/{id}")

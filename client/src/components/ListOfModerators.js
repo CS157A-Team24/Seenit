@@ -19,7 +19,7 @@ const ModeratorList = ({channelDetails}) => {
     
     return (
         <CustomList dense>
-            {channelDetails.moderators.map(mod => {
+            {channelDetails.moderators != null && channelDetails.moderators.map(mod => {
                 return (
                     // <Link to={`channel/${value}`} key={index} style={{ textDecoration: 'none' }}>
                     <ListItem key={mod.id} button>
