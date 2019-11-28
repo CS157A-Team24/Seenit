@@ -63,10 +63,10 @@ public class PostController{
     }
 
     @GetMapping("/posts/{id}")
-    public ResponseEntity<Post> getPostById(@PathVariable(value = "id") String postId) throws ResourceNotFoundException {
+    public PostDTO getPostById(@PathVariable(value = "id") String postId) throws ResourceNotFoundException {
         Post post = postRepository.findById(postId)
                                     .orElseThrow(() -> new ResourceNotFoundException("Post not found on :: " + postId));
-        return ResponseEntity.ok().body(post); 
+        return toPostDTO(postRepository.findPostDetailById(postId).get(0));
     }
 
     @PostMapping("/posts")
