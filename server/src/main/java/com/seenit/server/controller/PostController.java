@@ -54,20 +54,19 @@ public class PostController{
         return postDTOS;
     }
 
-    @GetMapping("/posts/{id}")
-    public ResponseEntity<Post> getPostById(@PathVariable(value = "id") String postId) throws ResourceNotFoundException {
-        Post post = postRepository.findById(postId)
-                                    .orElseThrow(() -> new ResourceNotFoundException("Post not found on :: " + postId));
-        return ResponseEntity.ok().body(post); 
-    }
-
-
     private PostDTO toPostDTO(Object[] collection){
         User user = (User) collection[3];
         PostDTO postDTO = new PostDTO((Post)collection[0],(Channel)collection[1],(int)collection[2]);
         postDTO.setUserName(user.getUserName());
         postDTO.setUserId(user.getId());
         return postDTO;
+    }
+
+    @GetMapping("/posts/{id}")
+    public ResponseEntity<Post> getPostById(@PathVariable(value = "id") String postId) throws ResourceNotFoundException {
+        Post post = postRepository.findById(postId)
+                                    .orElseThrow(() -> new ResourceNotFoundException("Post not found on :: " + postId));
+        return ResponseEntity.ok().body(post); 
     }
 
     @PostMapping("/posts")

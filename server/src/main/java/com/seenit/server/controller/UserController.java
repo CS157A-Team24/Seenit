@@ -1,5 +1,6 @@
 package com.seenit.server.controller;
 
+import com.seenit.server.ibprojections.UserIdName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,6 +33,12 @@ public class UserController{
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    // Quick test
+    @GetMapping("/users/test")
+    public List<UserIdName> getUsers(){
+        return userRepository.findAllByModeratedChannelsId("2");
     }
 
     @GetMapping("/users/{id}")
