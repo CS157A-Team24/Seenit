@@ -20,7 +20,7 @@ const PostList = ({ post }) => {
                 !post.isFetching && post.posts.length > 0 &&
                 post.posts.map(content => (
                     <Link to={`/post/${content.post.id}`} key={content.post.id} style={{ textDecoration: 'none' }}>
-                        {PostContainer(content)}
+                        <PostContainer posts={content}/>
                     </Link>
                 ))
             }

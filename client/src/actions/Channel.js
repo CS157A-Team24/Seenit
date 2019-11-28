@@ -26,7 +26,7 @@ export const requestTop5Channels = () => async dispatch =>{
 }
 
 export const requestChannelDetails = (channelId) => async dispatch => {
-    dispatch(fetchChannelsRequest)
+    dispatch(fetchChannelsRequest);
     try{
         const channelDetails = await getChannelDetails(channelId);
         dispatch(fetchChannelDetailsSuccess(channelDetails));
