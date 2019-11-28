@@ -25,6 +25,9 @@ public interface PostRepository extends JpaRepository<Post,String>{
     @Query("SELECT p, ch, ca.points, ca.user FROM Post p JOIN p.createdBy ca JOIN p.channel ch WHERE ch.id = ?1")
     List<Object[]> findAllPostsByChannel(String channelId);
 
+    @Query("SELECT p, ch, ca.points, ca.user FROM Post p JOIN p.createdBy ca JOIN p.channel ch WHERE p.id = ?1")
+    List<Object[]> findPostDetailById(String channelId);
+
     List<Post> findByChannelId(String id);
 
     List<Post> findByCreatedBy_PointsLessThan(int points);

@@ -15,14 +15,14 @@ import { calTime } from '../utils/helper';
 
 
 
-const PostContainer = ({posts}) => {
+const PostContainer = ({postDetails}) => {
 	const classes = useStyles();
-	const time = calTime(posts.post.createdAt);
+	const time = calTime(postDetails.post.createdAt);
 
-	let postedBy = `Posted by ${posts.userName} ${time} `;
+	let postedBy = `Posted by ${postDetails.userName} ${time} `;
 	
 	return (
-		<Container key={posts.post.id}>
+		<Container key={postDetails.post.id}>
 				<Grid container direction="row" justify="center" spacing={0}>
 					<LeftArea item xs={1}>
 							<Grid container direction="column"
@@ -32,7 +32,7 @@ const PostContainer = ({posts}) => {
 									<ArrowUpwardTwoTone />
 								</IconButton>
 								<Votes>
-									{posts.points}
+									{postDetails.points}
 								</Votes>
 								<IconButton>
 									<ArrowDownwardTwoTone />
@@ -53,11 +53,11 @@ const PostContainer = ({posts}) => {
 									<MoreVertIcon />
 								</IconButton>
 							}
-							title={posts.channel.name}
+							title={postDetails.channel.name}
 							subheader={postedBy}
 						/>
 						<PostTitle>
-							{posts.post.title}
+							{postDetails.post.title}
 						</PostTitle>
 						{/* <CardMedia
 								className={classes.media}
@@ -66,7 +66,7 @@ const PostContainer = ({posts}) => {
 							/> */}
 						<CardContent>
 							<BodyText>
-								{posts.post.content}
+								{postDetails.post.content}
 							</BodyText>
 						</CardContent>
 						<CardActions disableSpacing>
