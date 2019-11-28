@@ -2,7 +2,6 @@ package com.seenit.server.repository;
 
 import com.seenit.server.ibprojections.TopChannels;
 import com.seenit.server.model.Channel;
-import com.seenit.server.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

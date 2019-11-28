@@ -11,11 +11,11 @@ import java.util.List;
 @Data
 public class ChannelDTO {
     @NotNull
-    final private Channel channel;
+    private Channel channel;
 
     @NotNull
     private long numberOfMembers;
 
     @NotNull
-    final private List<UserIdName> moderators;
+    private List<UserIdName> moderators;
 }

@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -41,29 +42,42 @@ public class ChannelController{
     }
 
     @GetMapping("/channels/details/{id}")
-    public ChannelDTO getChannelDetailsById(@PathVariable(value = "id") String id){
-        return toChannelDTO(channelRepository.findNumberOfMembersByChannelId(id).get(0),
-                            userRepository.findAllByModeratedChannelsId(id));
+    public ChannelDTO getChannelDetailsById(@PathVariable(value = "id") String id) throws ResourceNotFoundException{
+        return toChannelDTO(channelRepository.findNumberOfMembersByChannelId(id),
+                            userRepository.findAllByModeratedChannelsId(id), id);
     }
 
     // Quick test
     @GetMapping("/channels/test/{id}")
     public List<Object[]> getChannelDetailsByIdTest(@PathVariable(value = "id") String id){
-        return new LinkedList<>();
+        return channelRepository.findNumberOfMembersByChannelId(id);
     }
 
-    private ChannelDTO toChannelDTO(Object[] channelDetail, List<UserIdName> moderators){
+    @GetMapping("/channels/{id}")
+    public Channel getChannelById(@PathVariable(value = "id") String channelId) throws ResourceNotFoundException {
+         Channel channel = channelRepository.findById(channelId)
+                .orElseThrow(() -> new ResourceNotFoundException("Channel not found on :: " + channelId));
+        return channel;
+    }
 
-        ChannelDTO channelDTO = new ChannelDTO((Channel)channelDetail[0],moderators);
-        channelDTO.setNumberOfMembers((long)channelDetail[1]);
+    private ChannelDTO toChannelDTO(List<Object[]> channelDetail, List<UserIdName> moderators, String id) throws ResourceNotFoundException{
+        ChannelDTO channelDTO = new ChannelDTO();
+        if(channelDetail.size() < 1){
+            channelDTO.setNumberOfMembers(0);
+            channelDTO.setChannel(getChannelById(id));
+        } else {
+            channelDTO.setChannel((Channel)channelDetail.get(0)[0]);
+            channelDTO.setNumberOfMembers((long)channelDetail.get(0)[1]);
+        }
+        if(moderators.size() > 0) channelDTO.setModerators(moderators);
         return channelDTO;
     }
 
     @DeleteMapping("/channels/{id}")
-    public Map<String, Boolean> deletePost(
+    public Map<String, Boolean> deleteChannel(
             @PathVariable(value = "id") String channelId) throws Exception {
         Channel channel = channelRepository.findById(channelId)
-                .orElseThrow(() -> new ResourceNotFoundException("Post not found on :: "+ channelId));
+                .orElseThrow(() -> new ResourceNotFoundException("Channel not found on :: "+ channelId));
 
         channelRepository.delete(channel);
         Map<String, Boolean> response = new HashMap<>();
