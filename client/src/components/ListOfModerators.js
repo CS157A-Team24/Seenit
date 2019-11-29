@@ -5,15 +5,32 @@ import {
 } from '@material-ui/core';
 import styled from 'styled-components';
 
-const ListOfModerators = () => {
+const ListOfModerators = ({channelDetails}) => {
     return (
         <Container container justify="center">
             MODERATORS
-            <ModeratorList/>
-            <CustomButton>VIEW ALL</CustomButton>
+            <ModeratorList channelDetails={channelDetails}/>
+            <CustomButton><ButtonText>VIEW ALL</ButtonText></CustomButton>
         </Container>
     )
-}
+};
+
+const ModeratorList = ({channelDetails}) => {
+    
+    return (
+        <CustomList dense>
+            {channelDetails.moderators != null && channelDetails.moderators.map(mod => {
+                return (
+                    // <Link to={`channel/${value}`} key={index} style={{ textDecoration: 'none' }}>
+                    <ListItem key={mod.id} button>
+                        <CustomListItemText id={mod.id} primary={`${mod.userName}`} />
+                    </ListItem>
+                    // </Link>
+                );
+            })}
+        </CustomList>
+    )
+};
 
 const Container = styled(Grid)`
     border: 1px solid ${props => props.theme.border};
@@ -28,7 +45,6 @@ const Container = styled(Grid)`
 const CustomButton = styled(Button)`
     background: ${props => props.theme.buttonColor};
     border-radius: 3px;
-    border: 0;
     height: 40px;
     width: 90%;
     :hover{
@@ -43,23 +59,11 @@ const CustomList = styled(List)`
 
 const CustomListItemText = styled(ListItemText)`
     color: ${props => props.theme.normalText}
-`
+`;
 
-const ModeratorList = () => {
+const ButtonText = styled.h1`
+    font-weight: bold;
+`;
 
-    return (
-        <CustomList dense>
-            {[1,2,4,5].map((value, index) => {
-                return (
-                    // <Link to={`channel/${value}`} key={index} style={{ textDecoration: 'none' }}>
-                    <ListItem key={index} button>
-                        <CustomListItemText id={index} primary={`User - ${value}`} />
-                    </ListItem>
-                    // </Link>
-                );
-            })}
-        </CustomList>
-    )
-}
 
 export default ListOfModerators;
