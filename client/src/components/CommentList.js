@@ -1,5 +1,5 @@
 import React from 'react';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 
 // Use Bulma compoenent
 const CommnentList = () => {
@@ -8,78 +8,29 @@ const CommnentList = () => {
         <article className="media">
             <figure className="media-left">
                 <p className="image is-64x64">
-                    <img src="https://bulma.io/images/placeholders/128x128.png" alt="randomImg" />
+                    <img src="https://cdn.onlinewebfonts.com/svg/img_289334.png" alt="randomImg" />
                 </p>
             </figure>
             <div className="media-content">
                 <div className="content">
-                    <p>
-                        <strong>Barbara Middleton</strong>
-                        <br />
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porta eros lacus, nec ultricies elit blandit non. Suspendisse pellentesque mauris sit amet dolor blandit rutrum. Nunc in tempus turpis.
-                    <br />
-                        <small>Like · Reply · 3 hrs</small>
-                    </p>
+                        <NameText>Barbara Middleton · 3 hrs ago</NameText>
+                        <CommentText>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porta eros lacus, nec ultricies elit blandit non. Suspendisse pellentesque mauris sit amet dolor blandit rutrum. Nunc in tempus turpis.
+                        </CommentText>
+                        <NameText>Reply</NameText>
                 </div>
-
-                <article className="media">
-                    <figure className="media-left">
-                        <p className="image is-48x48">
-                            <img src="https://bulma.io/images/placeholders/96x96.png" alt="randomImg" />
-                        </p>
-                    </figure>
-                    <div className="media-content">
-                        <div className="content">
-                            <p>
-                                <strong>Sean Brown</strong>
-                                <br />
-                                Donec sollicitudin urna eget eros malesuada sagittis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam blandit nisl a nulla sagittis, a lobortis leo feugiat.
-                            <br />
-                                <small>Like · Reply · 3 hrs</small>
-                            </p>
-                        </div>
-                        <article className="media">
-                            <figure className="media-left">
-                                <p className="image is-48x48">
-                                    <img src="https://bulma.io/images/placeholders/96x96.png" alt="randomImg" />
-                                </p>
-                            </figure>
-                            <div className="media-content">
-                                <div className="content">
-                                    <p>
-                                        <strong>Sean Brown</strong>
-                                        <br />
-                                        Donec sollicitudin urna eget eros malesuada sagittis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam blandit nisl a nulla sagittis, a lobortis leo feugiat.
-                            <br />
-                                        <small>Like · Reply · 3 hrs</small>
-                                    </p>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                </article>
-                <article className="media">
-                    <figure className="media-left">
-                        <p className="image is-48x48">
-                            <img src="https://bulma.io/images/placeholders/96x96.png" alt="randomImg" />
-                        </p>
-                    </figure>
-                    <div className="media-content">
-                        <div className="content">
-                            <p>
-                                <strong>Sean Brown</strong>
-                                <br />
-                                Donec sollicitudin urna eget eros malesuada sagittis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam blandit nisl a nulla sagittis, a lobortis leo feugiat.
-                            <br />
-                                <small>Like · Reply · 3 hrs</small>
-                            </p>
-                        </div>
-                    </div>
-                </article>
-            </div>
+            </div>         
         </article>
     )
 }
+
+const CommentText = styled.div`
+    color: ${props => props.theme.normalText};
+    padding-right: 10%;
+`;
+const NameText = styled.div`
+    margin-top: 0px;
+    color: ${props => props.theme.commentNameText};
+`;
 
 // Use Material UI compoenent
 // import { makeStyles } from '@material-ui/core/styles';

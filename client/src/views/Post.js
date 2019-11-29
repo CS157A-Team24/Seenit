@@ -29,8 +29,10 @@ const Post = ({ match }) => {
                             <Grid item direction="column" xs={9}>
                                 <PostCommentContainer>
                                     {post.postDetails != null && <PostContainer postDetails={post.postDetails} />}
-                                    <CommentBox style={{marginTop: "2%" }}/>
-                                    <CommentList />
+                                    <CommentBox/>
+                                    <CommnentListContainer>
+                                        <CommentList />
+                                    </CommnentListContainer>
                                 </PostCommentContainer>
                             </Grid>
                             <Grid item xs={3}>
@@ -43,6 +45,10 @@ const Post = ({ match }) => {
         </FirstContainer>
     );
 };
+
+const CommnentListContainer = styled.div`
+    margin-top: 5%;
+`;
 
 const CenterContainer = styled.div`
     margin: 0 5%;
