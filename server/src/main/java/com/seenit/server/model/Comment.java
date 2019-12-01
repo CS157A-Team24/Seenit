@@ -36,7 +36,7 @@ public class Comment{
     @LastModifiedDate
     private Date updatedAt;
 
-    @JsonIgnore
+    @JsonManagedReference
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "comment")
     private CreateCom createdBy;
 
@@ -49,11 +49,11 @@ public class Comment{
     @JoinTable(name = "Have", inverseJoinColumns = @JoinColumn(name = "post_id"), joinColumns = @JoinColumn(name = "com_id"))
     private Post postCom;
 
-    @JsonIgnore
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "parentComment")
-    private Set<Comment> nestedComments;
+    private Set<Comment> children;
 
-    @JsonIgnore
+    @JsonBackReference
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinTable(name = "Have_Com", inverseJoinColumns = @JoinColumn(name = "parent_id"), joinColumns = @JoinColumn(name = "child_id"))
     private Comment parentComment;

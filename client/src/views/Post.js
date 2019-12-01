@@ -1,24 +1,33 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, connect } from 'react-redux';
 import { Grid } from '@material-ui/core';
 import styled from 'styled-components';
 
 import { requestAPost } from '../actions/Post';
+import { requestComments } from '../actions/Comment';
 
 import ChannelContainers from '../components/ChannelContainers';
 import PostContainer from '../components/PostContainer';
 import CommentBox from '../components/CommentBox';
 import CommentList from '../components/CommentList';
 
-const Post = ({ match }) => {
+const Post = ({ match, requestAPost, requestComments }) => {
     const { params: { postId } } = match;
     const post = useSelector(state => state.post);
     const channel = useSelector(state => state.channel);
-    const dispatch = useDispatch();
+    const normalizedComments = useSelector(state => state.comment.normalizedComments)
 
     useEffect(() => {
-        dispatch(requestAPost(postId));
-    }, [dispatch, postId]);
+        requestAPost(postId);
+        requestComments(postId);
+    }, [requestAPost, requestComments, postId]);
+
+    let renderComment = commentId => {
+        return (
+            <CommentList id={commentId} key={commentId}/>
+        )
+      }
+    
 
     return (
         <FirstContainer>
@@ -26,12 +35,16 @@ const Post = ({ match }) => {
                 <Grid container direction="row" justify="center">
                     <CenterContainer>
                         <Grid container direction="row" justify="center" alignItems="flex-start" spacing={3} style={{ marginBottom: 0 }}>
-                            <Grid item direction="column" xs={9}>
+                            <Grid item xs={9}>
                                 <PostCommentContainer>
                                     {post.postDetails != null && <PostContainer postDetails={post.postDetails} />}
                                     <CommentBox/>
                                     <CommnentListContainer>
-                                        <CommentList />
+                                        {
+                                            normalizedComments != null && (typeof normalizedComments.posts[postId])  !== 'undefined' && normalizedComments.posts[postId].comments.map(
+                                                value => renderComment(value)
+                                            ) 
+                                        } 
                                     </CommnentListContainer>
                                 </PostCommentContainer>
                             </Grid>
@@ -67,5 +80,6 @@ const SecondContainer = styled.div`
     background-color: ${props => props.theme.darkerBackground};
     margin: 0px 5%; 
 `;
+const mapDispatchToProps = { requestAPost, requestComments };
 
-export default Post;
+export default connect(null,mapDispatchToProps)(Post);
