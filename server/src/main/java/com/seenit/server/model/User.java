@@ -39,6 +39,10 @@ public class User{
     @Column(name = "avatar_url", nullable = false)
     private String avatarUrl;
 
+    public User() {
+
+    }
+    
     public User(String username, String email, String password) {
         this.userName = username;
         this.email = email;
