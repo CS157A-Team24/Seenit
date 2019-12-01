@@ -31,8 +31,8 @@ public class UserController{
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
+    // @Autowired
+	// private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @GetMapping("/users")
     public List<User> getAllUsers() {
@@ -82,8 +82,8 @@ public class UserController{
        return response;
    }
 
-    @GetMapping("/register")
-    public String showRegistrationForm() {
+    // @GetMapping("/register")
+    // public String showRegistrationForm() {
         
-    }
+    // }
 }
