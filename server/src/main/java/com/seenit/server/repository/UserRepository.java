@@ -16,5 +16,15 @@ public interface UserRepository extends JpaRepository<User, String>{
 
     List<UserIdName> findAllByModeratedChannelsId(String id);
 
-    Optional<User> findByUserName(String userName);
+    Optional<User> findByEmail(String email);
+
+    Optional<User> findByUserNameOrEmail(String username, String email);
+
+    List<User> findByIdIn(List<String> userIds);
+
+    Optional<User> findByUserName(String username);
+
+    Boolean existsByUserName(String username);
+
+    Boolean existsByEmail(String email);
 }

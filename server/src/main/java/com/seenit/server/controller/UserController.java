@@ -3,7 +3,6 @@ package com.seenit.server.controller;
 import com.seenit.server.ibprojections.UserIdName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,9 +29,6 @@ import com.seenit.server.exception.ResourceNotFoundException;
 public class UserController{
     @Autowired
     private UserRepository userRepository;
-
-    // @Autowired
-	// private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @GetMapping("/users")
     public List<User> getAllUsers() {
@@ -82,8 +78,4 @@ public class UserController{
        return response;
    }
 
-    // @GetMapping("/register")
-    // public String showRegistrationForm() {
-        
-    // }
 }
