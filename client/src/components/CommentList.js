@@ -1,27 +1,68 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { Grid, IconButton } from '@material-ui/core';
+import ArrowDownwardTwoTone from '@material-ui/icons/ArrowDownwardTwoTone';
+import ArrowUpwardTwoTone from '@material-ui/icons/ArrowUpwardTwoTone';
 
-// Use Bulma compoenent
-const CommnentList = () => {
+import { calTime } from '../utils/helper';
 
+const CommnentList = ({id, childId}) => {
+    let comment;
+    const normalizedComments = useSelector(state => state.comment.normalizedComments);
+
+    if(typeof childId === 'undefined'){
+        comment = normalizedComments.comments[id];
+    }else{
+        comment = normalizedComments.children[childId];
+    }
+
+    const time = calTime(comment.createdAt);
+
+    let renderChild = childId => {
+        return (
+            <CommnentList childId={childId} parentId={id} key={childId}/>
+        )
+      }
+    
     return (
         <article className="media">
-            <figure className="media-left">
-                <p className="image is-64x64">
-                    <img src="https://cdn.onlinewebfonts.com/svg/img_289334.png" alt="randomImg" />
-                </p>
+            <figure className="media-left" style={{paddingLeft:"1%"}}>
+                <LeftArea container direction="column"
+                    justify="center"
+                    alignItems="center">
+                    <IconButton>
+                        <ArrowUpwardTwoTone />
+                    </IconButton>
+                    <Votes>
+                        {0}
+                    </Votes>
+                    <IconButton>
+                        <ArrowDownwardTwoTone />
+                    </IconButton>
+                </LeftArea>
             </figure>
             <div className="media-content">
-                <div className="content">
-                        <NameText>Barbara Middleton · 3 hrs ago</NameText>
-                        <CommentText>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porta eros lacus, nec ultricies elit blandit non. Suspendisse pellentesque mauris sit amet dolor blandit rutrum. Nunc in tempus turpis.
-                        </CommentText>
-                        <NameText>Reply</NameText>
+                <div className="content" style={{marginTop: "1.2%"}}>
+                    <NameText>{comment.createdBy.userName} · {time}</NameText>
+                    <CommentText>{comment.content}</CommentText>
+                    <NameText>Reply</NameText>
                 </div>
-            </div>         
+                {comment.children.map(renderChild)}
+            </div>
         </article>
     )
 }
+
+const LeftArea = styled(Grid)`
+    // background-color: ${props => props.theme.darkerForeground};
+    // margin-top: 15%;
+`;
+
+const Votes = styled.h5`
+	color: ${props => props.theme.normalText};
+`;
+
 
 const CommentText = styled.div`
     color: ${props => props.theme.normalText};
@@ -31,109 +72,5 @@ const NameText = styled.div`
     margin-top: 0px;
     color: ${props => props.theme.commentNameText};
 `;
-
-// Use Material UI compoenent
-// import { makeStyles } from '@material-ui/core/styles';
-// import { ListSubheader, List, ListItem, ListItemText, Collapse, Divider} from '@material-ui/core/ListSubheader';
-// import ExpandLess from '@material-ui/icons/ExpandLess';
-// import ExpandMore from '@material-ui/icons/ExpandMore';
-// const useStyles = makeStyles(theme => ({
-//     root: {
-//         width: '100%',
-//     },
-//     nested: {
-//         paddingLeft: theme.spacing(4),
-//     },
-// }));
-
-// const LeftArea = styled.div`
-// 	background-color: ${props => props.theme.darkerForeground};
-// `;
-
-// const Votes = styled.h5`
-// 	color: ${props => props.theme.normalText};
-// `;
-
-// const StyledDivider = styled(Divider)`
-//     background-color: white;
-// `;
-
-// const CommnentList = () => {
-//     const classes = useStyles();
-//     const [open, setOpen] = React.useState(true);
-
-//     const handleClick = () => {
-//         setOpen(!open);
-//     };
-
-//     return (
-//         <List
-//             component="nav"
-//             aria-labelledby="nested-list-subheader"
-//             subheader={
-//                 <ListSubheader component="div" id="nested-list-subheader">
-//                     Nested List Items
-//                 </ListSubheader>
-//             }
-//             className={classes.root}
-//         >
-//             <ListItem button>
-
-//                 <ListItemText>
-//                     <strong>Barbara Middleton</strong>
-//                     <p>
-//                         tjdf d dfsd fdf sda fsd fs f saf sd f sadgawer f wega gaah
-//                         tjdf d dfsd fdf sda fsd fs f saf sd f sadgawer f wega gaah
-//                         tjdf d dfsd fdf sda fsd fs f saf sd f sadgawer f wega gaah
-//                     </p>
-//                     <small>Like · Reply · 3 hrs</small>
-//                 </ListItemText>
-
-//             </ListItem>
-//             <StyledDivider  />
-
-//             <ListItem button>
-//                 <ListItemText>
-//                     <strong>Barbara Middleton</strong>
-//                     <p>
-//                         tjdf d dfsd fdf sda fsd fs f saf sd f sadgawer f wega gaah
-//                         tjdf d dfsd fdf sda fsd fs f saf sd f sadgawer f wega gaah
-//                         tjdf d dfsd fdf sda fsd fs f saf sd f sadgawer f wega gaah
-//                     </p>
-//                     <small>Like · Reply · 3 hrs</small>
-//                 </ListItemText>
-//             </ListItem>
-//             <Divider variant="inset" component="li" />
-
-//             <ListItem button onClick={handleClick}>
-//                 <ListItemText>
-//                     <strong>Barbara Middleton</strong>
-//                     <p>
-//                         tjdf d dfsd fdf sda fsd fs f saf sd f sadgawer f wega gaah
-//                         tjdf d dfsd fdf sda fsd fs f saf sd f sadgawer f wega gaah
-//                         tjdf d dfsd fdf sda fsd fs f saf sd f sadgawer f wega gaah
-//                     </p>
-//                     <small>Like · Reply · 3 hrs</small>
-//                 </ListItemText>
-//                 {open ? <ExpandLess /> : <ExpandMore />}
-//             </ListItem>
-//             <Collapse in={open} timeout="auto" unmountOnExit>
-//                 <List component="div" disablePadding>
-//                     <ListItem button className={classes.nested}>
-//                         <ListItemText>
-//                             <strong>Barbara Middleton</strong>
-//                             <p>
-//                                 tjdf d dfsd fdf sda fsd fs f saf sd f sadgawer f wega gaah
-//                                 tjdf d dfsd fdf sda fsd fs f saf sd f sadgawer f wega gaah
-//                                 tjdf d dfsd fdf sda fsd fs f saf sd f sadgawer f wega gaah
-//                     </p>
-//                             <small>Like · Reply · 3 hrs</small>
-//                         </ListItemText>
-//                     </ListItem>
-//                 </List>
-//             </Collapse>
-//         </List>
-//     )
-// }
 
 export default CommnentList;
