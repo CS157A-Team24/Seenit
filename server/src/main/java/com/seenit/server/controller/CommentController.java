@@ -1,13 +1,10 @@
 package com.seenit.server.controller;
 
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
-import com.seenit.server.exception.ResourceNotFoundException;
-import com.seenit.server.model.Channel;
-import com.seenit.server.model.Comment;
-import com.seenit.server.repository.ChannelRepository;
+import com.seenit.server.dto.CommentPostDTO;
+import com.seenit.server.ibprojections.CommentDetails;
 import com.seenit.server.repository.CommentRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +17,17 @@ public class CommentController{
     private CommentRepository commentRepository;
 
     @GetMapping("/comments")
-    public List<Comment> getAllComments(){
-        return commentRepository.findAll();
+    public List<CommentDetails> getAllComments(){
+        return commentRepository.findAllCustom();
+    }
+
+    @GetMapping("/comments/test/{postId}")
+    public List<Object[]> getCom(@PathVariable(value = "postId") String postId){
+        return new LinkedList<>();
+    }
+
+    @GetMapping("/comments/ofapost/{postId}")
+    public CommentPostDTO getComByPostId(@PathVariable(value = "postId") String postId){
+        return new CommentPostDTO(postId,commentRepository.findComByPostId(postId));
     }
 }

@@ -1,5 +1,6 @@
 package com.seenit.server.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.seenit.server.compositeKey.UserComKey;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +21,7 @@ public class CreateCom{
     @JoinColumn(name = "user_id")
     private User userCom;
 
+    @JsonBackReference
     @ManyToOne
     @MapsId("com_id")
     @JoinColumn(name = "com_id")
