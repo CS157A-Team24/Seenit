@@ -6,14 +6,19 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.seenit.server.compositeKey.UserPostKey;
+import com.seenit.server.dto.CreatePostDTO;
 import com.seenit.server.dto.PostDTO;
 import com.seenit.server.exception.ResourceNotFoundException;
 import com.seenit.server.ibprojections.FrontPagePost;
 import com.seenit.server.model.Channel;
+import com.seenit.server.model.CreatePost;
 import com.seenit.server.model.User;
 import com.seenit.server.model.Post;
+import com.seenit.server.repository.ChannelRepository;
 import com.seenit.server.repository.PostRepository;
 
+import com.seenit.server.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,11 +37,16 @@ public class PostController{
     @Autowired
     private PostRepository postRepository;
 
-    // Using Interface-based projection
-//    @GetMapping("/posts")
-//    public List<Post> getAllPosts() {
-//        return postRepository.findAll();
-//    }
+    @Autowired
+    private ChannelRepository channelRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @GetMapping("/posts/test")
+    public List<Post> getAllPosts() {
+        return postRepository.findAll();
+    }
 
     // Using DTO
     @GetMapping("/posts")
@@ -70,8 +80,19 @@ public class PostController{
     }
 
     @PostMapping("/posts")
-    public Post createPost(@Valid @RequestBody Post post){
-        return postRepository.save(post);
+    public Post createPost(@Valid @RequestBody CreatePostDTO postDTO){
+        String postId = UUID.randomUUID().toString();
+        Post post = new Post(postId,postDTO.getTitle(),postDTO.getContent());
+        Channel channel = channelRepository.findById(postDTO.getChannelId()).get();
+        post.setChannel(channel);
+        CreatePost createPost = new CreatePost();
+        UserPostKey key = new UserPostKey();
+        key.setPostId(postId);
+        key.setUserId(postDTO.getUserId());
+        createPost.setId(key);
+        post.setCreatedBy(createPost);
+        postRepository.save(post);
+        return post;
     }
 
     @PutMapping("/posts/{id}")
