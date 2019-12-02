@@ -3,16 +3,19 @@ import { ACCESS_TOKEN } from '../constants';
 const baseUrl = '';
 
 async function get(endpoint, token = null) {
-    const options = {
+    let options = {
         method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
+        
     };
+    const headers = new Headers({
+        'Content-Type': 'application/json',
+    })
 
     if(localStorage.getItem(ACCESS_TOKEN)) {
-        options.headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
+        headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
     }
+    const defaults = {headers: headers};
+    options = Object.assign({}, defaults, options);
 
     const response = await fetch(`${baseUrl}/${endpoint}`, options);
     const json = await response.json();
@@ -22,17 +25,20 @@ async function get(endpoint, token = null) {
 };
 
 async function post(endpoint, body, token = null) {
-    const options = {
+    let options = {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify(body)
-      };
+    };
+    
+    const headers = new Headers({
+        'Content-Type': 'application/json',
+    })
 
     if(localStorage.getItem(ACCESS_TOKEN)) {
-        options.headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
+        headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
     }
+    const defaults = {headers: headers};
+    options = Object.assign({}, defaults, options);
 
     const response = await fetch(`${baseUrl}/${endpoint}`, options);
     const json = await response.json();
