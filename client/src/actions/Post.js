@@ -12,6 +12,7 @@ import {
 
 import {
     getPosts,
+    getSortedPosts,
     getAPost,
     createAPost
 } from '../utils/api';
@@ -31,10 +32,20 @@ const fetchAPostError = error => ({ type: FETCH_POST_ERROR, error });
 const createPostSuccess = post => ({ type: CREATE_POST_SUCCESS, post });
 const createPostError = error => ({ type: CREATE_POST_ERROR, error });
 
-export const requestPosts = (channel = '') => async dispatch => {
+export const requestPosts = (channel = '', sortby='') => async dispatch => {
     dispatch(fetchPostsRequest);
     try {
-        const posts = await getPosts(channel);
+        const posts = await getPosts(channel,sortby);
+        dispatch(fetchPostsSuccess(posts));
+    } catch (error) {
+        dispatch(fetchPostsError(error));
+    }
+};
+
+export const requestSortedPosts = (sortby) => async dispatch => {
+    dispatch(fetchPostsRequest);
+    try {
+        const posts = await getSortedPosts(sortby);
         dispatch(fetchPostsSuccess(posts));
     } catch (error) {
         dispatch(fetchPostsError(error));

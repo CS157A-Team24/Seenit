@@ -8,6 +8,7 @@ import { requestChannelDetails } from '../actions/Channel';
 
 import PostList from '../components/PostList';
 import ChannelContainers from '../components/ChannelContainers';
+import SortBar from '../components/SortBar';
 
 const CenterContainer = styled.div`
     margin: 0 15%;
@@ -29,13 +30,14 @@ const Channel = ({ post, channel, requestPosts, requestChannelDetails, match }) 
     const { params: { channelId } } = match;
 
 	useEffect(() => {
-        requestPosts(`c/${channelId}`);
+        requestPosts(`c/${channelId}/none`);
         requestChannelDetails(channelId);
 	}, [requestPosts, requestChannelDetails, channelId]);
 
 	return (
         <div>
             <Banner url={false}/>
+            <SortBar channelId={channelId}/>
             <Grid container direction="row" justify="center">
                 <CenterContainer>
                     <Grid container direction="row" justify="center" alignItems="flex-start" spacing={3} style={{marginBottom: 0}}>

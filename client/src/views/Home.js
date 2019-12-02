@@ -8,6 +8,7 @@ import { requestTop5Channels } from '../actions/Channel';
 
 import PostList from '../components/PostList';
 import HomeContainers from '../components/HomeContainers';
+import SortBar from '../components/SortBar';
 
 const CenterContainer = styled.div`
 	margin: 0 15%;
@@ -22,25 +23,28 @@ const Home = ({ requestPosts, requestTop5Channels }) => {
 	}, [requestPosts, requestTop5Channels]);
 
 	return (
-		<Grid container direction="row" justify="center">
-			<CenterContainer>
-				<Grid container direction="row" justify="center" alignItems="flex-start" spacing={3} style={{marginBottom: 0}}>
-					<Grid item xs={8}>
-						<PostList />
+		<div>
+			<SortBar/>
+			<Grid container direction="row" justify="center">
+				<CenterContainer>
+					<Grid container direction="row" justify="center" alignItems="flex-start" spacing={3} style={{ marginBottom: 0 }}>
+						<Grid item xs={8}>
+							<PostList />
+						</Grid>
+						<Grid item xs={4}>
+							<HomeContainers />
+						</Grid>
 					</Grid>
-					<Grid item xs={4}>
-						<HomeContainers />
-					</Grid>
-				</Grid>
-			</CenterContainer>
-		</Grid>
+				</CenterContainer>
+			</Grid>
+		</div>
 	);
 };
 
 
 const mapDispatchToProps = { requestPosts, requestTop5Channels };
 
-export default connect(null,mapDispatchToProps)(Home);
+export default connect(null, mapDispatchToProps)(Home);
 
 // React Hook + Redux
 // import React, { useEffect } from 'react';

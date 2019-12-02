@@ -76,8 +76,12 @@ export async function createAPost(newPost){
     return await post(`api/posts`,newPost);
 }
 
-export async function getPosts(channel) {
-    return await get(`api/posts/${channel}`);
+export async function getPosts(channel,sortby) {
+    return await get(`api/posts/${channel}/${sortby}`);
+}
+
+export async function getSortedPosts(sortby) {
+    return await get(`api/posts/sortby/${sortby}`);
 }
 
 export async function getAPost(postId) {
