@@ -3,6 +3,7 @@ const constants = {
     upvote: '#6bc431',
     downvote: '#e53734',
     h1: '1.5em',
+    h2: '1.2em',
     p: '0.7em'
   };
 

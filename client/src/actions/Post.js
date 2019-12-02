@@ -4,12 +4,16 @@ import {
     FETCH_POSTS_ERROR,
     FETCH_POST_REQUEST,
     FETCH_POST_SUCCESS,
-    FETCH_POST_ERROR
+    FETCH_POST_ERROR,
+    CREATE_POST_REQUEST,
+    CREATE_POST_SUCCESS,
+    CREATE_POST_ERROR
 } from '../constants/ActionTypes';
 
 import {
     getPosts,
-    getAPost
+    getAPost,
+    createAPost
 } from '../utils/api';
 
 import {
@@ -23,6 +27,9 @@ const fetchPostsError = error => ({ type: FETCH_POSTS_ERROR, error });
 const fetchAPostRequest = { type: FETCH_POST_REQUEST };
 const fetchAPostSuccess = post => ({ type: FETCH_POST_SUCCESS, post });
 const fetchAPostError = error => ({ type: FETCH_POST_ERROR, error });
+
+const createPostSuccess = post => ({ type: CREATE_POST_SUCCESS, post });
+const createPostError = error => ({ type: CREATE_POST_ERROR, error });
 
 export const requestPosts = (channel = '') => async dispatch => {
     dispatch(fetchPostsRequest);
@@ -44,3 +51,13 @@ export const requestAPost = (postId) => async dispatch => {
         dispatch(fetchAPostError(error));
     }
 };
+
+export const postAPost = (newPost) => async dispatch => {
+    dispatch({type: CREATE_POST_REQUEST});
+    try{
+        const post = createAPost(newPost);
+        dispatch(createPostSuccess(post));
+    }catch (error) {
+        dispatch(createPostError(error));
+    }
+}

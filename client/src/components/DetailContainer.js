@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Avatar } from '@material-ui/core';
 import styled from 'styled-components';
+import {Link} from 'react-router-dom';
 
 const DetailContainer = ({channelDetails}) => {
 
@@ -17,7 +18,11 @@ const DetailContainer = ({channelDetails}) => {
             <SmallText>Members</SmallText>
             <p>Welcome to {channelDetails.channel.name}</p>
             <CustomButton> <ButtonText>JOIN</ButtonText> </CustomButton>
-            <CustomButton> <ButtonText>CREATE POST</ButtonText> </CustomButton>
+            <Link to={{pathname:'/create-a-post', 
+                    state:{channelId: channelDetails.channel.id}}} 
+                    style={{ textDecoration: 'none' }}>
+                <CustomButton> <ButtonText>CREATE POST</ButtonText> </CustomButton>
+            </Link>
         </Container>
     )
 };
