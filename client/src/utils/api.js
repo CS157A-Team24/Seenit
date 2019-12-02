@@ -14,6 +14,36 @@ async function get(endpoint, token = null) {
 
     if (!response.ok) throw Error(json.message);
     return json;
+};
+
+async function post(endpoint, body, token = null) {
+    const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        //   ...(token && { Authorization: `Bearer ${token}` })
+        },
+        body: JSON.stringify(body)
+      };
+  
+      const response = await fetch(`${baseUrl}/${endpoint}`, options);
+      const json = await response.json();
+  
+      if (!response.ok) {
+        if (response.status === 422) {
+          json.errors.forEach(error => {
+            throw Error(`${error.param} ${error.msg}`);
+          });
+        }
+  
+        throw Error(json.message);
+      }
+  
+      return json;
+};
+
+export async function createAPost(newPost){
+    return await post(`api/posts`,newPost);
 }
 
 export async function getPosts(channel) {
@@ -33,7 +63,7 @@ export async function getChannelDetails(channelId){
 }
 
 export async function getCommentsby(postId){
-    const normalizedData = normalize(await get(`api/comments/ofapost/${postId}`), post);
+    const normalizedData = normalize(await get(`api/comments/ofapost/${postId}`), postSchema);
     return normalizedData.entities;
 }
 
@@ -52,7 +82,7 @@ const comment = new schema.Entity("comments", {
     children: [child]
 });
 
-const post = new schema.Entity("posts", {
+const postSchema = new schema.Entity("posts", {
     comments: [comment]
 })
 
