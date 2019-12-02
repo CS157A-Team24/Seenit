@@ -1,13 +1,18 @@
 import { normalize, schema } from 'normalizr';
+import { ACCESS_TOKEN } from '../constants';
 const baseUrl = '';
 
 async function get(endpoint, token = null) {
     const options = {
         method: 'GET',
-        // headers: {
-        //     ...(token && { Authorization: `Bearer ${token}` })
-        // }
+        headers: {
+            'Content-Type': 'application/json',
+        },
     };
+
+    if(localStorage.getItem(ACCESS_TOKEN)) {
+        options.headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
+    }
 
     const response = await fetch(`${baseUrl}/${endpoint}`, options);
     const json = await response.json();
@@ -21,26 +26,45 @@ async function post(endpoint, body, token = null) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-        //   ...(token && { Authorization: `Bearer ${token}` })
         },
         body: JSON.stringify(body)
       };
-  
-      const response = await fetch(`${baseUrl}/${endpoint}`, options);
-      const json = await response.json();
-  
-      if (!response.ok) {
-        if (response.status === 422) {
-          json.errors.forEach(error => {
-            throw Error(`${error.param} ${error.msg}`);
-          });
-        }
-  
-        throw Error(json.message);
-      }
-  
-      return json;
+
+    if(localStorage.getItem(ACCESS_TOKEN)) {
+        options.headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
+    }
+
+    const response = await fetch(`${baseUrl}/${endpoint}`, options);
+    const json = await response.json();
+
+    if (!response.ok) {
+    if (response.status === 422) {
+        json.errors.forEach(error => {
+        throw Error(`${error.param} ${error.msg}`);
+        });
+    }
+
+    throw Error(json.message);
+    }
+
+    return json;
 };
+
+export async function login(loginRequest){
+    return await post(`api/auth/signin`, loginRequest);
+}
+
+export async function signup(signupRequest){
+    return await post(`api/auth/signup`, signupRequest);
+}
+
+export async function checkUsernameAvailability(username){
+    return await get(`api/user/checkUsernameAvailability?username=` + username);
+}
+
+export async function checkEmailAvailability(email){
+    return await get(`api/user/checkEmailAvailability?email=` + email);
+}
 
 export async function createAPost(newPost){
     return await post(`api/posts`,newPost);
