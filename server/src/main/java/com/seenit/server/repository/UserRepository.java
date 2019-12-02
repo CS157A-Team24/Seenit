@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.seenit.server.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String>{
@@ -14,4 +15,16 @@ public interface UserRepository extends JpaRepository<User, String>{
     List<UserIdName> findModeratorsByChannelId(String id);
 
     List<UserIdName> findAllByModeratedChannelsId(String id);
+
+    Optional<User> findByEmail(String email);
+
+    Optional<User> findByUserNameOrEmail(String username, String email);
+
+    List<User> findByIdIn(List<String> userIds);
+
+    Optional<User> findByUserName(String username);
+
+    Boolean existsByUserName(String username);
+
+    Boolean existsByEmail(String email);
 }

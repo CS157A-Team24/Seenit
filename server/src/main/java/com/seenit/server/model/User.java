@@ -10,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
+
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -21,9 +23,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class User{
 
     @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @Column(name = "id")
     private String id;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
     @Column(name = "username", unique = true, nullable = false)
@@ -38,6 +43,16 @@ public class User{
 
     @Column(name = "avatar_url", nullable = false)
     private String avatarUrl;
+
+    public User() {
+
+    }
+    
+    public User(String username, String email, String password) {
+        this.userName = username;
+        this.email = email;
+        this.password = password;
+    }
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
