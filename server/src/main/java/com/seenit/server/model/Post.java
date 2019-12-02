@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -16,6 +17,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "Posts")
 @EntityListeners(AuditingEntityListener.class)
@@ -59,4 +61,10 @@ public class Post{
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinTable(name = "Save", inverseJoinColumns = @JoinColumn(name = "user_id"), joinColumns = @JoinColumn(name = "post_id"))
     private Set<User> usersSavePost;
+
+    public Post(String id, String title, String content){
+        this.id = id;
+        this.title = title;
+        this.content = content;
+    }
 }
