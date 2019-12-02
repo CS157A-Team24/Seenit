@@ -15,7 +15,8 @@ const initialState = { isFetching: false, posts: [], postDetails: null, isCreati
 export default (state = initialState, action) => {
     switch (action.type) {
         case FETCH_POSTS_REQUEST:
-            return { ...state, isFetching: true, post: null, newPost: null };
+            return { ...state, isFetching: true, 
+                    post: null, newPost: null };
         case FETCH_POSTS_SUCCESS:
             return { ...state, isFetching: false, posts: action.posts };
         case FETCH_POSTS_ERROR:

@@ -9,6 +9,7 @@ const Container = styled.div`
 	top: 0;
 	height: 70px;
 	background-color: ${props => props.theme.foreground};
+	border-bottom: 1px solid ${props => props.theme.border};
 	z-index: 1000
 `;
 

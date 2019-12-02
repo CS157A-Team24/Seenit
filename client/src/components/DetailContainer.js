@@ -20,7 +20,7 @@ const DetailContainer = ({channelDetails}) => {
             <CustomButton> <ButtonText>JOIN</ButtonText> </CustomButton>
             <Link to={{pathname:'/create-a-post', 
                     state:{channelId: channelDetails.channel.id}}} 
-                    style={{ textDecoration: 'none' }}>
+                    style={{ textDecoration: 'none', width: '100%' }}>
                 <CustomButton> <ButtonText>CREATE POST</ButtonText> </CustomButton>
             </Link>
         </Container>
@@ -44,7 +44,7 @@ const SmallText = styled.p`
 const CustomButton = styled.div`
     background: ${props => props.theme.buttonColor};
     border-radius: 3px;
-    width: 95%;
+    width: 100%;
     padding: 3.5%;
     display: flex;
     align-items: center;
