@@ -14,14 +14,14 @@ const SearchInput = ({history}) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        history.push(`/q?=${query}`);
+        history.push(`/?q=${query.trim()}`);
     }
 
 
     return (
         <Container container justify="flex-start" alignItems="center">
             <SearchIcon style={{ color: green[50] }} />
-            <form onSubmit={handleSubmit}>
+            <form style={{width:"90%"}} onSubmit={handleSubmit}>
                 <StyledTextField placeholder="Search" onChange={handleChange} />
             </form>
         </Container>

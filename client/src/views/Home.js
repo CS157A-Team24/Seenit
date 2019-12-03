@@ -12,6 +12,7 @@ import { ACCESS_TOKEN, USER_ID } from '../constants';
 import PostList from '../components/PostList';
 import HomeContainers from '../components/HomeContainers';
 import SortBar from '../components/SortBar';
+import {trimQuery} from '../utils/helper';
 
 
 const CenterContainer = styled.div`
@@ -19,15 +20,16 @@ const CenterContainer = styled.div`
 	width: 100%;
 `
 
-const Home = ({ requestPosts, requestTop5Channels }) => {
-
+const Home = ({ requestPosts, requestTop5Channels, location }) => {
+	const { search } = location; 
 	useEffect(() => {
-		requestPosts();
+		requestPosts("","",trimQuery(search));
 		requestTop5Channels();
 		if(localStorage.getItem(ACCESS_TOKEN)){
 			localStorage.setItem(USER_ID,jwtDecode(localStorage.getItem(ACCESS_TOKEN)).id);
 		}
-	}, [requestPosts, requestTop5Channels]);
+		 
+	}, [requestPosts, requestTop5Channels, search]);
 
 	return (
 		<div>

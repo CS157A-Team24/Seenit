@@ -88,6 +88,10 @@ export async function getPosts(channel,sortby) {
     return await get(`api/posts/${channel}/${sortby}`);
 }
 
+export async function getSearchedPosts(queryTerm) {
+    return await get(`api/posts/search/${queryTerm}`);
+}
+
 export async function getSortedPosts(sortby) {
     return await get(`api/posts/sortby/${sortby}`);
 }

@@ -14,7 +14,8 @@ import {
     getPosts,
     getSortedPosts,
     getAPost,
-    createAPost
+    createAPost,
+    getSearchedPosts
 } from '../utils/api';
 
 import {
@@ -32,10 +33,26 @@ const fetchAPostError = error => ({ type: FETCH_POST_ERROR, error });
 const createPostSuccess = post => ({ type: CREATE_POST_SUCCESS, post });
 const createPostError = error => ({ type: CREATE_POST_ERROR, error });
 
-export const requestPosts = (channel = '', sortby='') => async dispatch => {
+export const requestPosts = (channel = '', sortby='', search='') => async dispatch => {
     dispatch(fetchPostsRequest);
     try {
-        const posts = await getPosts(channel,sortby);
+        if(search === ""){
+            const posts = await getPosts(channel,sortby);
+            dispatch(fetchPostsSuccess(posts));
+        }else{
+            const posts = await getSearchedPosts(search);
+            dispatch(fetchPostsSuccess(posts));
+        }
+
+    } catch (error) {
+        dispatch(fetchPostsError(error));
+    }
+};
+
+export const requestSearchedPosts = (queryTerm) => async dispatch => {
+    dispatch(fetchPostsRequest);
+    try {
+        const posts = await getSearchedPosts(queryTerm);
         dispatch(fetchPostsSuccess(posts));
     } catch (error) {
         dispatch(fetchPostsError(error));

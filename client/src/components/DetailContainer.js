@@ -17,7 +17,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 const DetailContainer = ({channelDetails}) => {
     const [open, setOpen] = useState(false);
-    const [joinText, setJoinText] = useState("JOIN")
+    const [joinText, setJoinText] = useState("JOIN");
+    const [members, setMemmbers] = useState(channelDetails.numberOfMembers);
     const channelStore = useSelector(state => state.channel.channels);
 
     useEffect(() => {
@@ -42,9 +43,9 @@ const DetailContainer = ({channelDetails}) => {
                 userId: localStorage.getItem(USER_ID)
             }
             if(joinText === "JOIN")
-                join(body).then(response => {setJoinText("JOINED")});
+                join(body).then(response => {setJoinText("JOINED"); setMemmbers(members+1)});
             else{
-                unjoin(body).then(response => {setJoinText("JOIN")});
+                unjoin(body).then(response => {setJoinText("JOIN"); setMemmbers(members-1)});
             }
         }else{
             handleClickOpen();
@@ -59,7 +60,7 @@ const DetailContainer = ({channelDetails}) => {
                         src={`https://cdn2.iconfinder.com/data/icons/blue-round-amazing-icons-1/512/home-alt-512.png`}/>
                 {channelDetails.channel.name}
             </Grid>
-            <p>{channelDetails.numberOfMembers}</p>
+            <p>{members}</p>
             <SmallText>Members</SmallText>
             <p>Welcome to {channelDetails.channel.name}</p>
             <CustomButton onClick={handleJoin}> <ButtonText>{joinText}</ButtonText> </CustomButton>

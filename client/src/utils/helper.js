@@ -19,3 +19,7 @@ export const calTime = (date) => {
         return `just now`
     }
 }
+
+export const trimQuery = (query) => {
+    return query.slice(3,query.length);
+}
