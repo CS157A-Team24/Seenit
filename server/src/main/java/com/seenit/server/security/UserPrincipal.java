@@ -15,8 +15,6 @@ import java.util.Objects;
 public class UserPrincipal implements UserDetails {
     private String id;
 
-    private String name;
-
     private String username;
 
     @JsonIgnore
@@ -49,10 +47,6 @@ public class UserPrincipal implements UserDetails {
 
     public String getId() {
         return id;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public String getEmail() {
