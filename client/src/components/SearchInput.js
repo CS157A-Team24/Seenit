@@ -6,16 +6,23 @@ import SearchIcon from '@material-ui/icons/Search';
 
 
 const SearchInput = () => {
-    const [query,setQuery] = useState("");
+    const [query, setQuery] = useState("");
 
-    let handleChange = (event) => {
+    const handleChange = (event) => {
         setQuery(event.target.value);
     }
 
-    return(
+    const handleSubmit = (event) => {
+        event.preventDefault();
+    }
+
+
+    return (
         <Container container justify="flex-start" alignItems="center">
-            <SearchIcon style={{ color: green[50] }}/>
-            <StyledTextField placeholder="Search" onChange={handleChange}/>
+            <SearchIcon style={{ color: green[50] }} />
+            <form onSubmit={handleSubmit}>
+                <StyledTextField placeholder="Search" onChange={handleChange} />
+            </form>
         </Container>
     )
 }

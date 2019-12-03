@@ -1,45 +1,76 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Grid, TextField } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import jwtDecode from 'jwt-decode';
 import { ACCESS_TOKEN } from '../constants';
 import { postAPost } from '../actions/Post';
-
-
+import { Redirect } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const CAPContainer = ({ state }) => {
-
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [channel, setChannel] = useState(state.channelId);
+    const channelStore = useSelector(state => state.channel.channels);
+    const post = useSelector(state => state.post.newPost);
     const [channels, setChannels] = useState([
-        {
-            value: 'none',
-            label: 'None',
-        },
         {
             value: `${state.channelId}`,
             label: `${state.channelName}`
         },
     ]);
+    const [open, setOpen] = useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+
+    useEffect(() => {
+        let temps = [];
+        if (channelStore) channelStore.forEach(channel => {
+            temps.push({
+                value: `${channel.id}`,
+                label: `${channel.name}`
+            });
+            setChannel(channel.id);
+        });
+        setChannels(temps);
+        if(post) {
+            console.log("susu");
+            const path = `/post/${post.id}`
+            return <Redirect to={path} />;
+        }
+    }, [channelStore,post]);
 
     const handleChange = event => {
-        console.log(test);
         setChannel(event.target.value);
     };
 
     const dispatch = useDispatch();
 
     let handleSubmit = (event) => {
+        event.preventDefault();
         const newPost = {
             title: title,
             content: content,
             channelId: channel,
             userId: jwtDecode(localStorage.getItem(ACCESS_TOKEN)).jti
         }
-        dispatch(postAPost(newPost));
-        event.preventDefault();
+        if (channel === "none") {
+            handleClickOpen();
+        }
+        else dispatch(postAPost(newPost));
     }
 
     let handleTitleChange = (event) => {
@@ -73,6 +104,24 @@ const CAPContainer = ({ state }) => {
                         ))}
                     </TextField>
                 </TextFieldBox>
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{"Message"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Please select a channel or join one
+                            </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose} color="primary" autoFocus>
+                            Ok
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </MiddleContainer>
             <Container>
                 <TitleInput placeholder="Title" onChange={handleTitleChange} />

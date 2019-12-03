@@ -56,6 +56,10 @@ async function post(endpoint, body, token = null) {
     return json;
 };
 
+export async function join(body){
+    return await post(`api/join`, body);
+}
+
 export async function login(loginRequest){
     return await post(`api/auth/signin`, loginRequest);
 }
@@ -94,6 +98,10 @@ export async function getTop5Channels() {
 
 export async function getChannelDetails(channelId){
     return await get(`api/channels/details/${channelId}`);
+}
+
+export async function getChannelbyUserId(userId){
+    return await get(`api/channels/user/${userId}`);
 }
 
 export async function getCommentsby(postId){

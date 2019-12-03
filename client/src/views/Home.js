@@ -11,7 +11,6 @@ import HomeContainers from '../components/HomeContainers';
 import SortBar from '../components/SortBar';
 
 
-
 const CenterContainer = styled.div`
 	margin: 0 15%;
 	width: 100%;

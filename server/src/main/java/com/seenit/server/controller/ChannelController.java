@@ -1,11 +1,9 @@
 package com.seenit.server.controller;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.seenit.server.dto.ChannelDTO;
+import com.seenit.server.dto.UserChannelDTO;
 import com.seenit.server.exception.ResourceNotFoundException;
 import com.seenit.server.ibprojections.TopChannels;
 import com.seenit.server.ibprojections.UserIdName;
@@ -20,6 +18,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api")
@@ -47,10 +47,9 @@ public class ChannelController{
                             userRepository.findAllByModeratedChannelsId(id), id);
     }
 
-    // Quick test
-    @GetMapping("/channels/test/{id}")
-    public List<Object[]> getChannelDetailsByIdTest(@PathVariable(value = "id") String id){
-        return channelRepository.findNumberOfMembersByChannelId(id);
+    @GetMapping("/channels/user/{id}")
+    public List<Channel> getChannelDetailsByIdTest(@PathVariable(value = "id") String id){
+        return channelRepository.findAllBySubscribersId(id);
     }
 
     @GetMapping("/channels/{id}")
@@ -71,6 +70,15 @@ public class ChannelController{
         }
         if(moderators.size() > 0) channelDTO.setModerators(moderators);
         return channelDTO;
+    }
+    @PostMapping("/join")
+    public Channel userJoinChannel(@Valid @RequestBody UserChannelDTO userChannelDTO){
+        Channel channel = channelRepository.findById(userChannelDTO.getChannelId()).get();
+        Set<User> subscribers = channel.getSubscribers();
+        subscribers.add(userRepository.findById(userChannelDTO.getUserId()).get());
+        channel.setSubscribers(subscribers);
+        channelRepository.save(channel);
+        return  channel;
     }
 
     @DeleteMapping("/channels/{id}")
