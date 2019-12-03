@@ -18,4 +18,5 @@ public interface ChannelRepository extends JpaRepository<Channel, String> {
     @Query("SELECT c, COUNT(c.id) FROM Channel c JOIN c.subscribers WHERE c.id = ?1 GROUP BY c.id")
     List<Object[]> findNumberOfMembersByChannelId(String id);
 
+    List<Channel> findAllBySubscribersId(String id);
 }
