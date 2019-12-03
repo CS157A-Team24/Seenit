@@ -96,6 +96,10 @@ export async function getChannelDetails(channelId){
     return await get(`api/channels/details/${channelId}`);
 }
 
+export async function getChannelbyUserId(userId){
+    return await get(`api/channels/user/${userId}`);
+}
+
 export async function getCommentsby(postId){
     const normalizedData = normalize(await get(`api/comments/ofapost/${postId}`), postSchema);
     return normalizedData.entities;

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Grid, TextField } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import jwtDecode from 'jwt-decode';
 import { ACCESS_TOKEN } from '../constants';
 import { postAPost } from '../actions/Post';
@@ -9,23 +9,29 @@ import { postAPost } from '../actions/Post';
 
 
 const CAPContainer = ({ state }) => {
-
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [channel, setChannel] = useState(state.channelId);
+    const channelStore = useSelector(state => state.channel.channels);
     const [channels, setChannels] = useState([
-        {
-            value: 'none',
-            label: 'None',
-        },
         {
             value: `${state.channelId}`,
             label: `${state.channelName}`
         },
     ]);
 
+    useEffect(() => {
+        let temps = [];
+        if(channelStore)channelStore.forEach(channel => {
+            temps.push({
+                value: `${channel.id}`,
+                label: `${channel.name}`
+            });
+        });
+        setChannels(temps);
+    }, [channelStore]);
+    
     const handleChange = event => {
-        console.log(test);
         setChannel(event.target.value);
     };
 
@@ -39,7 +45,7 @@ const CAPContainer = ({ state }) => {
             userId: jwtDecode(localStorage.getItem(ACCESS_TOKEN)).jti
         }
         dispatch(postAPost(newPost));
-        event.preventDefault();
+
     }
 
     let handleTitleChange = (event) => {
