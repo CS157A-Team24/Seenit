@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seenit.server.compositeKey.UserPostKey;
 import com.seenit.server.dto.CreatePostDTO;
 import com.seenit.server.dto.PostDTO;
@@ -20,6 +19,9 @@ import com.seenit.server.repository.PostRepository;
 
 import com.seenit.server.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,14 +42,23 @@ public class PostController{
     @Autowired
     private ChannelRepository channelRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @GetMapping("/posts/test")
-    public List<Post> getAllPosts() {
-        return postRepository.findAll();
+    // Using DTO
+    @GetMapping("/posts/sortby/{property}")
+    public List<PostDTO> getPostDTOTest(@PathVariable(value = "property") String prop){
+        List<Object[]> collections;
+        if(prop.equals("none")){
+            collections = postRepository.findAllObject();
+        }else{
+            String property;
+            if(prop.equals("new")) property = "createdAt";
+            else property = "ca.points";
+            collections = postRepository.findAllObjectSort(PageRequest.of(0,20,
+                    Sort.Direction.DESC, property)).getContent();
+        }
+        List<PostDTO> postList = collections.stream().map(collection -> toPostDTO(collection)).
+                collect(Collectors.toList());
+        return postList;
     }
-
     // Using DTO
     @GetMapping("/posts")
     public List<PostDTO> getPostDTO(){
@@ -57,11 +68,22 @@ public class PostController{
         return postList;
     }
 
-    @GetMapping("/posts/c/{channelId}")
-    public List<PostDTO> getPostsByChannel(@PathVariable(value = "channelId") String channelId){
-        List<Object[]> posts = postRepository.findAllPostsByChannel(channelId);
-        List<PostDTO> postDTOS = posts.stream().map(post -> toPostDTO(post)).collect(Collectors.toList());
-        return postDTOS;
+    @GetMapping("/posts/c/{channelId}/{property}")
+    public List<PostDTO> getPostsByChannel(@PathVariable(value = "channelId") String channelId,
+                                            @PathVariable(value = "property") String prop){
+        List<Object[]> collections;
+        if(prop.equals("none")){
+            collections = postRepository.findAllPostsByChannel(channelId, PageRequest.of(0,20)).getContent();
+        }else{
+            String property;
+            if(prop.equals("new")) property = "createdAt";
+            else property = "ca.points";
+            collections = postRepository.findAllPostsByChannel(channelId,PageRequest.of(0,20,
+                    Sort.Direction.DESC, property)).getContent();
+        }
+        List<PostDTO> postList = collections.stream().map(collection -> toPostDTO(collection)).
+                collect(Collectors.toList());
+        return postList;
     }
 
     private PostDTO toPostDTO(Object[] collection){
