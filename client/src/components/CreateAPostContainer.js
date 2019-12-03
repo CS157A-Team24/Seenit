@@ -5,16 +5,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import jwtDecode from 'jwt-decode';
 import { ACCESS_TOKEN } from '../constants';
 import { postAPost } from '../actions/Post';
-import { Redirect } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import {withRouter} from 'react-router-dom';
 
-const CAPContainer = ({ state }) => {
+const CAPContainer = ({ state, history }) => {
     const [title, setTitle] = useState("");
+    const [dialog, setDialog] = useState("");
     const [content, setContent] = useState("");
     const [channel, setChannel] = useState(state.channelId);
     const channelStore = useSelector(state => state.channel.channels);
@@ -45,12 +46,8 @@ const CAPContainer = ({ state }) => {
             });
             setChannel(channel.id);
         });
+        if(post) history.push(`/post/${post.id}`);
         setChannels(temps);
-        if(post) {
-            console.log("susu");
-            const path = `/post/${post.id}`
-            return <Redirect to={path} />;
-        }
     }, [channelStore,post]);
 
     const handleChange = event => {
@@ -68,9 +65,15 @@ const CAPContainer = ({ state }) => {
             userId: jwtDecode(localStorage.getItem(ACCESS_TOKEN)).jti
         }
         if (channel === "none") {
+            setDialog("Please select a channel or join one");
             handleClickOpen();
+        }else if(title === ""){
+            handleClickOpen();
+            setDialog("Please enter a title");
         }
-        else dispatch(postAPost(newPost));
+        else {
+            dispatch(postAPost(newPost));
+        }
     }
 
     let handleTitleChange = (event) => {
@@ -113,7 +116,7 @@ const CAPContainer = ({ state }) => {
                     <DialogTitle id="alert-dialog-title">{"Message"}</DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
-                            Please select a channel or join one
+                            {dialog}
                             </DialogContentText>
                     </DialogContent>
                     <DialogActions>
@@ -205,4 +208,4 @@ const CustomButton = styled.input`
 `;
 
 
-export default CAPContainer;
+export default withRouter(CAPContainer);

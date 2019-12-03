@@ -66,7 +66,7 @@ export const requestAPost = (postId) => async dispatch => {
 export const postAPost = (newPost) => async dispatch => {
     dispatch({type: CREATE_POST_REQUEST});
     try{
-        const post = createAPost(newPost);
+        const post = await createAPost(newPost);
         dispatch(createPostSuccess(post));
     }catch (error) {
         dispatch(createPostError(error));

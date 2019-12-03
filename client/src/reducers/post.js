@@ -10,7 +10,7 @@ import {
     CREATE_POST_ERROR
 } from '../constants/ActionTypes';
 
-const initialState = { isFetching: false, posts: [], postDetails: null, isCreating: false };
+const initialState = { isFetching: false, posts: [], postDetails: null, isCreating: false, newPost: null };
 
 export default (state = initialState, action) => {
     switch (action.type) {
@@ -32,7 +32,7 @@ export default (state = initialState, action) => {
         case CREATE_POST_REQUEST:
             return { ...state, isCreating: true, newPost: null };
         case CREATE_POST_SUCCESS:
-            return { ...state, isCreating: false, newPost: action.newPost };
+            return { ...state, isCreating: false, newPost: action.post };
         case CREATE_POST_ERROR:
             return { ...state, isCreating: false };
 

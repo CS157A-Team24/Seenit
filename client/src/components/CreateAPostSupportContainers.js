@@ -11,11 +11,11 @@ const CAPSContainers = () => {
                 Guidelines for posting   
                 </Style1>   
                 <Style2>       
-                <p><p>1. Remeber the human</p></p> 
-                <p><p>2. Behave like you would in real life</p></p> 
-                <p><p>3. Look for the original source of content</p></p> 
-                <p><p>4. Search for duplicates before posting</p></p> 
-                <p><p>5. Read the community's rules</p></p>
+                <p>1. Remeber the human</p>
+                <p>2. Behave like you would in real life</p>
+                <p>3. Look for the original source of content</p> 
+                <p>4. Search for duplicates before posting</p>
+                <p>5. Read the community's rules</p>
                 </Style2> 
             </RuleContainer>
             <FooterContainer/>
@@ -41,8 +41,7 @@ const Style1 = styled.div`
 `;   
 
 const Style2 = styled.div`
-    border: 3px solid ${props => props.theme.border};
-    background-color: ${props => props.theme.foreground};
+    border-top: 3px solid ${props => props.theme.border};
     margin-top: 10px;
     height: 210px;
 `;
