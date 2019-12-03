@@ -48,16 +48,12 @@ class Register extends Component {
         };
         signup(signupRequest)
         .then(response => {
-            notification.success({
-                message: 'Seenit',
-                description: "Successfully registered. Login to continue.",
-            });          
+            window.alert("Successfully registered. Login to continue.")      
             this.props.history.push("/login");
         }).catch(error => {
-            notification.error({
-                message: 'Seenit',
-                description: error.message || 'Register failed. Please try again.'
-            });
+            if(error){
+                window.alert('Register failed. Please fill all the fields!') 
+            }
         });
     }
 
@@ -117,11 +113,7 @@ class Register extends Component {
                                 onChange={(event) => this.handleInputChange(event, this.validatePassword)} />    
                         </FormItem>
                         <FormItem>
-                            <Button type="primary" 
-                                htmlType="submit" 
-                                size="large" 
-                                className="signup-form-button"
-                                disabled={this.isFormInvalid()}>Sign up</Button>
+                            <Button type="primary" htmlType="submit" size="large" className="login-form-button">Submit</Button>
                             Already registed? <Link to="/login">Login!</Link>
                         </FormItem>
                     </Form>
