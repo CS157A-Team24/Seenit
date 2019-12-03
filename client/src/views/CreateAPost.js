@@ -6,8 +6,7 @@ import styled from 'styled-components';
 import {requestChannelsForUser} from '../actions/Channel';
 import CAPContainer from '../components/CreateAPostContainer';
 import CAPSContainers from '../components/CreateAPostSupportContainers';
-import { ACCESS_TOKEN } from '../constants';
-import jwtDecode from 'jwt-decode';
+import { USER_ID } from '../constants';
 
 
 const CenterContainer = styled.div`
@@ -19,7 +18,8 @@ const CenterContainer = styled.div`
 const CreateAPost = ({location}) => {
     const dispatch = useDispatch();
     useEffect(() => {
-		dispatch(requestChannelsForUser(jwtDecode(localStorage.getItem(ACCESS_TOKEN)).jti));
+        if(localStorage.getItem(USER_ID))
+            dispatch(requestChannelsForUser(localStorage.getItem(USER_ID)));
 	}, [dispatch]);
 
 	return (

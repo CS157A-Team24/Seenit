@@ -12,7 +12,7 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 
-import { ACCESS_TOKEN } from '../constants';
+import { ACCESS_TOKEN, USER_ID } from '../constants';
 import SearchInput from './SearchInput';
 
 
@@ -40,6 +40,7 @@ const Header = () => {
 	const handleLogout = (event) => {
 		handleClose(event);
 		localStorage.removeItem(ACCESS_TOKEN);
+		localStorage.removeItem(USER_ID);
 	}
 	// if (localStorage.getItem(ACCESS_TOKEN)) {
 	// 	setUser(jwtDecode(localStorage.getItem(ACCESS_TOKEN)));

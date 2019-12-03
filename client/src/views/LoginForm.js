@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { login } from '../utils/api';
 import { Link} from 'react-router-dom';
-import { withRouter } from 'react-router'
+import { withRouter } from 'react-router';
+
 import { ACCESS_TOKEN } from '../constants';
 
-
-import { Form, Input, Button, Icon, notification } from 'antd';
+import { Form, Input, Button, Icon } from 'antd';
 const FormItem = Form.Item;
 
 class LoginForm extends Component {
@@ -20,6 +20,7 @@ class LoginForm extends Component {
       this.props.form.validateFields((err, values) => {
           if (!err) {
               const loginRequest = Object.assign({}, values);
+
               login(loginRequest)
               .then(response => {
                   localStorage.setItem(ACCESS_TOKEN, response.accessToken);

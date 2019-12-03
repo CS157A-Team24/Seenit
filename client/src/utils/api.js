@@ -60,6 +60,10 @@ export async function join(body){
     return await post(`api/join`, body);
 }
 
+export async function unjoin(body){
+    return await post(`api/unjoin`, body);
+}
+
 export async function login(loginRequest){
     return await post(`api/auth/signin`, loginRequest);
 }

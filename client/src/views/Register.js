@@ -8,7 +8,7 @@ import {
     EMAIL_MAX_LENGTH,
     PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH
 } from '../constants';
-import { Form, Input, Button, notification } from 'antd';
+import { Form, Input, Button } from 'antd';
 const FormItem = Form.Item;
 class Register extends Component {
     constructor(props) {

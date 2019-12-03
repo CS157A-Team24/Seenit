@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Grid, TextField } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import jwtDecode from 'jwt-decode';
-import { ACCESS_TOKEN } from '../constants';
+import { USER_ID } from '../constants';
 import { postAPost } from '../actions/Post';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -58,11 +57,14 @@ const CAPContainer = ({ state, history }) => {
 
     let handleSubmit = (event) => {
         event.preventDefault();
+        let userId;
+        if(localStorage.getItem(USER_ID)) userId = localStorage.getItem(USER_ID);
+        else userId = "";
         const newPost = {
             title: title,
             content: content,
             channelId: channel,
-            userId: jwtDecode(localStorage.getItem(ACCESS_TOKEN)).jti
+            userId: userId
         }
         if (channel === "none") {
             setDialog("Please select a channel or join one");
@@ -70,6 +72,9 @@ const CAPContainer = ({ state, history }) => {
         }else if(title === ""){
             handleClickOpen();
             setDialog("Please enter a title");
+        }else if(userId === ""){
+            handleClickOpen();
+            setDialog("Please login to create post");
         }
         else {
             dispatch(postAPost(newPost));

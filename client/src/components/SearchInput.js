@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import { Grid } from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
 import SearchIcon from '@material-ui/icons/Search';
+import { withRouter } from 'react-router-dom';
 
-
-const SearchInput = () => {
+const SearchInput = ({history}) => {
     const [query, setQuery] = useState("");
 
     const handleChange = (event) => {
@@ -14,6 +14,7 @@ const SearchInput = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        history.push(`/q?=${query}`);
     }
 
 
@@ -48,4 +49,4 @@ const StyledTextField = styled.input`
 `;
 
 
-export default SearchInput;
+export default withRouter(SearchInput);

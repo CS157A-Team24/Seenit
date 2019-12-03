@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {useSelector} from 'react-redux';
 import { Grid, Avatar } from '@material-ui/core';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
-import jwtDecode from 'jwt-decode';
-import {join} from '../utils/api';
-import { ACCESS_TOKEN } from '../constants';
+
+import {join, unjoin} from '../utils/api';
+import { USER_ID } from '../constants';
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -13,9 +14,19 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+
 const DetailContainer = ({channelDetails}) => {
     const [open, setOpen] = useState(false);
+    const [joinText, setJoinText] = useState("JOIN")
+    const channelStore = useSelector(state => state.channel.channels);
 
+    useEffect(() => {
+        if(channelStore){
+            if(channelStore.findIndex(value => value.id === channelDetails.channel.id) !== -1)
+                setJoinText("JOINED")
+        }
+    }, [channelStore]);
+    
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -25,12 +36,16 @@ const DetailContainer = ({channelDetails}) => {
     };
 
     const handleJoin = () =>{
-        if(localStorage.getItem(ACCESS_TOKEN)){
+        if(localStorage.getItem(USER_ID)){
             const body = {
                 channelId: channelDetails.channel.id,
-                userId: jwtDecode(localStorage.getItem(ACCESS_TOKEN)).jti
+                userId: localStorage.getItem(USER_ID)
             }
-            join(body);
+            if(joinText === "JOIN")
+                join(body).then(response => {setJoinText("JOINED")});
+            else{
+                unjoin(body).then(response => {setJoinText("JOIN")});
+            }
         }else{
             handleClickOpen();
         }
@@ -47,7 +62,7 @@ const DetailContainer = ({channelDetails}) => {
             <p>{channelDetails.numberOfMembers}</p>
             <SmallText>Members</SmallText>
             <p>Welcome to {channelDetails.channel.name}</p>
-            <CustomButton onClick={handleJoin}> <ButtonText>JOIN</ButtonText> </CustomButton>
+            <CustomButton onClick={handleJoin}> <ButtonText>{joinText}</ButtonText> </CustomButton>
             <Dialog
                     open={open}
                     onClose={handleClose}
@@ -70,7 +85,7 @@ const DetailContainer = ({channelDetails}) => {
                     state:{channelId: channelDetails.channel.id,
                             channelName:channelDetails.channel.name }}} 
                     style={{ textDecoration: 'none', width: '100%' }}>
-                <CustomButton> <ButtonText>CREATE POST</ButtonText> </CustomButton>
+            <CustomButton> <ButtonText>CREATE POST</ButtonText> </CustomButton>
             </Link>
         </Container>
     )

@@ -6,6 +6,9 @@ import styled from 'styled-components';
 import { requestPosts } from '../actions/Post';
 import { requestTop5Channels } from '../actions/Channel';
 
+import jwtDecode from 'jwt-decode';
+import { ACCESS_TOKEN, USER_ID } from '../constants';
+
 import PostList from '../components/PostList';
 import HomeContainers from '../components/HomeContainers';
 import SortBar from '../components/SortBar';
@@ -21,6 +24,9 @@ const Home = ({ requestPosts, requestTop5Channels }) => {
 	useEffect(() => {
 		requestPosts();
 		requestTop5Channels();
+		if(localStorage.getItem(ACCESS_TOKEN)){
+			localStorage.setItem(USER_ID,jwtDecode(localStorage.getItem(ACCESS_TOKEN)).id);
+		}
 	}, [requestPosts, requestTop5Channels]);
 
 	return (
