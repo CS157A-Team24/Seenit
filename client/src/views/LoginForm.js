@@ -38,7 +38,7 @@ class LoginForm extends Component {
   render() {
       const { getFieldDecorator } = this.props.form;
       return (
-          <Form1 onSubmit={this.handleSubmit} className="login-form">
+          <Form onSubmit={this.handleSubmit} className="login-form">
               <FormItem>
                   {getFieldDecorator('usernameOrEmail', {
                       rules: [{ required: true, message: 'Please input your username or email!' }],
@@ -67,15 +67,9 @@ class LoginForm extends Component {
                   <Button type="primary" htmlType="submit" size="large" className="login-form-button">Login</Button>
                   Don't have an account yet? <Link to="/register">Sign up!</Link>
               </FormItem>
-          </Form1>
+          </Form>
       );
   }
 }
-
-const Form1 = styled.div`
-    border: 3px solid #faf7f8;
-    width: 90%;
-    height: 70%;
-`;
 
 export default withRouter(LoginForm)
