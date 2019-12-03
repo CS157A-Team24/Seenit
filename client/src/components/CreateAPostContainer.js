@@ -1,29 +1,48 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Grid } from '@material-ui/core';
+import { Grid, TextField } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
-
+import jwtDecode from 'jwt-decode';
+import { ACCESS_TOKEN } from '../constants';
 import { postAPost } from '../actions/Post';
 
-const CAPContainer = ({channelId}) => {
-    
+
+
+const CAPContainer = ({ state }) => {
+
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+    const [channel, setChannel] = useState(state.channelId);
+    const [channels, setChannels] = useState([
+        {
+            value: 'none',
+            label: 'None',
+        },
+        {
+            value: `${state.channelId}`,
+            label: `${state.channelName}`
+        },
+    ]);
+
+    const handleChange = event => {
+        console.log(test);
+        setChannel(event.target.value);
+    };
+
     const dispatch = useDispatch();
 
     let handleSubmit = (event) => {
         const newPost = {
             title: title,
             content: content,
-            channelId: channelId,
-            "userId": "6"
+            channelId: channel,
+            userId: jwtDecode(localStorage.getItem(ACCESS_TOKEN)).jti
         }
         dispatch(postAPost(newPost));
         event.preventDefault();
     }
 
     let handleTitleChange = (event) => {
-        console.log(channelId);
         setTitle(event.target.value);
     }
 
@@ -35,6 +54,26 @@ const CAPContainer = ({channelId}) => {
     return (
         <form onSubmit={handleSubmit}>
             <TitleBox>Create a post</TitleBox>
+            <MiddleContainer container justify="flex-start" alignItems="center">
+                Choose a channel
+                <TextFieldBox>
+                    <TextField
+                        id="outlined-select-currency-native"
+                        select
+                        value={channel}
+                        onChange={handleChange}
+                        SelectProps={{
+                            native: true,
+                        }}
+                    >
+                        {channels.map(channel => (
+                            <option key={channel.value} value={channel.value}>
+                                {channel.label}
+                            </option>
+                        ))}
+                    </TextField>
+                </TextFieldBox>
+            </MiddleContainer>
             <Container>
                 <TitleInput placeholder="Title" onChange={handleTitleChange} />
                 <StyledTextField placeholder="Write here!" onChange={handleContentChange} />
@@ -45,7 +84,19 @@ const CAPContainer = ({channelId}) => {
         </form>
     )
 }
+const MiddleContainer = styled(Grid)`
+    margin-top: 2%;
+    padding-left: 2%;
+    color: ${props => props.theme.normalText};
+    background-color: ${props => props.theme.foreground};
+    border: 1px solid ${props => props.theme.border};
+    border-radius: 4px;
+`;
 
+
+const TextFieldBox = styled.div`
+    margin-left: 2%;
+`;
 const Container = styled.div`
     display: flex;
     align-items: center;
