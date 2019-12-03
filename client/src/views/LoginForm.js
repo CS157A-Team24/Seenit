@@ -37,15 +37,16 @@ class LoginForm extends Component {
   render() {
       const { getFieldDecorator } = this.props.form;
       return (
-          <Form onSubmit={this.handleSubmit} className="login-form">
+          <Form1 onSubmit={this.handleSubmit} className="login-form">
               <FormItem>
                   {getFieldDecorator('usernameOrEmail', {
                       rules: [{ required: true, message: 'Please input your username or email!' }],
                   })(
                   <Input 
-                      prefix={<Icon type="user" />}
+                      //prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                       size="large"
                       name="usernameOrEmail" 
+                      prefix={<Icon type="user" />}
                       placeholder="Username or Email" />    
                   )}
               </FormItem>
@@ -65,8 +66,15 @@ class LoginForm extends Component {
                   <Button type="primary" htmlType="submit" size="large" className="login-form-button">Login</Button>
                   Don't have an account yet? <Link to="/register">Sign up!</Link>
               </FormItem>
-          </Form>
+          </Form1>
       );
   }
 }
+
+const Form1 = styled.div`
+    border: 3px solid #faf7f8;
+    width: 90%;
+    height: 70%;
+`;
+
 export default withRouter(LoginForm)
