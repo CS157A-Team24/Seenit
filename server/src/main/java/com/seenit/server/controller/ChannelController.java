@@ -81,6 +81,16 @@ public class ChannelController{
         return  channel;
     }
 
+    @PostMapping("/unjoin")
+    public Channel userLeaveChannel(@Valid @RequestBody UserChannelDTO userChannelDTO){
+        Channel channel = channelRepository.findById(userChannelDTO.getChannelId()).get();
+        Set<User> subscribers = channel.getSubscribers();
+        subscribers.remove(userRepository.findById(userChannelDTO.getUserId()).get());
+        channel.setSubscribers(subscribers);
+        channelRepository.save(channel);
+        return  channel;
+    }
+
     @DeleteMapping("/channels/{id}")
     public Map<String, Boolean> deleteChannel(
             @PathVariable(value = "id") String channelId) throws Exception {
