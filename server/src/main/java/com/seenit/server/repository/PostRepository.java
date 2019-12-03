@@ -36,4 +36,9 @@ public interface PostRepository extends JpaRepository<Post,String>{
     List<Post> findByChannelId(String id);
 
     List<Post> findByCreatedBy_PointsLessThan(int points);
+
+    @Query("SELECT p, ch, ca.points, ca.user " + 
+        "FROM Post p JOIN p.createdBy ca JOIN p.channel ch " +
+        "WHERE p.title LIKE %?1% OR p.content LIKE %?1%")
+    List<Object[]> findBySearch(String search);
 }
