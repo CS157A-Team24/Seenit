@@ -51,7 +51,9 @@ class Register extends Component {
             window.alert("Successfully registered. Login to continue.")      
             this.props.history.push("/login");
         }).catch(error => {
-            window.alert('Register failed. Please fill all the fields!') 
+            if(error){
+                window.alert('Register failed. Please fill all the fields!') 
+            }
         });
     }
 
