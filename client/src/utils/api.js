@@ -56,6 +56,10 @@ async function post(endpoint, body, token = null) {
     return json;
 };
 
+export async function join(body){
+    return await post(`api/join`, body);
+}
+
 export async function login(loginRequest){
     return await post(`api/auth/signin`, loginRequest);
 }
