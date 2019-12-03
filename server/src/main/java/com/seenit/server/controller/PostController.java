@@ -144,4 +144,12 @@ public class PostController{
         response.put("deleted", Boolean.TRUE);
         return response;
     }
+
+    @GetMapping("/posts/search/{str}")
+    public List<PostDTO> searchPost(@PathVariable(value = "str") String str){
+        List<Object[]> collections = postRepository.findBySearch(str);
+        List<PostDTO> postList = collections.stream().map(collection -> toPostDTO(collection)).
+                collect(Collectors.toList());
+        return postList;
+    }
 }
