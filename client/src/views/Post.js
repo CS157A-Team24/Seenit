@@ -15,12 +15,13 @@ const Post = ({ match, requestAPost, requestComments }) => {
     const { params: { postId } } = match;
     const post = useSelector(state => state.post);
     const channel = useSelector(state => state.channel);
+    const newComment = useSelector(state => state.comment.newComment);
     const normalizedComments = useSelector(state => state.comment.normalizedComments)
 
     useEffect(() => {
         requestAPost(postId);
         requestComments(postId);
-    }, [requestAPost, requestComments, postId]);
+    }, [requestAPost, requestComments, postId, newComment]);
 
     let renderComment = commentId => {
         return (
@@ -38,7 +39,7 @@ const Post = ({ match, requestAPost, requestComments }) => {
                             <Grid item xs={9}>
                                 <PostCommentContainer>
                                     {post.postDetails != null && <PostContainer postDetails={post.postDetails} />}
-                                    <CommentBox/>
+                                    <CommentBox postDetails={post.postDetails}/>
                                     <CommnentListContainer>
                                         {
                                             normalizedComments != null && (typeof normalizedComments.posts[postId])  !== 'undefined' && normalizedComments.posts[postId].comments.map(
@@ -70,6 +71,7 @@ const CenterContainer = styled.div`
 
 const PostCommentContainer = styled.div`
     background-color: ${props => props.theme.foreground};
+    padding-bottom: 2%;
 `;
 
 const FirstContainer = styled.div`

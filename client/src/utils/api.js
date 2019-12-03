@@ -84,6 +84,10 @@ export async function createAPost(newPost){
     return await post(`api/posts`,newPost);
 }
 
+export async function createAComment(body){
+    return await post(`api/comments`,body);
+}
+
 export async function getPosts(channel,sortby) {
     return await get(`api/posts/${channel}/${sortby}`);
 }

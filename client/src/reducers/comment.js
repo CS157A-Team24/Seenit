@@ -1,20 +1,30 @@
-import{
+import {
     FETCH_COMMENTS_REQUEST,
     FETCH_COMMENTS_SUCCESS,
-    FETCH_COMMENTS_ERROR
+    FETCH_COMMENTS_ERROR,
+    CREATE_COMMENT_REQUEST,
+    CREATE_COMMENT_SUCCESS,
+    CREATE_COMMENT_ERROR
 } from '../constants/ActionTypes';
 
-const intialState = { normalizedComments: null };
+const intialState = { isCreating: false, normalizedComments: null, newComment : null };
 
 export default (state = intialState, action) => {
-    switch(action.type){
+    switch (action.type) {
         case FETCH_COMMENTS_REQUEST:
-            return { ...state, isFetching: true};
+            return { ...state, isFetching: true };
         case FETCH_COMMENTS_SUCCESS:
-            return { ...state, isFetching: false, normalizedComments: action.comments};
+            return { ...state, isFetching: false, normalizedComments: action.comments };
         case FETCH_COMMENTS_ERROR:
-            return { ...state, isFetching: false};
+            return { ...state, isFetching: false };
+
+        case CREATE_COMMENT_REQUEST:
+            return { ...state, isCreating: true, newComment: null };
+        case CREATE_COMMENT_SUCCESS:
+            return { ...state, isCreating: false, newComment: action.comment };
+        case CREATE_COMMENT_ERROR:
+            return { ...state, isCreating: false };
         default:
-            return { ...state};
+            return { ...state };
     }
 }

@@ -1,13 +1,84 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import { Grid } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
-const CommentBox = () => {
+import { USER_ID } from '../constants';
+import { postAComment } from '../actions/Comment';
+
+const CommentBox = ({postDetails}) => {
+    const [content, setContent] = useState("");
+    const [dialog, setDialog] = useState("Please login to post a comment");
+    const [open, setOpen] = useState(false);
+    const dispatch = useDispatch();
+
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const userId = localStorage.getItem(USER_ID);
+        const postId = postDetails && postDetails.post.id;
+        if(content === "") {
+            setDialog("Please enter something");
+            handleClickOpen();
+        }else if(userId === null){
+            setDialog("Please login to post a comment");
+            handleClickOpen();
+        }else{
+            const body = {
+                content: content,
+                userId: userId,
+                postId: postId
+            }
+            console.log(body);
+            dispatch(postAComment(body));
+        }
+        
+    }
+
+    
+    const handleChange = (event) => {
+        setContent(event.target.value);
+    }
+
     return (
+        // <form onSubmit={handleSubmit}> 
         <Container>
-            <StyledTextField placeholder="Comment here" />
+            
+            <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{"Message"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {dialog}
+                            </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose} color="primary" autoFocus>
+                            Ok
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            <StyledTextField placeholder="Comment here" onChange={handleChange}/>
             <FooterDiv>
-                <CustomButton><ButtonText>POST COMMENT</ButtonText></CustomButton>
+                <CustomButton onClick={handleSubmit}><ButtonText >POST COMMENT</ButtonText></CustomButton>
             </FooterDiv>
         </Container>
     )

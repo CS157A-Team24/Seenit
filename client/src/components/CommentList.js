@@ -35,7 +35,7 @@ const CommnentList = ({id, childId}) => {
                         <ArrowUpwardTwoTone />
                     </IconButton>
                     <Votes>
-                        {0}
+                        {}
                     </Votes>
                     <IconButton>
                         <ArrowDownwardTwoTone />
