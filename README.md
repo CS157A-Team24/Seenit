@@ -51,7 +51,7 @@ $ npm start or yarn start
 In case the website doesn't automatically pop up, go to http://localhost:3000/
 
 
-**Client side**
+**Server side**
 
 Simply use can use an IDE, import/open the project and hit "run" or if you refer command line:
 ```bash
