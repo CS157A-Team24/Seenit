@@ -13,7 +13,7 @@ body {
 
 .container {
   height: 100%;
-  width: 70%;
+  width: 100%;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -27,8 +27,12 @@ body {
 }
 
 .box{
-  width:50%;
-  height: 55%;
+  width:40%;
+  height: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .center{
@@ -40,6 +44,7 @@ body {
 
 form {
   border: 3px solid #f1f1f1;
+  width: 85%;
 }
 
 /* Full-width inputs */
