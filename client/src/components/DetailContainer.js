@@ -19,7 +19,8 @@ const DetailContainer = ({channelDetails}) => {
             <p>Welcome to {channelDetails.channel.name}</p>
             <CustomButton> <ButtonText>JOIN</ButtonText> </CustomButton>
             <Link to={{pathname:'/create-a-post', 
-                    state:{channelId: channelDetails.channel.id}}} 
+                    state:{channelId: channelDetails.channel.id,
+                            channelName:channelDetails.channel.name }}} 
                     style={{ textDecoration: 'none', width: '100%' }}>
                 <CustomButton> <ButtonText>CREATE POST</ButtonText> </CustomButton>
             </Link>

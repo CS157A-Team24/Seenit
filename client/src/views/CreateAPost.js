@@ -13,14 +13,14 @@ const CenterContainer = styled.div`
 
 
 const CreateAPost = ({location}) => {
-    const channelId = location.state.channelId;
+    // const {channelId, channelName} = location.state;
 	return (
         <div>
             <Grid container direction="row" justify="center">
                 <CenterContainer>
                     <Grid container direction="row" justify="center" alignItems="flex-start" spacing={3} style={{marginBottom: 0}}>
                         <Grid item xs={9}>
-                            <CAPContainer channelId={channelId}/>
+                            <CAPContainer state={location.state}/>
                         </Grid>
                         <Grid item xs={3}>
                             {<CAPSContainers />}
