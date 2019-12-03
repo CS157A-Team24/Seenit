@@ -24,16 +24,10 @@ class LoginForm extends Component {
                   localStorage.setItem(ACCESS_TOKEN, response.accessToken);
                   history.push("/");
               }).catch(error => {
-                  if(error.status === 401) {
-                      notification.error({
-                          message: 'Seenit',
-                          description: 'Your Username or Password is incorrect. Please try again!'
-                      });                    
-                  } else {
-                      notification.error({
-                          message: 'Seenit',
-                          description: error.message || 'Sorry! Something went wrong. Please try again!'
-                      });                                            
+                  if(error){
+                        window.alert("Your Username or Password is incorrect. Please try again!");
+                        localStorage.clear()
+                        window.location.reload()                                         
                   }
               });
           }
