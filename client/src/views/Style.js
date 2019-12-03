@@ -28,7 +28,7 @@ body {
 
 .box{
   width:40%;
-  height: 60%;
+  height: 65%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -44,7 +44,7 @@ body {
 
 form {
   border: 3px solid #f1f1f1;
-  width: 85%;
+  width: 90%;
 }
 
 /* Full-width inputs */
