@@ -22,7 +22,8 @@ const PostList = ({ post }) => {
                 <FooterDiv>
                     <Link to={{
                         pathname: '/create-a-post',
-                        state: { channelId: 1 }
+                        state: { channelId: "none",
+                                channelName: "None" }
                     }}
                         style={{ textDecoration: 'none', width: '80%' }}>
                         <CustomButton><ButtonText>Create Post</ButtonText></CustomButton>
