@@ -4,7 +4,7 @@ import { Grid, Toolbar } from '@material-ui/core';
 import styled from 'styled-components';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { green } from '@material-ui/core/colors';
-import Button from '@material-ui/core/Button';
+import { Button, ButtonGroup } from '@material-ui/core';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
@@ -100,8 +100,10 @@ const Header = () => {
 							{
 								!localStorage.getItem(ACCESS_TOKEN) &&
 								<div>
+									<ButtonGroup>
 									<button className="button is-white" style={{ marginLeft: "5%" }}> <Link to="/login">Log in</Link></button>
 									<button className="button is-white" style={{ marginLeft: "3%" }}> <Link to="/register">Sign up</Link> </button>
+									</ButtonGroup>
 								</div>
 							}
 						</LeftContainer>
