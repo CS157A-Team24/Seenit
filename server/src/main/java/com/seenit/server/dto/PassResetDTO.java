@@ -8,6 +8,9 @@ import javax.validation.constraints.NotNull;
 public class PassResetDTO {
 
     @NotNull
-    final private String password;
+    final private String currentPassword;
+
+    @NotNull
+    final private String newPassword;
 
 }
