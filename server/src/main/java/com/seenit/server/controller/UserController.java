@@ -3,6 +3,7 @@ package com.seenit.server.controller;
 import com.seenit.server.ibprojections.UserIdName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import javax.validation.Valid;
 
 import com.seenit.server.repository.UserRepository;
 import com.seenit.server.model.User;
+import com.seenit.server.dto.PassResetDTO;
 import com.seenit.server.exception.ResourceNotFoundException;
 import com.seenit.server.payload.*;
 
@@ -30,6 +32,9 @@ import com.seenit.server.payload.*;
 public class UserController{
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @GetMapping("/users")
     public List<User> getAllUsers() {
@@ -63,6 +68,18 @@ public class UserController{
           .orElseThrow(() -> new ResourceNotFoundException("User not found on :: "+ userId));
   
         user.setEmail(userDetails.getEmail());
+        final User updatedUser = userRepository.save(user);
+        return ResponseEntity.ok(updatedUser);
+   }
+
+    @PutMapping("/users/resetPassword/{id}")
+    public ResponseEntity<User> resetUserPassword(
+    @PathVariable(value = "id") String userId,
+    @Valid @RequestBody PassResetDTO passwordDTO) throws ResourceNotFoundException {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found on :: "+ userId));
+  
+        user.setPassword(passwordEncoder.encode(passwordDTO.getPassword()));
         final User updatedUser = userRepository.save(user);
         return ResponseEntity.ok(updatedUser);
    }
