@@ -24,6 +24,9 @@ public interface PostRepository extends JpaRepository<Post,String>{
     @Query("SELECT p, ch, ca.points, ca.user FROM Post p JOIN p.createdBy ca JOIN p.channel ch")
     List<Object[]> findAllObject();
 
+    @Query("SELECT p, ch, ca.points, ca.user FROM Post p JOIN p.createdBy ca JOIN p.channel ch WHERE ca.user.id = ?1")
+    List<Object[]> findAllObjectByUserId(String userId);
+
     @Query("SELECT p, ch, ca.points, ca.user FROM Post p JOIN p.createdBy ca JOIN p.channel ch")
     Page<Object[]> findAllObjectSort(Pageable pageable);
 
