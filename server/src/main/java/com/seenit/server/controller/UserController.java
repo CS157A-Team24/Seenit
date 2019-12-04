@@ -78,8 +78,12 @@ public class UserController{
     @Valid @RequestBody PassResetDTO passwordDTO) throws ResourceNotFoundException {
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new ResourceNotFoundException("User not found on :: "+ userId));
-  
-        user.setPassword(passwordEncoder.encode(passwordDTO.getPassword()));
+        boolean result = passwordEncoder.matches(passwordDTO.getCurrentPassword(), user.getPassword());
+        if (!result) {
+            throw new ResourceNotFoundException("User given current Password does not match database password");
+        }
+
+        user.setPassword(passwordEncoder.encode(passwordDTO.getNewPassword()));
         final User updatedUser = userRepository.save(user);
         return ResponseEntity.ok(updatedUser);
    }
