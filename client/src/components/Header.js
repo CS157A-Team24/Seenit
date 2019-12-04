@@ -86,7 +86,7 @@ const Header = () => {
 												<Paper>
 													<ClickAwayListener onClickAway={handleClose}>
 														<MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-															<MenuItem onClick={handleClose}>My profile</MenuItem>
+															<Link to="/user/viet" style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose}>My profile</MenuItem></Link>
 															<MenuItem onClick={handleClose}>My account</MenuItem>
 															<MenuItem onClick={handleLogout}>Logout</MenuItem>
 														</MenuList>
@@ -99,10 +99,10 @@ const Header = () => {
 							}
 							{
 								!localStorage.getItem(ACCESS_TOKEN) &&
-								<div>
+								<Grid container justify="flex-start" alignItems="center">
 									<button className="button is-white" style={{ marginLeft: "5%" }}> <Link to="/login">Log in</Link></button>
 									<button className="button is-white" style={{ marginLeft: "3%" }}> <Link to="/register">Sign up</Link> </button>
-								</div>
+								</Grid>
 							}
 						</LeftContainer>
 

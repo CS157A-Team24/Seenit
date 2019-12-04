@@ -92,6 +92,10 @@ export async function getPosts(channel,sortby) {
     return await get(`api/posts/${channel}/${sortby}`);
 }
 
+export async function getPostsByUserId(userId) {
+    return await get(`api/posts/user/${userId}`);
+}
+
 export async function getSearchedPosts(queryTerm) {
     return await get(`api/posts/search/${queryTerm}`);
 }

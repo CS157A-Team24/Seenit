@@ -15,7 +15,8 @@ import {
     getSortedPosts,
     getAPost,
     createAPost,
-    getSearchedPosts
+    getSearchedPosts,
+    getPostsByUserId
 } from '../utils/api';
 
 import {
@@ -44,6 +45,16 @@ export const requestPosts = (channel = '', sortby='', search='') => async dispat
             dispatch(fetchPostsSuccess(posts));
         }
 
+    } catch (error) {
+        dispatch(fetchPostsError(error));
+    }
+};
+
+export const requestPostsByUserId = (userId) => async dispatch => {
+    dispatch(fetchPostsRequest);
+    try {
+        const posts = await getPostsByUserId(userId);
+        dispatch(fetchPostsSuccess(posts));
     } catch (error) {
         dispatch(fetchPostsError(error));
     }
