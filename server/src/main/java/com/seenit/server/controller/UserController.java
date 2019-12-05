@@ -17,10 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.validation.Valid;
 
+import com.seenit.server.repository.PostRepository;
 import com.seenit.server.repository.UserRepository;
+import com.seenit.server.model.Post;
 import com.seenit.server.model.User;
 import com.seenit.server.dto.PassResetDTO;
 import com.seenit.server.exception.ResourceNotFoundException;
@@ -35,6 +38,9 @@ public class UserController{
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private PostRepository postRepository;
 
     @GetMapping("/users")
     public List<User> getAllUsers() {
@@ -110,6 +116,30 @@ public class UserController{
     public UserIdentityAvailability checkEmailAvailability(@RequestParam(value = "email") String email) {
         Boolean isAvailable = !userRepository.existsByEmail(email);
         return new UserIdentityAvailability(isAvailable);
+    }
+
+    @PostMapping("/save/{userid}/{postid}")
+    public ResponseEntity<User> savePost(
+    @PathVariable(value = "userid") String userId, @PathVariable(value = "postid") String postId) throws ResourceNotFoundException {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found on :: "+ userId));
+        Set<Post> savedPosts = user.getSavedPosts();
+        savedPosts.add(postRepository.findById(postId).get());
+        user.setSavedPosts(savedPosts);
+        userRepository.save(user);
+        return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/unsave/{userid}/{postid}")
+    public ResponseEntity<User> unsavePost(
+    @PathVariable(value = "userid") String userId, @PathVariable(value = "postid") String postId) throws ResourceNotFoundException {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found on :: "+ userId));
+        Set<Post> savedPosts = user.getSavedPosts();
+        savedPosts.remove(postRepository.findById(postId).get());
+        user.setSavedPosts(savedPosts);
+        userRepository.save(user);
+        return ResponseEntity.ok(user);
     }
 
 }
