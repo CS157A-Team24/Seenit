@@ -42,6 +42,11 @@ const Header = () => {
 		localStorage.removeItem(ACCESS_TOKEN);
 		localStorage.removeItem(USER_ID);
 	}
+	
+	const handleHome = (event) => {
+		handleClose(event);
+		localStorage.getItem(ACCESS_TOKEN);
+	}
 	// if (localStorage.getItem(ACCESS_TOKEN)) {
 	// 	setUser(jwtDecode(localStorage.getItem(ACCESS_TOKEN)));
 	// }
@@ -86,6 +91,7 @@ const Header = () => {
 												<Paper>
 													<ClickAwayListener onClickAway={handleClose}>
 														<MenuList id="menu-list-grow" onKeyDown={handleListKeyDown}>
+															<MenuItem onClick={handleHome}><Link to="/">Home</Link></MenuItem>
 															<Link to="/user/viet" style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose}>My profile</MenuItem></Link>
 															<MenuItem onClick={handleClose}>My account</MenuItem>
 															<MenuItem onClick={handleLogout}>Logout</MenuItem>
