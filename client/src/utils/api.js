@@ -125,6 +125,15 @@ export async function getCommentsby(postId){
     return normalizedData.entities;
 }
 
+export async function getCommentsByUserId(userId) {
+    return await get(`api/comments/user/${userId}`);
+}
+
+
+export async function getUserDetails(userId){
+    return await get(`api/users/${userId}`);
+}
+
 const user = new schema.Entity("users");
 
 const createdBy = new schema.Entity("createdBys", {

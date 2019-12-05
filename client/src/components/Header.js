@@ -85,7 +85,7 @@ const Header = () => {
 											>
 												<Paper>
 													<ClickAwayListener onClickAway={handleClose}>
-														<MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+														<MenuList id="menu-list-grow" onKeyDown={handleListKeyDown}>
 															<Link to="/user/viet" style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose}>My profile</MenuItem></Link>
 															<MenuItem onClick={handleClose}>My account</MenuItem>
 															<MenuItem onClick={handleLogout}>Logout</MenuItem>

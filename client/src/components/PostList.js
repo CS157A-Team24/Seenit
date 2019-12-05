@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { CircularProgress } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 import PostContainer from './PostContainer';
 
@@ -33,9 +33,7 @@ const PostList = ({ post }) => {
             {
                 !post.isFetching && post.posts.length > 0 &&
                 post.posts.map(content => (
-                    <Link to={`/post/${content.post.id}`} key={content.post.id} style={{ textDecoration: 'none' }}>
-                        <PostContainer postDetails={content} />
-                    </Link>
+                        <PostContainer key={content.post.id} postDetails={content} />
                 ))
             }
         </div>
