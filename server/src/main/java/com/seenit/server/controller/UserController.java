@@ -21,10 +21,16 @@ import java.util.Set;
 
 import javax.validation.Valid;
 
+import com.seenit.server.repository.CommentRepository;
 import com.seenit.server.repository.PostRepository;
 import com.seenit.server.repository.UserRepository;
+import com.seenit.server.model.Comment;
+import com.seenit.server.model.CreateCom;
+import com.seenit.server.model.CreatePost;
 import com.seenit.server.model.Post;
 import com.seenit.server.model.User;
+import com.seenit.server.model.VoteCom;
+import com.seenit.server.model.VotePost;
 import com.seenit.server.dto.PassResetDTO;
 import com.seenit.server.exception.ResourceNotFoundException;
 import com.seenit.server.payload.*;
@@ -41,6 +47,9 @@ public class UserController{
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     @GetMapping("/users")
     public List<User> getAllUsers() {
@@ -138,6 +147,166 @@ public class UserController{
         Set<Post> savedPosts = user.getSavedPosts();
         savedPosts.remove(postRepository.findById(postId).get());
         user.setSavedPosts(savedPosts);
+        userRepository.save(user);
+        return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/upvotePost/{userid}/{postid}")
+    public ResponseEntity<User> upvotePost(
+    @PathVariable(value = "userid") String userId, @PathVariable(value = "postid") String postId) throws ResourceNotFoundException {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found on :: "+ userId));
+        Post post = postRepository.findById(postId)
+            .orElseThrow(() -> new ResourceNotFoundException("Post not found on :: " + postId));
+        Set<VotePost> votePosts = user.getVotedPosts();
+        VotePost newVote = new VotePost();
+        newVote.setUserVote(user);
+        newVote.setPostVote(post);;
+        newVote.setIsUp(1);
+        CreatePost createPost= post.getCreatedBy();
+        createPost.setPoints(createPost.getPoints() + 1);
+        votePosts.add(newVote);
+        user.setVotedPosts(votePosts);
+        userRepository.save(user);
+        return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/downvotePost/{userid}/{postid}")
+    public ResponseEntity<User> downvotePost(
+    @PathVariable(value = "userid") String userId, @PathVariable(value = "postid") String postId) throws ResourceNotFoundException {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found on :: "+ userId));
+        Post post = postRepository.findById(postId)
+            .orElseThrow(() -> new ResourceNotFoundException("Post not found on :: " + postId));
+        Set<VotePost> votePosts = user.getVotedPosts();
+        VotePost newVote = new VotePost();
+        newVote.setUserVote(user);
+        newVote.setPostVote(post);;
+        newVote.setIsUp(0);
+        CreatePost createPost= post.getCreatedBy();
+        createPost.setPoints(createPost.getPoints() - 1);
+        votePosts.add(newVote);
+        user.setVotedPosts(votePosts);
+        userRepository.save(user);
+        return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/undoUpvotePost/{userid}/{postid}")
+    public ResponseEntity<User> undoUpvotePost(
+    @PathVariable(value = "userid") String userId, @PathVariable(value = "postid") String postId) throws ResourceNotFoundException {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found on :: "+ userId));
+        Post post = postRepository.findById(postId)
+            .orElseThrow(() -> new ResourceNotFoundException("Post not found on :: " + postId));
+        Set<VotePost> votePosts = user.getVotedPosts();
+        VotePost newVote = new VotePost();
+        newVote.setUserVote(user);
+        newVote.setPostVote(post);;
+        newVote.setIsUp(1);
+        votePosts.remove(newVote);
+        CreatePost createPost= post.getCreatedBy();
+        createPost.setPoints(createPost.getPoints() - 1);
+        user.setVotedPosts(votePosts);
+        userRepository.save(user);
+        return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/undoDownvotePost/{userid}/{postid}")
+    public ResponseEntity<User> undoDownvotePost(
+    @PathVariable(value = "userid") String userId, @PathVariable(value = "postid") String postId) throws ResourceNotFoundException {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found on :: "+ userId));
+        Post post = postRepository.findById(postId)
+            .orElseThrow(() -> new ResourceNotFoundException("Post not found on :: " + postId));
+        Set<VotePost> votePosts = user.getVotedPosts();
+        VotePost newVote = new VotePost();
+        newVote.setUserVote(user);
+        newVote.setPostVote(post);;
+        newVote.setIsUp(0);
+        votePosts.remove(newVote);
+        CreatePost createPost= post.getCreatedBy();
+        createPost.setPoints(createPost.getPoints() + 1);
+        user.setVotedPosts(votePosts);
+        userRepository.save(user);
+        return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/upvoteCom/{userid}/{comid}")
+    public ResponseEntity<User> upvoteCom(
+    @PathVariable(value = "userid") String userId, @PathVariable(value = "comid") String comId) throws ResourceNotFoundException {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found on :: "+ userId));
+        Comment com = commentRepository.findById(comId)
+            .orElseThrow(() -> new ResourceNotFoundException("Comment not found on :: " + comId));
+        Set<VoteCom> voteComs = user.getVotedComments();
+        VoteCom newVote = new VoteCom();
+        newVote.setUserVoteCom(user);
+        newVote.setCommentVote(com);
+        newVote.setIsUp(1);
+        CreateCom createCom= com.getCreatedBy();
+        createCom.setPoints(createCom.getPoints() + 1);
+        voteComs.add(newVote);
+        user.setVotedComments(voteComs);
+        userRepository.save(user);
+        return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/downvoteCom/{userid}/{comid}")
+    public ResponseEntity<User> downvoteCom(
+    @PathVariable(value = "userid") String userId, @PathVariable(value = "comid") String comId) throws ResourceNotFoundException {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found on :: "+ userId));
+        Comment com = commentRepository.findById(comId)
+            .orElseThrow(() -> new ResourceNotFoundException("Comment not found on :: " + comId));
+        Set<VoteCom> voteComs = user.getVotedComments();
+        VoteCom newVote = new VoteCom();
+        newVote.setUserVoteCom(user);
+        newVote.setCommentVote(com);
+        newVote.setIsUp(0);
+        CreateCom createCom= com.getCreatedBy();
+        createCom.setPoints(createCom.getPoints() - 1);
+        voteComs.add(newVote);
+        user.setVotedComments(voteComs);
+        userRepository.save(user);
+        return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/undoUpvoteCom/{userid}/{comid}")
+    public ResponseEntity<User> undoUpvoteCom(
+    @PathVariable(value = "userid") String userId, @PathVariable(value = "comid") String comId) throws ResourceNotFoundException {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found on :: "+ userId));
+        Comment com = commentRepository.findById(comId)
+            .orElseThrow(() -> new ResourceNotFoundException("Comment not found on :: " + comId));
+        Set<VoteCom> voteComs = user.getVotedComments();
+        VoteCom newVote = new VoteCom();
+        newVote.setUserVoteCom(user);
+        newVote.setCommentVote(com);
+        newVote.setIsUp(1);
+        voteComs.remove(newVote);
+        CreateCom createCom= com.getCreatedBy();
+        createCom.setPoints(createCom.getPoints() - 1);
+        user.setVotedComments(voteComs);
+        userRepository.save(user);
+        return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/undoDownvoteCom/{userid}/{comid}")
+    public ResponseEntity<User> undoDownvoteCom(
+    @PathVariable(value = "userid") String userId, @PathVariable(value = "comid") String comId) throws ResourceNotFoundException {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found on :: "+ userId));
+        Comment com = commentRepository.findById(comId)
+            .orElseThrow(() -> new ResourceNotFoundException("Comment not found on :: " + comId));
+        Set<VoteCom> voteComs = user.getVotedComments();
+        VoteCom newVote = new VoteCom();
+        newVote.setUserVoteCom(user);
+        newVote.setCommentVote(com);
+        newVote.setIsUp(0);
+        voteComs.remove(newVote);
+        CreateCom createCom= com.getCreatedBy();
+        createCom.setPoints(createCom.getPoints() + 1);
+        user.setVotedComments(voteComs);
         userRepository.save(user);
         return ResponseEntity.ok(user);
     }
