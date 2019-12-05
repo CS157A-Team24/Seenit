@@ -15,7 +15,8 @@ let Routes = () => (
 		<Route exact path="/channel/:channelId" component={Channel} />
 		<Route exact path="/post/:postId" component={Post} />
 		<Route exact path="/register" component={Register} />
-       	<Route exact path="/login" component={Login} />
+       		<Route exact path="/login" component={Login} />
+		<Route exact path="/setting" component={Setting} />
 		<Route exact path="/create-a-post" component={CreateAPost} />
 		<Route exact path="/user/:userName" component={UserProfile} />
 		<Route component={PageNotFound}/>
