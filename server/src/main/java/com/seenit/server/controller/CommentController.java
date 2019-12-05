@@ -8,6 +8,7 @@ import com.seenit.server.compositeKey.UserComKey;
 import com.seenit.server.dto.CommentPostDTO;
 import com.seenit.server.dto.CommentUserPostDTO;
 import com.seenit.server.ibprojections.CommentDetails;
+import com.seenit.server.ibprojections.CommentLess;
 import com.seenit.server.model.Comment;
 import com.seenit.server.model.CreateCom;
 import com.seenit.server.model.Post;
@@ -31,6 +32,11 @@ public class CommentController{
     @GetMapping("/comments")
     public List<CommentDetails> getAllComments(){
         return commentRepository.findAllCustom();
+    }
+
+    @GetMapping("/comments/user/{userId}")
+    public List<CommentLess> getAllCommentsByUserId(@PathVariable(value = "userId") String userId){
+        return commentRepository.findAllByCreatedByUserComId(userId);
     }
 
     @GetMapping("/comments/test/{postId}")

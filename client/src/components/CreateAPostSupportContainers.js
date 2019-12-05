@@ -1,22 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
-
 import FooterContainer from './FooterContainer';
 
 const CAPSContainers = () => {
     return(
         <div>
             <RuleContainer>
-                <Style1>
-                Guidelines for posting   
-                </Style1>   
-                <Style2>       
+                <h1 style={{ color: 'orange', fontSize: 18 }}>Guidelines for Posting</h1>
+                <Style>       
                 <p>1. Remeber the human</p>
                 <p>2. Behave like you would in real life</p>
                 <p>3. Look for the original source of content</p> 
                 <p>4. Search for duplicates before posting</p>
                 <p>5. Read the community's rules</p>
-                </Style2> 
+                </Style> 
             </RuleContainer>
             <FooterContainer/>
         </div>
@@ -30,17 +27,9 @@ const RuleContainer = styled.div`
     margin-top: 20px;
     height: 250px;
     color: ${props => props.theme.normalText};
-    //color: #c9c5c5;
-    color: #bab5b5;
-`;
+`;  
 
-const Style1 = styled.div`
-    color: ${props => props.theme.normalText}; 
-    color: #c46c31; 
-    font-size: 18px;
-`;   
-
-const Style2 = styled.div`
+const Style = styled.div`
     border-top: 3px solid ${props => props.theme.border};
     margin-top: 10px;
     height: 210px;

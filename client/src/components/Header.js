@@ -42,6 +42,11 @@ const Header = () => {
 		localStorage.removeItem(ACCESS_TOKEN);
 		localStorage.removeItem(USER_ID);
 	}
+	
+	const handleHome = (event) => {
+		handleClose(event);
+		localStorage.getItem(ACCESS_TOKEN);
+	}
 	// if (localStorage.getItem(ACCESS_TOKEN)) {
 	// 	setUser(jwtDecode(localStorage.getItem(ACCESS_TOKEN)));
 	// }
@@ -85,9 +90,11 @@ const Header = () => {
 											>
 												<Paper>
 													<ClickAwayListener onClickAway={handleClose}>
-														<MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-															<MenuItem onClick={handleClose}>My profile</MenuItem>
+														<MenuList id="menu-list-grow" onKeyDown={handleListKeyDown}>
+															<MenuItem onClick={handleHome}><Link to="/">Home</Link></MenuItem>
+															<Link to="/user/viet" style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose}>My profile</MenuItem></Link>
 															<MenuItem onClick={handleClose}>My account</MenuItem>
+															<MenuItem onClick={handleClose}><Link to="/setting">Setting</Link></MenuItem>
 															<MenuItem onClick={handleLogout}>Logout</MenuItem>
 														</MenuList>
 													</ClickAwayListener>
@@ -99,7 +106,7 @@ const Header = () => {
 							}
 							{
 								!localStorage.getItem(ACCESS_TOKEN) &&
-								<div>
+							  <div>
 									<ButtonGroup>
 									<button className="button is-white" style={{ marginLeft: "5%" }}> <Link to="/login">Log in</Link></button>
 									<button className="button is-white" style={{ marginLeft: "3%" }}> <Link to="/register">Sign up</Link> </button>
