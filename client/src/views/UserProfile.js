@@ -39,11 +39,13 @@ function a11yProps(index) {
 
 const UserProfile = () => {
     const [value, setValue] = React.useState(0);
+    const savedPosts = useSelector(state => state.post.savedPosts);
+    const userId = localStorage.getItem(USER_ID);
     const dispatch = useDispatch();
 
     React.useEffect(() => {
-        dispatch(requestPostsByUserId(localStorage.getItem(USER_ID)));
-        dispatch(requestCommentsByUserId(localStorage.getItem(USER_ID)));
+        dispatch(requestPostsByUserId(userId));
+        dispatch(requestCommentsByUserId(userId));
     }, [dispatch]);
 
     const handleChange = (event, newValue) => {
@@ -72,14 +74,14 @@ const UserProfile = () => {
                             <CommentList/>
                         </TabPanel>
                         <TabPanel value={value} index={2}>
-                            Item Three
-                            </TabPanel>
+                            <PostList posts={savedPosts}/>
+                        </TabPanel>
                         <TabPanel value={value} index={3}>
                             Item Four
-                            </TabPanel>
+                        </TabPanel>
                         <TabPanel value={value} index={4}>
                             Item Five
-                            </TabPanel>
+                        </TabPanel>
                     </Grid>
                     <Grid item xs={3} style={{ marginTop: "2.4%" }}>
                         <RightContainer />

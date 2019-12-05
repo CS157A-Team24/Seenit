@@ -84,6 +84,14 @@ export async function createAPost(newPost){
     return await post(`api/posts`,newPost);
 }
 
+export async function saveAPost(body){
+    return await post(`api/posts/save`,body);
+}
+
+export async function unsaveAPost(body){
+    return await post(`api/posts/unsave`,body);
+}
+
 export async function createAComment(body){
     return await post(`api/comments`,body);
 }
@@ -94,6 +102,10 @@ export async function getPosts(channel,sortby) {
 
 export async function getPostsByUserId(userId) {
     return await get(`api/posts/user/${userId}`);
+}
+
+export async function getSavedPostsByUserId(userId) {
+    return await get(`api/posts/usersaved/${userId}`);
 }
 
 export async function getSearchedPosts(queryTerm) {

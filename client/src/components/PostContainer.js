@@ -1,8 +1,13 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { red } from '@material-ui/core/colors';
+import { useSelector, useDispatch } from 'react-redux';
+// import { makeStyles } from '@material-ui/core/styles';
 import { Grid, IconButton, Avatar, CardActions, CardHeader, CardContent } from '@material-ui/core';
-
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle'
 import CommentIcon from '@material-ui/icons/Comment';
 import ShareIcon from '@material-ui/icons/Share';
 
@@ -12,23 +17,79 @@ import { ArrowUp } from 'styled-icons/icomoon/ArrowUp';
 import { ArrowDown } from 'styled-icons/icomoon/ArrowDown';
 import { Link } from 'react-router-dom';
 
-
+import { USER_ID } from '../constants';
 import { calTime } from '../utils/helper';
+import { saveAPost, unsaveAPost } from '../utils/api';
+import { updateSavedPosts } from '../actions/Post';
 
 
 
 const PostContainer = ({ postDetails }) => {
-	const classes = useStyles();
 	const time = calTime(postDetails.post.createdAt);
-
+	const uId = localStorage.getItem(USER_ID);
 	const postedBy = `Posted by ${postDetails.userName} · ${time} `;
+	const savedPosts = useSelector(state => state.post.savedPosts);
+	const posts = useSelector(state => state.post.posts);
+    const [open, setOpen] = React.useState(false);
+	const [isSaved, setIsSave] = React.useState(false);
+	const dispatch = useDispatch();
 
+	React.useEffect(()=>{
+		if(savedPosts && savedPosts.findIndex(content => content.post.id === postDetails.post.id) !== -1){
+			setIsSave(true);
+		}
+	},[])
+
+	const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+	};
+	
 	const handleSave = () => {
-		console.log("Saved");
+		if(uId){
+			const body = {
+				userId: uId,
+				postId: postDetails.post.id
+			}
+			if(isSaved){
+				unsaveAPost(body);
+				const newSavedPost = [savedPosts.filter(content=>content.post.id !== postDetails.post.id)]
+				dispatch(updateSavedPosts(newSavedPost));
+			}else{
+				saveAPost(body);
+				const newSavedPost = [...savedPosts,posts.find(content=>content.post.id === postDetails.post.id)]
+				dispatch(updateSavedPosts(newSavedPost));
+			}
+			setIsSave(!isSaved);
+
+		}else{
+			handleClickOpen();
+		}
 	}
 
 	return (
 		<Container key={postDetails.post.id}>
+			<Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{"Message"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            You need to login to save a post
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose} color="primary" autoFocus>
+                            Ok
+                        </Button>
+                    </DialogActions>
+                </Dialog>
 			<Grid container direction="row" justify="center" spacing={0}>
 				<LeftArea item xs={1}>
 					<Grid container direction="column"
@@ -48,13 +109,14 @@ const PostContainer = ({ postDetails }) => {
 				<Grid item xs={11}>
 					<CustomCardHeader
 						avatar={
-							<Avatar aria-label="recipe" className={classes.avatar}>
-								T
-          						</Avatar>
+							<Avatar style={{width: 60, height: 60}}
+                        			alt={`Channel's Avatar`} 
+                        			src={`https://cdn2.iconfinder.com/data/icons/blue-round-amazing-icons-1/512/home-alt-512.png`}/>
 						}
 						action={
 							<IconButton onClick={handleSave} aria-label="settings">
-								<SavedIcon size="25" />
+								{!isSaved && <SavedIcon size="25" />}
+								{isSaved && <SavedIconHighlighted size="25"/>}
 							</IconButton>
 						}
 						title={postDetails.channel.name}
@@ -91,7 +153,11 @@ const PostContainer = ({ postDetails }) => {
 }
 
 const SavedIcon = styled(Saved)`
-	color: ${props => props.theme.mutedText};
+	color: ${props => props.theme.mutedText}; 
+`;
+
+const SavedIconHighlighted = styled(Saved)`
+	color: ${props => props.theme.upvote}; 
 `;
 
 const ArrowUpIcon = styled(ArrowUp)`
@@ -103,15 +169,12 @@ const ArrowDownIcon = styled(ArrowDown)`
 `;
 
 
-const useStyles = makeStyles(theme => ({
-	media: {
-		height: 0,
-		paddingTop: '56.25%', // 16:9
-	},
-	avatar: {
-		backgroundColor: red[500],
-	},
-}));
+// const useStyles = makeStyles(theme => ({
+// 	media: {
+// 		height: 0,
+// 		paddingTop: '56.25%', // 16:9
+// 	}
+// }));
 
 const Container = styled.div`
 	margin-top: 20px;

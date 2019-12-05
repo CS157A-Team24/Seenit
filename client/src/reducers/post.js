@@ -7,10 +7,13 @@ import {
     FETCH_POST_ERROR,
     CREATE_POST_REQUEST,
     CREATE_POST_SUCCESS,
-    CREATE_POST_ERROR
+    CREATE_POST_ERROR,
+    FETCH_SAVED_POSTS_REQUEST,
+    FETCH_SAVED_POSTS_SUCCESS,
+    FETCH_SAVED_POSTS_ERROR
 } from '../constants/ActionTypes';
 
-const initialState = { isFetching: false, posts: [], postDetails: null, isCreating: false, newPost: null };
+const initialState = { isFetching: false, isFetchingSavedPost: false, posts: [], postDetails: null, isCreating: false, newPost: null, savedPosts: null };
 
 export default (state = initialState, action) => {
     switch (action.type) {
@@ -21,6 +24,13 @@ export default (state = initialState, action) => {
             return { ...state, isFetching: false, posts: action.posts };
         case FETCH_POSTS_ERROR:
             return { ...state, isFetching: false };
+
+        case FETCH_SAVED_POSTS_REQUEST:
+            return { ...state, isFetchingSavedPost: true};
+        case FETCH_SAVED_POSTS_SUCCESS:
+            return { ...state, isFetchingSavedPost: false, savedPosts: action.posts };
+        case FETCH_SAVED_POSTS_ERROR:
+            return { ...state, isFetchingSavedPost: false };
 
         case FETCH_POST_REQUEST:
             return { ...state, isFetching: true, postDetails: null };

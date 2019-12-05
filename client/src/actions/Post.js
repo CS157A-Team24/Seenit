@@ -7,7 +7,10 @@ import {
     FETCH_POST_ERROR,
     CREATE_POST_REQUEST,
     CREATE_POST_SUCCESS,
-    CREATE_POST_ERROR
+    CREATE_POST_ERROR,
+    FETCH_SAVED_POSTS_REQUEST,
+    FETCH_SAVED_POSTS_SUCCESS,
+    FETCH_SAVED_POSTS_ERROR
 } from '../constants/ActionTypes';
 
 import {
@@ -16,7 +19,8 @@ import {
     getAPost,
     createAPost,
     getSearchedPosts,
-    getPostsByUserId
+    getPostsByUserId,
+    getSavedPostsByUserId
 } from '../utils/api';
 
 import {
@@ -26,6 +30,10 @@ import {
 const fetchPostsRequest = { type: FETCH_POSTS_REQUEST };
 const fetchPostsSuccess = posts => ({ type: FETCH_POSTS_SUCCESS, posts });
 const fetchPostsError = error => ({ type: FETCH_POSTS_ERROR, error });
+
+const fetchSavedPostsRequest = { type: FETCH_SAVED_POSTS_REQUEST };
+const fetchSavedPostsSuccess = posts => ({ type: FETCH_SAVED_POSTS_SUCCESS, posts });
+const fetchSavedPostsError = error => ({ type: FETCH_SAVED_POSTS_ERROR, error });
 
 const fetchAPostRequest = { type: FETCH_POST_REQUEST };
 const fetchAPostSuccess = post => ({ type: FETCH_POST_SUCCESS, post });
@@ -58,6 +66,21 @@ export const requestPostsByUserId = (userId) => async dispatch => {
     } catch (error) {
         dispatch(fetchPostsError(error));
     }
+};
+
+export const requestSavedPostsByUserId = (userId) => async dispatch => {
+    dispatch(fetchSavedPostsRequest);
+    try {
+        const posts = await getSavedPostsByUserId(userId);
+        dispatch(fetchSavedPostsSuccess(posts));
+    } catch (error) {
+        dispatch(fetchSavedPostsError(error));
+    }
+};
+
+export const updateSavedPosts = (posts) => async dispatch => {
+    dispatch(fetchSavedPostsRequest); 
+    dispatch(fetchSavedPostsSuccess(posts));
 };
 
 export const requestSearchedPosts = (queryTerm) => async dispatch => {

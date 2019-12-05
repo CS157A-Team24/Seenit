@@ -8,8 +8,13 @@ import PostContainer from './PostContainer';
 
 
 
-const PostList = ({ post }) => {
+const PostList = ({ post, posts }) => {
     // const state = useSelector(state => state.simpleReducer);
+    let ps = null;
+    if(typeof posts === 'undefined'){
+        ps = post.posts;
+    }else ps = posts;
+
     return (
         <div>
             {
@@ -31,8 +36,8 @@ const PostList = ({ post }) => {
                 </FooterDiv>
             }
             {
-                !post.isFetching && post.posts.length > 0 &&
-                post.posts.map(content => (
+                !post.isFetching && ps && ps.length > 0 &&
+                ps.map(content => (
                         <PostContainer key={content.post.id} postDetails={content} />
                 ))
             }

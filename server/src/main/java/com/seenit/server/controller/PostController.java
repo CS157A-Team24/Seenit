@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import com.seenit.server.compositeKey.UserPostKey;
 import com.seenit.server.dto.CreatePostDTO;
 import com.seenit.server.dto.PostDTO;
+import com.seenit.server.dto.UserPostDTO;
 import com.seenit.server.exception.ResourceNotFoundException;
 import com.seenit.server.ibprojections.FrontPagePost;
 import com.seenit.server.model.Channel;
@@ -42,6 +43,9 @@ public class PostController{
     @Autowired
     private ChannelRepository channelRepository;
 
+    @Autowired
+    private  UserRepository userRepository;
+
     // Using DTO
     @GetMapping("/posts/sortby/{property}")
     public List<PostDTO> getPostDTOTest(@PathVariable(value = "property") String prop){
@@ -63,6 +67,14 @@ public class PostController{
     @GetMapping("/posts")
     public List<PostDTO> getPostDTO(){
         List<Object[]> collections = postRepository.findAllObject();
+        List<PostDTO> postList = collections.stream().map(collection -> toPostDTO(collection)).
+                collect(Collectors.toList());
+        return postList;
+    }
+
+    @GetMapping("/posts/usersaved/{id}")
+    public List<PostDTO> getSavedPostByUserIdDTO(@PathVariable(value = "id") String userId){
+        List<Object[]> collections = postRepository.findAllSavedPostsByUserId(userId);
         List<PostDTO> postList = collections.stream().map(collection -> toPostDTO(collection)).
                 collect(Collectors.toList());
         return postList;
@@ -121,6 +133,32 @@ public class PostController{
         key.setUserId(postDTO.getUserId());
         createPost.setId(key);
         post.setCreatedBy(createPost);
+        postRepository.save(post);
+        return post;
+    }
+
+    @PostMapping("/posts/save")
+    public Post savePost(@Valid @RequestBody UserPostDTO userPostDTO){
+        User user = userRepository.findById(userPostDTO.getUserId())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found on :: "+ userPostDTO.getUserId()));
+        Post post = postRepository.findById(userPostDTO.getPostId())
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found on :: "+ userPostDTO.getPostId()));
+        Set<User> userSaved = post.getUsersSavePost();
+        userSaved.add(user);
+        post.setUsersSavePost(userSaved);
+        postRepository.save(post);
+        return post;
+    }
+
+    @PostMapping("/posts/unsave")
+    public Post unSavePost(@Valid @RequestBody UserPostDTO userPostDTO){
+        User user = userRepository.findById(userPostDTO.getUserId())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found on :: "+ userPostDTO.getUserId()));
+        Post post = postRepository.findById(userPostDTO.getPostId())
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found on :: "+ userPostDTO.getPostId()));
+        Set<User> userSaved = post.getUsersSavePost();
+        userSaved.remove(user);
+        post.setUsersSavePost(userSaved);
         postRepository.save(post);
         return post;
     }

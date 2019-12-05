@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Grid } from '@material-ui/core';
 import styled from 'styled-components';
 
-import { requestPosts } from '../actions/Post';
+import { requestPosts, requestSavedPostsByUserId } from '../actions/Post';
 import { requestTop5Channels } from '../actions/Channel';
 
 import jwtDecode from 'jwt-decode';
@@ -20,16 +20,23 @@ const CenterContainer = styled.div`
 	width: 100%;
 `
 
-const Home = ({ requestPosts, requestTop5Channels, location }) => {
+const Home = ({ requestPosts, requestTop5Channels, requestSavedPostsByUserId, location }) => {
 	const { search } = location; 
+	const [userId,setUserId] = useState(localStorage.getItem(USER_ID));
+
 	useEffect(() => {
 		requestPosts("","",trimQuery(search));
 		requestTop5Channels();
-		if(localStorage.getItem(ACCESS_TOKEN)){
-			localStorage.setItem(USER_ID,jwtDecode(localStorage.getItem(ACCESS_TOKEN)).id);
+		
+		if(localStorage.getItem(ACCESS_TOKEN) && !userId){
+			const id = jwtDecode(localStorage.getItem(ACCESS_TOKEN)).id;
+			localStorage.setItem(USER_ID,id);
+			requestSavedPostsByUserId(id);
+			setUserId(id);
 		}
+		if(userId) requestSavedPostsByUserId(userId);
 		 
-	}, [requestPosts, requestTop5Channels, search]);
+	}, [requestPosts, requestTop5Channels, requestSavedPostsByUserId,search]);
 
 	return (
 		<div>
@@ -51,7 +58,7 @@ const Home = ({ requestPosts, requestTop5Channels, location }) => {
 };
 
 
-const mapDispatchToProps = { requestPosts, requestTop5Channels };
+const mapDispatchToProps = { requestPosts, requestTop5Channels, requestSavedPostsByUserId  };
 
 export default connect(null, mapDispatchToProps)(Home);
 

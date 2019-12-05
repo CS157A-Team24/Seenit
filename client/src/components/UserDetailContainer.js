@@ -9,7 +9,7 @@ import { calTime } from '../utils/helper';
 import { USER_ID } from '../constants';
 
 
-const UserDetailsContainer = () => {
+const UserDetailContainer = () => {
     const [user,setUser] = useState(null);
 
     useEffect(() =>{
@@ -81,4 +81,4 @@ const ButtonText = styled.h1`
     margin: 0 auto;
 `;
 
-export default UserDetailsContainer;
+export default UserDetailContainer;
