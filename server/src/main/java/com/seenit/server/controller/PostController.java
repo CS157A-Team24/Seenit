@@ -68,6 +68,14 @@ public class PostController{
         return postList;
     }
 
+    @GetMapping("/posts/user/{id}")
+    public List<PostDTO> getPostByUserIdDTO(@PathVariable(value = "id") String userId){
+        List<Object[]> collections = postRepository.findAllObjectByUserId(userId);
+        List<PostDTO> postList = collections.stream().map(collection -> toPostDTO(collection)).
+                collect(Collectors.toList());
+        return postList;
+    }
+
     @GetMapping("/posts/c/{channelId}/{property}")
     public List<PostDTO> getPostsByChannel(@PathVariable(value = "channelId") String channelId,
                                             @PathVariable(value = "property") String prop){

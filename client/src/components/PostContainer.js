@@ -5,57 +5,62 @@ import { Grid, IconButton, Avatar, CardActions, CardHeader, CardContent } from '
 
 import CommentIcon from '@material-ui/icons/Comment';
 import ShareIcon from '@material-ui/icons/Share';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import ArrowDownwardTwoTone from '@material-ui/icons/ArrowDownwardTwoTone';
-import ArrowUpwardTwoTone from '@material-ui/icons/ArrowUpwardTwoTone';
 
 import styled from 'styled-components';
+import { Saved } from 'styled-icons/octicons/Saved';
+import { ArrowUp } from 'styled-icons/icomoon/ArrowUp';
+import { ArrowDown } from 'styled-icons/icomoon/ArrowDown';
+import { Link } from 'react-router-dom';
+
 
 import { calTime } from '../utils/helper';
 
 
 
-const PostContainer = ({postDetails}) => {
+const PostContainer = ({ postDetails }) => {
 	const classes = useStyles();
 	const time = calTime(postDetails.post.createdAt);
 
-	let postedBy = `Posted by ${postDetails.userName} ${time} `;
-	
+	const postedBy = `Posted by ${postDetails.userName} · ${time} `;
+
+	const handleSave = () => {
+		console.log("Saved");
+	}
+
 	return (
 		<Container key={postDetails.post.id}>
-				<Grid container direction="row" justify="center" spacing={0}>
-					<LeftArea item xs={1}>
-							<Grid container direction="column"
-								justify="center"
-								alignItems="center">
-								<IconButton>
-									<ArrowUpwardTwoTone />
-								</IconButton>
-								<Votes>
-									{postDetails.points}
-								</Votes>
-								<IconButton>
-									<ArrowDownwardTwoTone />
-								</IconButton>
-							</Grid>
-					</LeftArea>
-					<Grid item xs={11}>
-						{/* <Card className={classes.card} classes={{root: classes.root}} square={true}> */}
-
-						<CustomCardHeader
-							avatar={
-								<Avatar aria-label="recipe" className={classes.avatar}>
-									T
+			<Grid container direction="row" justify="center" spacing={0}>
+				<LeftArea item xs={1}>
+					<Grid container direction="column"
+						justify="center"
+						alignItems="center">
+						<IconButton>
+							<ArrowUpIcon size="25"/>
+						</IconButton>
+						<Votes>
+							{postDetails.points}
+						</Votes>
+						<IconButton>
+							<ArrowDownIcon size="25"/>
+						</IconButton>
+					</Grid>
+				</LeftArea>
+				<Grid item xs={11}>
+					<CustomCardHeader
+						avatar={
+							<Avatar aria-label="recipe" className={classes.avatar}>
+								T
           						</Avatar>
-							}
-							action={
-								<IconButton aria-label="settings">
-									<MoreVertIcon />
-								</IconButton>
-							}
-							title={postDetails.channel.name}
-							subheader={postedBy}
-						/>
+						}
+						action={
+							<IconButton onClick={handleSave} aria-label="settings">
+								<SavedIcon size="25" />
+							</IconButton>
+						}
+						title={postDetails.channel.name}
+						subheader={postedBy}
+					/>
+					<Link to={`/post/${postDetails.post.id}`} style={{ textDecoration: 'none' }}>
 						<PostTitle>
 							{postDetails.post.title}
 						</PostTitle>
@@ -69,26 +74,36 @@ const PostContainer = ({postDetails}) => {
 								{postDetails.post.content}
 							</BodyText>
 						</CardContent>
-						<CardActions disableSpacing>
-							<IconButton aria-label="add to favorites" >
-								<CommentIcon />
-							</IconButton>
-							<IconButton aria-label="share">
-								<ShareIcon />
-							</IconButton>
-						</CardActions>
-						{/* </Card> */}
-					</Grid>
+					</Link>
+					<CardActions disableSpacing>
+						<IconButton aria-label="add to favorites" >
+							<CommentIcon />
+						</IconButton>
+						<IconButton aria-label="share">
+							<ShareIcon />
+						</IconButton>
+					</CardActions>
+					{/* </Card> */}
 				</Grid>
+			</Grid>
 		</Container>
 	);
 }
 
+const SavedIcon = styled(Saved)`
+	color: ${props => props.theme.mutedText};
+`;
+
+const ArrowUpIcon = styled(ArrowUp)`
+	color: ${props => props.theme.mutedText};
+`;
+
+const ArrowDownIcon = styled(ArrowDown)`
+	color: ${props => props.theme.mutedText};
+`;
+
+
 const useStyles = makeStyles(theme => ({
-	card: {
-		maxWidth: 600,
-		maxHeight: 650,
-	},
 	media: {
 		height: 0,
 		paddingTop: '56.25%', // 16:9
@@ -128,7 +143,7 @@ const BodyText = styled.p`
 	color: ${props => props.theme.normalText}
 `
 
-const CustomCardHeader = styled(({...other }) => <CardHeader {...other} />)`
+const CustomCardHeader = styled(({ ...other }) => <CardHeader {...other} />)`
 	& .MuiCardHeader-title{
 		color: ${props => props.theme.normalText};
 	}

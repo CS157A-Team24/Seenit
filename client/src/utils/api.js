@@ -92,6 +92,10 @@ export async function getPosts(channel,sortby) {
     return await get(`api/posts/${channel}/${sortby}`);
 }
 
+export async function getPostsByUserId(userId) {
+    return await get(`api/posts/user/${userId}`);
+}
+
 export async function getSearchedPosts(queryTerm) {
     return await get(`api/posts/search/${queryTerm}`);
 }
@@ -119,6 +123,15 @@ export async function getChannelbyUserId(userId){
 export async function getCommentsby(postId){
     const normalizedData = normalize(await get(`api/comments/ofapost/${postId}`), postSchema);
     return normalizedData.entities;
+}
+
+export async function getCommentsByUserId(userId) {
+    return await get(`api/comments/user/${userId}`);
+}
+
+
+export async function getUserDetails(userId){
+    return await get(`api/users/${userId}`);
 }
 
 const user = new schema.Entity("users");
