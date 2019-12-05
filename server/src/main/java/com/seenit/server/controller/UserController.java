@@ -1,5 +1,6 @@
 package com.seenit.server.controller;
 
+import com.seenit.server.ibprojections.UserDetails;
 import com.seenit.server.ibprojections.UserIdName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -43,9 +44,9 @@ public class UserController{
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<User> getUserById(
+    public ResponseEntity<UserDetails> getUserById(
     @PathVariable(value = "id") String userId) throws ResourceNotFoundException {
-        User user = userRepository.findById(userId)
+        UserDetails user = userRepository.findUserDetailsById(userId)
         .orElseThrow(() -> new ResourceNotFoundException("User not found on :: "+ userId));
         return ResponseEntity.ok().body(user);
     }
