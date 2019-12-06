@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 // import { makeStyles } from '@material-ui/core/styles';
 import { Grid, IconButton, Avatar, CardActions, CardHeader, CardContent } from '@material-ui/core';
@@ -19,8 +19,11 @@ import { Link } from 'react-router-dom';
 
 import { USER_ID } from '../constants';
 import { calTime } from '../utils/helper';
-import { saveAPost, unsaveAPost } from '../utils/api';
-import { updateSavedPosts } from '../actions/Post';
+import { saveAPost, unsaveAPost, createVotePost } from '../utils/api';
+import { updateSavedPosts, 
+		updateUpVotedPosts, 
+		updateDownVotedPosts } 
+from '../actions/Post';
 
 
 
@@ -29,43 +32,108 @@ const PostContainer = ({ postDetails }) => {
 	const uId = localStorage.getItem(USER_ID);
 	const postedBy = `Posted by ${postDetails.userName} · ${time} `;
 	const savedPosts = useSelector(state => state.post.savedPosts);
+	const votedPosts = useSelector(state => state.post.votedPosts);
+	const upVotedPosts = useSelector(state => state.post.upVotedPosts);
+    const downVotedPosts = useSelector(state => state.post.downVotedPosts);
 	const posts = useSelector(state => state.post.posts);
-    const [open, setOpen] = React.useState(false);
-	const [isSaved, setIsSave] = React.useState(false);
+	const [open, setOpen] = useState(false);
+	const [isSaved, setIsSave] = useState(false);
+	const [isUp, setIsUp] = useState(false);
+	const [isDown, setIsDown] = useState(false);
+	const [points, setPoints] = useState(postDetails.points);
+
 	const dispatch = useDispatch();
 
-	React.useEffect(()=>{
-		if(savedPosts && savedPosts.findIndex(content => content.post.id === postDetails.post.id) !== -1){
+	React.useEffect(() => {
+		if (savedPosts && savedPosts.findIndex(content => content.post.id === postDetails.post.id) !== -1) {
 			setIsSave(true);
 		}
-	},[])
+		if (votedPosts) {
+			const votePost = votedPosts.find(content => content.id.postId === postDetails.post.id);
 
-	const handleClickOpen = () => {
-        setOpen(true);
-    };
+			if (typeof votePost !== 'undefined') {
+				if (votePost.isUp === 1) {
+					setIsUp(true);
+				} else if (votePost.isUp === -1) {
+					setIsDown(true);
+				}
+			}
+		}
+	}, []);
 
-    const handleClose = () => {
-        setOpen(false);
-	};
-	
-	const handleSave = () => {
-		if(uId){
+	const handleUpVote = () => {
+		if (!isDown) {
 			const body = {
 				userId: uId,
 				postId: postDetails.post.id
 			}
-			if(isSaved){
+			if (isUp) {
+				body["isUndoUp"] = true;
+				setPoints(points - 1);
+				const updatedPosts = upVotedPosts.filter(
+					content => content.post.id !== postDetails.post.id
+				)
+				dispatch(updateUpVotedPosts(updatedPosts));
+			} else {
+				body["isUp"] = true;
+				setPoints(points + 1);
+				const updatedPosts =[...upVotedPosts, posts.find(content => content.post.id === postDetails.post.id)]
+				dispatch(updateUpVotedPosts(updatedPosts));
+			}
+			createVotePost(body);
+			setIsUp(!isUp);
+		}
+	}
+
+	const handleDownVote = () => {
+		if (!isUp) {
+			const body = {
+				userId: uId,
+				postId: postDetails.post.id
+			}
+			if (isDown) {
+				setPoints(points + 1);
+				const updatedPosts = downVotedPosts.filter(
+					content => content.post.id !== postDetails.post.id
+				)
+				dispatch(updateDownVotedPosts(updatedPosts));
+			} else {
+				body["isDown"] = true;
+				setPoints(points - 1);
+				const updatedPosts =[...downVotedPosts, posts.find(content => content.post.id === postDetails.post.id)]
+				dispatch(updateDownVotedPosts(updatedPosts));
+			}
+			createVotePost(body);
+			setIsDown(!isDown);
+		}
+	}
+
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+
+	const handleSave = () => {
+		if (uId) {
+			const body = {
+				userId: uId,
+				postId: postDetails.post.id
+			}
+			if (isSaved) {
 				unsaveAPost(body);
-				const newSavedPost = [savedPosts.filter(content=>content.post.id !== postDetails.post.id)]
+				const newSavedPost = savedPosts.filter(content => content.post.id !== postDetails.post.id);
 				dispatch(updateSavedPosts(newSavedPost));
-			}else{
+			} else {
 				saveAPost(body);
-				const newSavedPost = [...savedPosts,posts.find(content=>content.post.id === postDetails.post.id)]
+				const newSavedPost = [...savedPosts, posts.find(content => content.post.id === postDetails.post.id)]
 				dispatch(updateSavedPosts(newSavedPost));
 			}
 			setIsSave(!isSaved);
 
-		}else{
+		} else {
 			handleClickOpen();
 		}
 	}
@@ -73,50 +141,52 @@ const PostContainer = ({ postDetails }) => {
 	return (
 		<Container key={postDetails.post.id}>
 			<Dialog
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                >
-                    <DialogTitle id="alert-dialog-title">{"Message"}</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                            You need to login to save a post
+				open={open}
+				onClose={handleClose}
+				aria-labelledby="alert-dialog-title"
+				aria-describedby="alert-dialog-description"
+			>
+				<DialogTitle id="alert-dialog-title">{"Message"}</DialogTitle>
+				<DialogContent>
+					<DialogContentText id="alert-dialog-description">
+						You need to login to save a post
                         </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleClose} color="primary" autoFocus>
-                            Ok
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={handleClose} color="primary" autoFocus>
+						Ok
                         </Button>
-                    </DialogActions>
-                </Dialog>
+				</DialogActions>
+			</Dialog>
 			<Grid container direction="row" justify="center" spacing={0}>
 				<LeftArea item xs={1}>
 					<Grid container direction="column"
 						justify="center"
 						alignItems="center">
-						<IconButton>
-							<ArrowUpIcon size="25"/>
+						<IconButton onClick={handleUpVote} >
+							{!isUp && <ArrowUpIcon size="25" />}
+							{isUp && <ArrowUpIconHighlighted size="25" />}
 						</IconButton>
 						<Votes>
-							{postDetails.points}
+							{points}
 						</Votes>
-						<IconButton>
-							<ArrowDownIcon size="25"/>
+						<IconButton onClick={handleDownVote} >
+							{!isDown && <ArrowDownIcon size="25" />}
+							{isDown && <ArrowDownIconHighlighted size="25" />}
 						</IconButton>
 					</Grid>
 				</LeftArea>
 				<Grid item xs={11}>
 					<CustomCardHeader
 						avatar={
-							<Avatar style={{width: 60, height: 60}}
-                        			alt={`Channel's Avatar`} 
-                        			src={`https://cdn2.iconfinder.com/data/icons/blue-round-amazing-icons-1/512/home-alt-512.png`}/>
+							<Avatar style={{ width: 60, height: 60 }}
+								alt={`Channel's Avatar`}
+								src={`https://cdn2.iconfinder.com/data/icons/blue-round-amazing-icons-1/512/home-alt-512.png`} />
 						}
 						action={
 							<IconButton onClick={handleSave} aria-label="settings">
 								{!isSaved && <SavedIcon size="25" />}
-								{isSaved && <SavedIconHighlighted size="25"/>}
+								{isSaved && <SavedIconHighlighted size="25" />}
 							</IconButton>
 						}
 						title={postDetails.channel.name}
@@ -166,6 +236,14 @@ const ArrowUpIcon = styled(ArrowUp)`
 
 const ArrowDownIcon = styled(ArrowDown)`
 	color: ${props => props.theme.mutedText};
+`;
+
+const ArrowUpIconHighlighted = styled(ArrowUp)`
+	color: ${props => props.theme.upvote};
+`;
+
+const ArrowDownIconHighlighted = styled(ArrowDown)`
+	color: ${props => props.theme.downvote};
 `;
 
 

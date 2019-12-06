@@ -40,12 +40,15 @@ function a11yProps(index) {
 const UserProfile = () => {
     const [value, setValue] = React.useState(0);
     const savedPosts = useSelector(state => state.post.savedPosts);
+    const upVotedPosts = useSelector(state => state.post.upVotedPosts);
+    const downVotedPosts = useSelector(state => state.post.downVotedPosts);
     const userId = localStorage.getItem(USER_ID);
     const dispatch = useDispatch();
 
     React.useEffect(() => {
         dispatch(requestPostsByUserId(userId));
         dispatch(requestCommentsByUserId(userId));
+
     }, [dispatch]);
 
     const handleChange = (event, newValue) => {
@@ -77,10 +80,10 @@ const UserProfile = () => {
                             <PostList posts={savedPosts}/>
                         </TabPanel>
                         <TabPanel value={value} index={3}>
-                            Item Four
+                            <PostList posts={upVotedPosts}/>
                         </TabPanel>
                         <TabPanel value={value} index={4}>
-                            Item Five
+                        <PostList posts={downVotedPosts}/>
                         </TabPanel>
                     </Grid>
                     <Grid item xs={3} style={{ marginTop: "2.4%" }}>

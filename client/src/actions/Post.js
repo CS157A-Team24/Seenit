@@ -10,7 +10,10 @@ import {
     CREATE_POST_ERROR,
     FETCH_SAVED_POSTS_REQUEST,
     FETCH_SAVED_POSTS_SUCCESS,
-    FETCH_SAVED_POSTS_ERROR
+    FETCH_SAVED_POSTS_ERROR,
+    UPDATE_SAVED_POSTS,
+    UPDATE_UPVOTED_POSTS,
+    UPDATE_DOWNVOTED_POSTS
 } from '../constants/ActionTypes';
 
 import {
@@ -20,7 +23,10 @@ import {
     createAPost,
     getSearchedPosts,
     getPostsByUserId,
-    getSavedPostsByUserId
+    getSavedPostsByUserId,
+    getUpVotedPostsByUserId,
+    getDownVotedPostsByUserId,
+    getVotedPostsByUserId
 } from '../utils/api';
 
 import {
@@ -32,7 +38,9 @@ const fetchPostsSuccess = posts => ({ type: FETCH_POSTS_SUCCESS, posts });
 const fetchPostsError = error => ({ type: FETCH_POSTS_ERROR, error });
 
 const fetchSavedPostsRequest = { type: FETCH_SAVED_POSTS_REQUEST };
-const fetchSavedPostsSuccess = posts => ({ type: FETCH_SAVED_POSTS_SUCCESS, posts });
+const fetchSavedPostsSuccess = (posts, votedPosts, upVotedPosts, downVotedPosts) => (
+    { type: FETCH_SAVED_POSTS_SUCCESS, posts, votedPosts, upVotedPosts, downVotedPosts}
+);
 const fetchSavedPostsError = error => ({ type: FETCH_SAVED_POSTS_ERROR, error });
 
 const fetchAPostRequest = { type: FETCH_POST_REQUEST };
@@ -41,6 +49,7 @@ const fetchAPostError = error => ({ type: FETCH_POST_ERROR, error });
 
 const createPostSuccess = post => ({ type: CREATE_POST_SUCCESS, post });
 const createPostError = error => ({ type: CREATE_POST_ERROR, error });
+
 
 export const requestPosts = (channel = '', sortby='', search='') => async dispatch => {
     dispatch(fetchPostsRequest);
@@ -72,15 +81,25 @@ export const requestSavedPostsByUserId = (userId) => async dispatch => {
     dispatch(fetchSavedPostsRequest);
     try {
         const posts = await getSavedPostsByUserId(userId);
-        dispatch(fetchSavedPostsSuccess(posts));
+        const votedPosts = await getVotedPostsByUserId(userId);
+        const upVotedPosts = await getUpVotedPostsByUserId(userId);
+        const downVotedPosts = await getDownVotedPostsByUserId(userId);
+        dispatch(fetchSavedPostsSuccess(posts,votedPosts,upVotedPosts,downVotedPosts));
     } catch (error) {
         dispatch(fetchSavedPostsError(error));
     }
 };
 
 export const updateSavedPosts = (posts) => async dispatch => {
-    dispatch(fetchSavedPostsRequest); 
-    dispatch(fetchSavedPostsSuccess(posts));
+    dispatch({type: UPDATE_SAVED_POSTS, posts});
+};
+
+export const updateUpVotedPosts = (posts) => async dispatch => {
+    dispatch({type: UPDATE_UPVOTED_POSTS, posts});
+};
+
+export const updateDownVotedPosts = (posts) => async dispatch => {
+    dispatch({type: UPDATE_DOWNVOTED_POSTS, posts});
 };
 
 export const requestSearchedPosts = (queryTerm) => async dispatch => {

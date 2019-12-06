@@ -108,6 +108,18 @@ export async function getSavedPostsByUserId(userId) {
     return await get(`api/posts/usersaved/${userId}`);
 }
 
+export async function getVotedPostsByUserId(userId) {
+    return await get(`api/posts/uservoted/${userId}`);
+}
+
+export async function getUpVotedPostsByUserId(userId) {
+    return await get(`api/posts/byUserUpvote/${userId}`);
+}
+
+export async function getDownVotedPostsByUserId(userId) {
+    return await get(`api/posts/byUserDownvote/${userId}`);
+}
+
 export async function getSearchedPosts(queryTerm) {
     return await get(`api/posts/search/${queryTerm}`);
 }
@@ -118,6 +130,10 @@ export async function getSortedPosts(sortby) {
 
 export async function getAPost(postId) {
     return await get(`api/posts/${postId}`);
+}
+
+export async function createVotePost(body) {
+    return await post(`api/post/get-voted`, body);
 }
 
 export async function getTop5Channels() {

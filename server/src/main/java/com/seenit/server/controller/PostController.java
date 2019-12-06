@@ -217,16 +217,18 @@ public class PostController{
         if(userPostDTO.isUp()){
             newVote.setIsUp(1);
             createPost.setPoints(createPost.getPoints() + 1);
+            usersVoted.add(newVote);
         }else if(userPostDTO.isDown()){
             newVote.setIsUp(-1);
             createPost.setPoints(createPost.getPoints() - 1);
+            usersVoted.add(newVote);
         }else{
-            newVote.setIsUp(0);
+            VotePost votePost = votePostRepository.findById(key).get();
+            votePostRepository.delete(votePost);
             if(userPostDTO.isUndoUp())
                 createPost.setPoints(createPost.getPoints() - 1);
             else createPost.setPoints(createPost.getPoints() + 1);
         }
-        usersVoted.add(newVote);
         post.setUsersVoted(usersVoted);
         post.setCreatedBy(createPost);
         postRepository.save(post);
