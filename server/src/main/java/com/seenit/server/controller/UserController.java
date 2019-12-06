@@ -32,6 +32,7 @@ import com.seenit.server.model.Post;
 import com.seenit.server.model.User;
 import com.seenit.server.model.VoteCom;
 import com.seenit.server.model.VotePost;
+import com.seenit.server.dto.EmailResetDTO;
 import com.seenit.server.dto.PassResetDTO;
 import com.seenit.server.exception.ResourceNotFoundException;
 import com.seenit.server.payload.*;
@@ -76,7 +77,7 @@ public class UserController{
         return userRepository.save(user);
     }
 
-    @PutMapping("/users/{id}")
+    @PutMapping("/users/update/{id}")
     public ResponseEntity<User> updateUser(
     @PathVariable(value = "id") String userId,
     @Valid @RequestBody User userDetails) throws ResourceNotFoundException {
@@ -100,6 +101,16 @@ public class UserController{
         }
 
         user.setPassword(passwordEncoder.encode(passwordDTO.getNewPassword()));
+        final User updatedUser = userRepository.save(user);
+        return ResponseEntity.ok(updatedUser);
+   }
+
+    @PutMapping("/users/resetEmail/")
+    public ResponseEntity<User> resetUserEmail(
+    @Valid @RequestBody EmailResetDTO dto) throws ResourceNotFoundException {
+        User user = userRepository.findById(dto.getUserId())
+            .orElseThrow(() -> new ResourceNotFoundException("User not found on :: " + dto.getUserId()));
+        user.setEmail(dto.getNewEmail());
         final User updatedUser = userRepository.save(user);
         return ResponseEntity.ok(updatedUser);
    }

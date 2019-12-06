@@ -234,7 +234,24 @@ public class PostController{
     }
 
     @GetMapping("posts/uservoted/{userId}")
-    public List<VotedPost> getAllVotedPostIdByUserId(@PathVariable(value = "userId") String userId){
+    public List<VotedPost> getAllVotedPostIdByUserId(@PathVariable(value = "userId") String userId) {
         return votePostRepository.findAllCustomByUserVoteId(userId);
+    }
+
+    @GetMapping("/posts/byUserUpvote/{userId}")
+    public List<PostDTO> upvotedPostByUser(@PathVariable(value = "userId") String userId){
+        List<Object[]> collections = postRepository.findAllObjectByVoter(userId, 1);
+        List<PostDTO> postList = collections.stream().map(collection -> toPostDTO(collection)).
+                collect(Collectors.toList());
+        return postList;
+    }
+
+    @GetMapping("/posts/byUserDownvote/{userId}")
+    public List<PostDTO> downvotedPostByUser(@PathVariable(value = "userId") String userId){
+        List<Object[]> collections = postRepository.findAllObjectByVoter(userId, -1);
+        List<PostDTO> postList = collections.stream().map(collection -> toPostDTO(collection)).
+                collect(Collectors.toList());
+        return postList;
+
     }
 }
