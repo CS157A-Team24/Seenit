@@ -141,7 +141,6 @@ export async function getCommentsByUserId(userId) {
     return await get(`api/comments/user/${userId}`);
 }
 
-
 export async function getUserDetails(userId){
     return await get(`api/users/${userId}`);
 }

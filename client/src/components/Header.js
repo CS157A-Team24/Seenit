@@ -93,7 +93,6 @@ const Header = () => {
 														<MenuList id="menu-list-grow" onKeyDown={handleListKeyDown}>
 															<MenuItem onClick={handleHome}><Link to="/">Home</Link></MenuItem>
 															<Link to="/user/" style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose}>My profile</MenuItem></Link>
-															<MenuItem onClick={handleClose}>My account</MenuItem>
 															<MenuItem onClick={handleClose}><Link to="/setting">Setting</Link></MenuItem>
 															<MenuItem onClick={handleLogout}>Logout</MenuItem>
 														</MenuList>
