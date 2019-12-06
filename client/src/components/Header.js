@@ -94,7 +94,7 @@ const Header = () => {
 															<MenuItem onClick={handleHome}><Link to="/">Home</Link></MenuItem>
 															<Link to="/user/" style={{ textDecoration: 'none' }}><MenuItem onClick={handleClose}>My profile</MenuItem></Link>
 															<MenuItem onClick={handleClose}><Link to="/setting">Setting</Link></MenuItem>
-															<MenuItem onClick={handleLogout}>Logout</MenuItem>
+															<MenuItem onClick={handleLogout}><Link to="/">Logout</Link></MenuItem>
 														</MenuList>
 													</ClickAwayListener>
 												</Paper>
