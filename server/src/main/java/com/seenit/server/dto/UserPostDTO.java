@@ -11,4 +11,11 @@ public class UserPostDTO {
 
     @NotNull
     final private String postId;
+
+    final private boolean isUp;
+
+    final private boolean isDown;
+
+    final private boolean isUndoUp;
+
 }

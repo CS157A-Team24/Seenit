@@ -11,14 +11,13 @@ import com.seenit.server.dto.PostDTO;
 import com.seenit.server.dto.UserPostDTO;
 import com.seenit.server.exception.ResourceNotFoundException;
 import com.seenit.server.ibprojections.FrontPagePost;
-import com.seenit.server.model.Channel;
-import com.seenit.server.model.CreatePost;
-import com.seenit.server.model.User;
-import com.seenit.server.model.Post;
+import com.seenit.server.ibprojections.VotedPost;
+import com.seenit.server.model.*;
 import com.seenit.server.repository.ChannelRepository;
 import com.seenit.server.repository.PostRepository;
 
 import com.seenit.server.repository.UserRepository;
+import com.seenit.server.repository.VotePostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -45,6 +44,9 @@ public class PostController{
 
     @Autowired
     private  UserRepository userRepository;
+
+    @Autowired
+    private VotePostRepository votePostRepository;
 
     // Using DTO
     @GetMapping("/posts/sortby/{property}")
@@ -197,5 +199,42 @@ public class PostController{
         List<PostDTO> postList = collections.stream().map(collection -> toPostDTO(collection)).
                 collect(Collectors.toList());
         return postList;
+    }
+
+    @PostMapping("post/get-voted")
+    public ResponseEntity<Post> upvotePost(@Valid @RequestBody UserPostDTO userPostDTO) throws ResourceNotFoundException {
+        User user = userRepository.findById(userPostDTO.getUserId())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found on :: "+ userPostDTO.getUserId()));
+        Post post = postRepository.findById(userPostDTO.getPostId())
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found on :: " + userPostDTO.getPostId()));
+        Set<VotePost> usersVoted = post.getUsersVoted();
+        VotePost newVote = new VotePost();
+        UserPostKey key = new UserPostKey();
+        key.setUserId(userPostDTO.getUserId());
+        key.setPostId(userPostDTO.getPostId());
+        newVote.setId(key);
+        CreatePost createPost = post.getCreatedBy();
+        if(userPostDTO.isUp()){
+            newVote.setIsUp(1);
+            createPost.setPoints(createPost.getPoints() + 1);
+        }else if(userPostDTO.isDown()){
+            newVote.setIsUp(-1);
+            createPost.setPoints(createPost.getPoints() - 1);
+        }else{
+            newVote.setIsUp(0);
+            if(userPostDTO.isUndoUp())
+                createPost.setPoints(createPost.getPoints() - 1);
+            else createPost.setPoints(createPost.getPoints() + 1);
+        }
+        usersVoted.add(newVote);
+        post.setUsersVoted(usersVoted);
+        post.setCreatedBy(createPost);
+        postRepository.save(post);
+        return ResponseEntity.ok(post);
+    }
+
+    @GetMapping("posts/uservoted/{userId}")
+    public List<VotedPost> getAllVotedPostIdByUserId(@PathVariable(value = "userId") String userId){
+        return votePostRepository.findAllCustomByUserVoteId(userId);
     }
 }
