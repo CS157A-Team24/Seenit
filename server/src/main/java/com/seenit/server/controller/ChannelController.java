@@ -3,6 +3,7 @@ package com.seenit.server.controller;
 import java.util.*;
 
 import com.seenit.server.dto.ChannelDTO;
+import com.seenit.server.dto.CreateChannelDTO;
 import com.seenit.server.dto.UserChannelDTO;
 import com.seenit.server.exception.ResourceNotFoundException;
 import com.seenit.server.ibprojections.TopChannels;
@@ -101,5 +102,16 @@ public class ChannelController{
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return response;
+    }
+
+    @PostMapping("/channels/create")
+    public Channel createChannel(@Valid @RequestBody CreateChannelDTO dto){
+        User owner = userRepository.findById(dto.getOwnerId())
+            .orElseThrow(() -> new ResourceNotFoundException("User not found on :: "+ dto.getOwnerId()));
+        String channelId = UUID.randomUUID().toString();
+        Channel channel = new Channel(channelId, dto.getName(), dto.getBannerUrl());
+        channel.setOwner(owner);
+        channelRepository.save(channel);
+        return channel;
     }
 }

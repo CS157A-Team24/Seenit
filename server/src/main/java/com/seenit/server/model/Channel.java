@@ -6,12 +6,14 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Set;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "Channels")
 public class Channel {
@@ -42,4 +44,10 @@ public class Channel {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "channel")
     private Set<Post> ownedPosts;
+
+    public Channel(String id, String name, String bannerUrl){
+        this.id = id;
+        this.name = name;
+        this.bannerUrl = bannerUrl;
+    }
 }
