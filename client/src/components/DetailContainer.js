@@ -73,7 +73,7 @@ const DetailContainer = ({channelDetails}) => {
                     <DialogTitle id="alert-dialog-title">{"Message"}</DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
-                            Please select a channel or join one
+                            Please log in to join a channel
                             </DialogContentText>
                     </DialogContent>
                     <DialogActions>
