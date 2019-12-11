@@ -148,31 +148,6 @@ INSERT INTO `Create_Post` VALUES ('','0bfee067-c727-4970-b896-e299da229efe',0),(
 UNLOCK TABLES;
 
 --
--- Table structure for table `Create_Post_Test`
---
-
-DROP TABLE IF EXISTS `Create_Post_Test`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `Create_Post_Test` (
-  `user_id` varchar(64) NOT NULL,
-  `post_id` varchar(64) NOT NULL,
-  `points` int(11) DEFAULT NULL,
-  PRIMARY KEY (`user_id`,`post_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `Create_Post_Test`
---
-
-LOCK TABLES `Create_Post_Test` WRITE;
-/*!40000 ALTER TABLE `Create_Post_Test` DISABLE KEYS */;
-INSERT INTO `Create_Post_Test` VALUES ('1','5',10),('1','8',5),('10','15',50),('2','10',20),('2','9',10),('3','11',25),('3','12',5),('4','3',30),('5','2',1),('6','1',2),('7','14',10),('8','13',20),('8','4',50),('9','6',35),('9','7',20);
-/*!40000 ALTER TABLE `Create_Post_Test` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `Have`
 --
 
