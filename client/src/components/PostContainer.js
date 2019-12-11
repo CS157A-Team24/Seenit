@@ -160,7 +160,7 @@ const PostContainer = ({ postDetails }) => {
 				<DialogTitle id="alert-dialog-title">{"Message"}</DialogTitle>
 				<DialogContent>
 					<DialogContentText id="alert-dialog-description">
-						You need to login
+						You need to login to vote
                         </DialogContentText>
 				</DialogContent>
 				<DialogActions>
