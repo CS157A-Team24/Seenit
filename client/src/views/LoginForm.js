@@ -25,6 +25,7 @@ class LoginForm extends Component {
               .then(response => {
                   localStorage.setItem(ACCESS_TOKEN, response.accessToken);
                   history.push("/");
+                  window.location.reload();
               }).catch(error => {
                   if(error){
                         window.alert("Your Username or Password is incorrect. Please try again!");
