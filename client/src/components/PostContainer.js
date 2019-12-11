@@ -20,10 +20,12 @@ import { Link } from 'react-router-dom';
 import { USER_ID } from '../constants';
 import { calTime } from '../utils/helper';
 import { saveAPost, unsaveAPost, createVotePost } from '../utils/api';
-import { updateSavedPosts, 
-		updateUpVotedPosts, 
-		updateDownVotedPosts } 
-from '../actions/Post';
+import {
+	updateSavedPosts,
+	updateUpVotedPosts,
+	updateDownVotedPosts
+}
+	from '../actions/Post';
 
 
 
@@ -34,7 +36,7 @@ const PostContainer = ({ postDetails }) => {
 	const savedPosts = useSelector(state => state.post.savedPosts);
 	const votedPosts = useSelector(state => state.post.votedPosts);
 	const upVotedPosts = useSelector(state => state.post.upVotedPosts);
-    const downVotedPosts = useSelector(state => state.post.downVotedPosts);
+	const downVotedPosts = useSelector(state => state.post.downVotedPosts);
 	const posts = useSelector(state => state.post.posts);
 	const [open, setOpen] = useState(false);
 	const [isSaved, setIsSave] = useState(false);
@@ -62,49 +64,58 @@ const PostContainer = ({ postDetails }) => {
 	}, []);
 
 	const handleUpVote = () => {
-		if (!isDown) {
-			const body = {
-				userId: uId,
-				postId: postDetails.post.id
+		if (uId) {
+			if (!isDown) {
+				const body = {
+					userId: uId,
+					postId: postDetails.post.id
+				}
+				if (isUp) {
+					body["isUndoUp"] = true;
+					setPoints(points - 1);
+					const updatedPosts = upVotedPosts.filter(
+						content => content.post.id !== postDetails.post.id
+					)
+					dispatch(updateUpVotedPosts(updatedPosts));
+				} else {
+					body["isUp"] = true;
+					setPoints(points + 1);
+					const updatedPosts = [...upVotedPosts, posts.find(content => content.post.id === postDetails.post.id)]
+					dispatch(updateUpVotedPosts(updatedPosts));
+				}
+				createVotePost(body);
+				setIsUp(!isUp);
 			}
-			if (isUp) {
-				body["isUndoUp"] = true;
-				setPoints(points - 1);
-				const updatedPosts = upVotedPosts.filter(
-					content => content.post.id !== postDetails.post.id
-				)
-				dispatch(updateUpVotedPosts(updatedPosts));
-			} else {
-				body["isUp"] = true;
-				setPoints(points + 1);
-				const updatedPosts =[...upVotedPosts, posts.find(content => content.post.id === postDetails.post.id)]
-				dispatch(updateUpVotedPosts(updatedPosts));
-			}
-			createVotePost(body);
-			setIsUp(!isUp);
+		}else {
+			handleClickOpen();
 		}
+
 	}
 
 	const handleDownVote = () => {
-		if (!isUp) {
-			const body = {
-				userId: uId,
-				postId: postDetails.post.id
+		if (uId) {
+			if (!isUp) {
+				const body = {
+					userId: uId,
+					postId: postDetails.post.id
+				}
+				if (isDown) {
+					setPoints(points + 1);
+					const updatedPosts = downVotedPosts.filter(
+						content => content.post.id !== postDetails.post.id
+					)
+					dispatch(updateDownVotedPosts(updatedPosts));
+				} else {
+					body["isDown"] = true;
+					setPoints(points - 1);
+					const updatedPosts = [...downVotedPosts, posts.find(content => content.post.id === postDetails.post.id)]
+					dispatch(updateDownVotedPosts(updatedPosts));
+				}
+				createVotePost(body);
+				setIsDown(!isDown);
 			}
-			if (isDown) {
-				setPoints(points + 1);
-				const updatedPosts = downVotedPosts.filter(
-					content => content.post.id !== postDetails.post.id
-				)
-				dispatch(updateDownVotedPosts(updatedPosts));
-			} else {
-				body["isDown"] = true;
-				setPoints(points - 1);
-				const updatedPosts =[...downVotedPosts, posts.find(content => content.post.id === postDetails.post.id)]
-				dispatch(updateDownVotedPosts(updatedPosts));
-			}
-			createVotePost(body);
-			setIsDown(!isDown);
+		}else{
+			handleClickOpen();
 		}
 	}
 
@@ -149,7 +160,7 @@ const PostContainer = ({ postDetails }) => {
 				<DialogTitle id="alert-dialog-title">{"Message"}</DialogTitle>
 				<DialogContent>
 					<DialogContentText id="alert-dialog-description">
-						You need to login to save a post
+						You need to login
                         </DialogContentText>
 				</DialogContent>
 				<DialogActions>
