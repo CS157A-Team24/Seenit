@@ -19,7 +19,6 @@ public interface UserRepository extends JpaRepository<User, String>{
             "SUM(cp.points) AS points FROM User u JOIN u.posts cp WHERE u.id = ?1 GROUP BY u.id")
     Optional<UserDetails> findUserDetailsById(String id);
 
-
     List<UserIdName> findAllByModeratedChannelsId(String id);
 
     Optional<User> findByEmail(String email);

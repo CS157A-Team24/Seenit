@@ -1,9 +1,11 @@
 package com.seenit.server.controller;
 
+import com.seenit.server.dto.UserDetailsDTO;
 import com.seenit.server.ibprojections.UserDetails;
 import com.seenit.server.ibprojections.UserIdName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,11 +67,18 @@ public class UserController{
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<UserDetails> getUserById(
+    public UserDetailsDTO getUserById(
     @PathVariable(value = "id") String userId) throws ResourceNotFoundException {
-        UserDetails user = userRepository.findUserDetailsById(userId)
-        .orElseThrow(() -> new ResourceNotFoundException("User not found on :: "+ userId));
-        return ResponseEntity.ok().body(user);
+        UserDetailsDTO user;
+        try {
+            UserDetails u = userRepository.findUserDetailsById(userId).get();
+            user = new UserDetailsDTO(u.getUserName(),u.getCreatedAt(),u.getEmail(),u.getPoints());
+        }catch (Exception err){
+            User u = userRepository.findById(userId).get();
+            user = new UserDetailsDTO(u.getUserName(),u.getCreatedAt(),u.getEmail(),0);
+            System.out.println(err);
+        }
+        return user;
     }
 
     @PostMapping("/users")
