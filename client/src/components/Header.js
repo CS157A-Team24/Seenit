@@ -41,6 +41,7 @@ const Header = () => {
 		handleClose(event);
 		localStorage.removeItem(ACCESS_TOKEN);
 		localStorage.removeItem(USER_ID);
+		window.location.reload();
 	}
 	
 	const handleHome = (event) => {
